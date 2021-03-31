@@ -12,6 +12,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.facturacioncarpintero.ConexionBD.DBConnection;
@@ -23,7 +24,8 @@ import java.sql.Statement;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     Button btn_login;
-    EditText user,pass;
+    EditText pass;
+    Spinner user;
     String NombreVendedor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pass=findViewById(R.id.editPassword);
         btn_login=findViewById(R.id.btn_Login);
         btn_login.setOnClickListener(this);
+        //user.setAdapter();
     }
 
     @Override
@@ -54,6 +57,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Conectar();
     }
+
 
     private void Conectar() {
 

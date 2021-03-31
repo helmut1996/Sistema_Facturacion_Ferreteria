@@ -8,6 +8,18 @@
     <string name="text_cantidad">0</string>
     <string name="text_precio">Precio</string>
     <string name="precio">Tipo de Precio</string>
+    <string name="text_cliente">Cliente Varios</string>
+    <string name="addProducto">agregar Producto</string>
+    <string name="cliente">Cliente</string>
+    <string name="tipo_fact">Tipo Factura</string>
+    <string name="zona">Zona</string>
+    <string name="L_zona">Managua</string>
+    <string name="tipo_venta">tipo venta</string>
+    <string name="nombre_vendedor">Nombre Cliente</string>
+    <string name="codigo">codigo</string>
+    <string name="credito_D">credito</string>
+    <string name="login">Iniciar sesion</string>
+    <string name="user">Usuarios</string>
 
     <string-array name="tipo_moneda">
         <item>Cordoba</item>

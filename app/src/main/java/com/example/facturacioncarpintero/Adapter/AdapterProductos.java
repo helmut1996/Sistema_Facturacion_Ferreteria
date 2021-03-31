@@ -1,5 +1,8 @@
 package com.example.facturacioncarpintero.Adapter;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -10,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.facturacioncarpintero.MainDetalleProducto;
 import com.example.facturacioncarpintero.R;
 import com.example.facturacioncarpintero.model.ModelItemsProducto;
 import com.squareup.picasso.Picasso;
@@ -27,7 +32,7 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
     private RecyclerItemClick itemClick;
     private boolean modoSeleccion;
     private SparseBooleanArray seleccionados;
-    private String URL_IMAGE="http://ferreteriaelcarpintero.com/images/carpintero/";
+    private String URL_IMAGE="http://ferreteriaelcarpintero.com/images/productos/";
 
     private int cantidad;
 
@@ -59,21 +64,25 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
         holder.tvunidad_medida.setText(item.getUnidadmedidaP());
         holder.tvproducto.setText(item.getProducto());
         holder.tvexistencia.setText(String.valueOf(item.getStock()));
-        holder.tvPrecio.setText(item.getImg());
+        holder.tvImagen.setText(item.getImg());
 
-       /* Picasso.get().load(URL_IMAGE+item.getImg())
+
+        Picasso.get().load(URL_IMAGE+item.getImg()+".jpg")
                 .error(R.drawable.error)
                 .into(holder.image);
 
 
-        */
-        /*
+
+
+
+/*
         File file= new File("///storage/emulated/0/MARNOR/"+item.getImg()+".jpg");
         Picasso.get().load(file)
                 //.placeholder(R.drawable.bucandoimg)
                 .error(R.drawable.error)
                 .into(holder.image);
-         */
+
+ */
         if (holder.tvexistencia.getText().toString().equals("100")){
             holder.tvexistencia.setVisibility(View.VISIBLE);
             holder.tvexistencia.setText(" hay poco inventario");
@@ -83,13 +92,7 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
             holder.tvexistencia.setVisibility(View.GONE);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClick.itemClick(item);
-            }
-        });
-
+ 
 
 
     }
@@ -110,13 +113,14 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
 
     public static class RecyclerHolder extends RecyclerView.ViewHolder{
 
-        TextView tvNombre,tvPrecio,tvinfo1,tvinfo2,tvinfo3,tvinfo4,tvunidad_medida,tvproducto,tvprecio_d,tvinfo5,tvexistencia;
+        TextView tvNombre,tvImagen,tvinfo1,tvinfo2,tvinfo3,tvinfo4,tvunidad_medida,tvproducto,tvprecio_d,tvinfo5,tvexistencia;
         ImageView image;
         public static CheckBox check;
         public RecyclerHolder(@NonNull View itemView) {
             super(itemView);
+            Context context = itemView.getContext();
             tvNombre=itemView.findViewById(R.id.NombreProducto);
-            tvPrecio=itemView.findViewById(R.id.precio);
+            tvImagen=itemView.findViewById(R.id.precio);
             tvinfo1=itemView.findViewById(R.id.tvinfo1);
             tvinfo2=itemView.findViewById(R.id.tvinfo2);
             tvinfo3=itemView.findViewById(R.id.tvinfo3);
@@ -129,6 +133,92 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
             tvexistencia =itemView.findViewById(R.id.Existencia);
 
             check=itemView.findViewById(R.id.check);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                 //   MainListaproducto datos = new MainListaproducto();
+                   // MainFactura datos2= new MainFactura();
+                    int stock= Integer.parseInt(tvexistencia.getText().toString());
+
+                    if (stock<100){
+                        AlertDialog.Builder alerta2 = new AlertDialog.Builder(context);
+                        alerta2.setMessage("Hay poca cantidad Disponible de este producto quieres agregarlo?")
+                                .setCancelable(false)
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent=new Intent(context, MainDetalleProducto.class);
+                                        /*
+                                        intent.putExtra("NombreCliente",datos.nombrecliente);
+                                        intent.putExtra("CodigoCliente",datos.codigocliente);
+                                        intent.putExtra("ZonaCliente",datos.zonacliente);
+                                        intent.putExtra("IdCliente",datos.idcliente);
+                                        intent.putExtra("IdVendedor",datos2.id);
+
+
+                                         */
+
+                                        intent.putExtra("NombreP",tvproducto.getText());
+                                        intent.putExtra("UnidadMed",tvunidad_medida.getText());
+                                        intent.putExtra("info1",tvinfo1.getText());
+                                        intent.putExtra("info2",tvinfo2.getText());
+                                        intent.putExtra("info3",tvinfo3.getText());
+                                        intent.putExtra("info4",tvinfo4.getText());
+                                        intent.putExtra("info5",tvinfo5.getText());
+                                        intent.putExtra("imagenproducto",tvImagen.getText());
+                                        intent.putExtra("stock",tvexistencia.getText());
+                                     //   intent.putExtra("idproducto",tvidproducto.getText());
+                                       // intent.putExtra("idinventario",datos.IdInventario);
+
+                                        context.startActivity(intent);
+                                        //((Activity)context).finish();
+
+                                    }
+                                })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog titulo= alerta2.create();
+                        titulo.setTitle(tvproducto.getText().toString());
+                        titulo.show();
+
+                    }else{
+                        Intent intent=new Intent(context,MainDetalleProducto.class);
+                        /*
+                        intent.putExtra("NombreCliente",datos.nombrecliente);
+                        intent.putExtra("CodigoCliente",datos.codigocliente);
+                        intent.putExtra("ZonaCliente",datos.zonacliente);
+                        intent.putExtra("IdCliente",datos.idcliente);
+                        intent.putExtra("IdVendedor",datos2.id);
+
+
+                         */
+
+                        intent.putExtra("NombreP",tvproducto.getText());
+                        intent.putExtra("UnidadMed",tvunidad_medida.getText());
+                        intent.putExtra("info1",tvinfo1.getText());
+                        intent.putExtra("info2",tvinfo2.getText());
+                        intent.putExtra("info3",tvinfo3.getText());
+                        intent.putExtra("info4",tvinfo4.getText());
+                        intent.putExtra("info5",tvinfo5.getText());
+                        intent.putExtra("imagenproducto",tvImagen.getText());
+                        intent.putExtra("stock",tvexistencia.getText());
+                        //intent.putExtra("idproducto",tvidproducto.getText());
+
+
+                        context.startActivity(intent);
+                        // ((Activity)context).finish();
+
+                    }
+
+                }
+            });
         }
     }
 

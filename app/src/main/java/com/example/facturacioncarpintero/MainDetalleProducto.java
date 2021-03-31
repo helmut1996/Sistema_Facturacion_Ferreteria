@@ -1,14 +1,21 @@
 package com.example.facturacioncarpintero;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,9 +25,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.facturacioncarpintero.ConexionBD.DBConnection;
+import com.example.facturacioncarpintero.SQLite.conexionSQLiteHelper;
+import com.example.facturacioncarpintero.SQLite.ulilidades.utilidades;
 import com.example.facturacioncarpintero.model.ModelItemsProducto;
+import com.example.facturacioncarpintero.model.itemList;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.sql.ResultSet;
@@ -34,11 +46,12 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     private ImageButton IbuttonSiguiente;
     private TextView tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
-    private ImageView img;
+    private ImageView image;
     private EditText editcantidad;
     private LinearLayout cuerpoProductCliente;
     int TotalP;
-
+    private ModelItemsProducto itemDatail;
+    String imagen="http://ferreteriaelcarpintero.com/images/carpintero/";
     /* variables globales */
     String NombreCliente;
     String CodigoCliente;
@@ -50,6 +63,9 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     private String producto;
     double precioEscogido;
     int idResultante;
+
+
+    private String URL_IMAGES="http://ferreteriaelcarpintero.com/images/productos/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +84,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
         editcantidad=findViewById(R.id.editTextCantidad);
         ////////////imagen producto
-        img=findViewById(R.id.imgProducto);
+        image=findViewById(R.id.imgProducto);
         /////////// campos de texto
         tvnombreproducto=findViewById(R.id.tvnombreP);
         textcontar=findViewById(R.id.text_contar);
@@ -89,6 +105,67 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
         IbuttonSiguiente.setOnClickListener(this);
 
+//////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
+
+        String NombrePreducto;
+        Bundle extra=getIntent().getExtras();
+
+        if (extra !=null){
+            NombreCliente = extra.getString("NombreCliente");
+            System.out.println("Nombre Cliente Activity ProductosClientea----->"+NombreCliente);
+
+            CodigoCliente = extra.getString("CodigoCliente");
+            System.out.println("Codigo Cliente Activity ProductosClientea----->"+CodigoCliente);
+
+            IdInventario = extra.getInt("idinventario");
+            System.out.println("IDINVENTARIO Activity ProductosClientea----->"+IdInventario);
+
+            IdCliente = extra.getString("IdCliente");
+            System.out.println("ID Cliente Activity ProductosClientea----->"+IdCliente);
+
+            IdVendedor = extra.getInt("Idvendedor");
+            System.out.println("ID Vendedor Activity ProductosClientea----->"+IdVendedor);
+
+            ZonaCliente = extra.getString("ZonaCliente");
+            System.out.println("Zona Cliente Activity ProductosClientea----->"+ZonaCliente);
+            NombrePreducto= extra.getString("NombreP");
+            producto = extra.getString("NombreP");
+            tvnombreproducto.setText(NombrePreducto);
+            tvunidadmedida.setText(extra.getString("UnidadMed"));
+            tvUnidadMedida.setText(extra.getString("UnidadMed"));
+            String info1,info2,info3,info4,info5;
+
+            info1=extra.getString("info1");
+            info2=extra.getString("info2");
+            info3=extra.getString("info3");
+            info4=extra.getString("info4");
+            info5=extra.getString("info5");
+
+            if (info1!=null || info2!=null || info3!=null || info4!=null || info5!=null){
+                textinfo1.setText(info1);
+                textinfo2.setText(info2);
+                textinfo3.setText(info3);
+                textinfo4.setText(info4);
+                textinfo5.setText(info5);
+            }else{
+
+                textinfo1.setText("");
+                textinfo2.setText("");
+                textinfo3.setText("");
+                textinfo4.setText("");
+                textinfo5.setText("");
+
+            }
+
+
+            textcontar.setText(extra.getString("stock"));
+            tvimagenBD.setText(extra.getString("imagenproducto"));
+
+
+            tvIDproducto.setText(extra.getString("idproducto"));
+//////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
+
+        }
 
         /*Spinner del tipo de moneda*/
         ArrayAdapter<CharSequence> adapter  = ArrayAdapter.createFromResource(this, R.array.tipo_moneda, android.R.layout.simple_spinner_item);
@@ -139,12 +216,106 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
             }
         });
 
+        CargarImagen();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu3,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        precioEscogido= (Double.parseDouble(precios.getSelectedItem().toString()));
+        switch (item.getItemId()){
+            case R.id.Mbtn_MenuAdd:
+
+                System.out.println("Valor del precio===========>"+precioEscogido);
+                if (editcantidad.getText().toString().isEmpty()){
+                    editcantidad.setError("Debe Ingresar una cantidad");
+                }else if(Integer.parseInt(editcantidad.getText().toString())==0){
+
+                    editcantidad.setError("la cantidad no puede ser 0");
+                }else if (precioEscogido == 0){
+                    Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"Precio seleccionado es  0!!",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //                      Toast.makeText(this,"Precio seleccionado es 0",Toast.LENGTH_SHORT).show();
+                }else if(Integer.parseInt(editcantidad.getText().toString())>Integer.parseInt(textcontar.getText().toString())){
+                    Toast.makeText(this,"no hay inventario suficiente  de este producto ",Toast.LENGTH_LONG).show();
+                }else if(idResultante==30){
+                    Toast.makeText(this,"Ya no Puedes Ingresar mas de 30 productos",Toast.LENGTH_LONG).show();
+
+                }
+                else {
+
+                    GuardarProductos();
+
+                    Intent intent2 = new Intent(getApplicationContext(),MainListaProductos.class);
+                    startActivity(intent2);
+                }
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void CargarImagen() {
+        Picasso.get().load(URL_IMAGES+tvimagenBD.getText()+".jpg")
+                .error(R.drawable.error)
+                .into(image);
 
     }
 
     @Override
     public void onClick(View v) {
+        precioEscogido= (Double.parseDouble(precios.getSelectedItem().toString()));
+        switch (v.getId()){
 
+            case R.id.btn_siguente:
+
+                if (editcantidad.getText().toString().isEmpty()){
+                    editcantidad.setError("Debe Ingresar una cantidad");
+                } else if(Integer.parseInt(editcantidad.getText().toString())==0){
+                    editcantidad.setError("la cantidad no puede ser 0");
+                }else if (precioEscogido == 0){
+                    //  Toast.makeText(this,"Precio seleccionado es 0",Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"Precio Seleccionado 0!!",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if(Integer.parseInt(editcantidad.getText().toString())>Integer.parseInt(textcontar.getText().toString())){
+                    //Toast.makeText(this,"no hay disponible",Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"no hay inventario suficiente  de este producto ",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else{
+                    GuardarProductos();
+                    Intent intent1 = new Intent(getApplicationContext(), MainFactura.class);
+                    intent1.putExtra("nombreproducto",tvnombreproducto.getText());
+                    intent1.putExtra("cantidad",editcantidad.getText());
+                    startActivity(intent1);
+/*
+                    MainListaproducto datos= new MainListaproducto();
+                    Intent intent1 = new Intent(getApplicationContext(), MainFacturaList.class);
+                    intent1.putExtra("NombreCliente",datos.nombrecliente);
+                    intent1.putExtra("CodigoCliente",datos.codigocliente);
+                    intent1.putExtra("ZonaCliente",datos.zonacliente);
+                    intent1.putExtra("IdCliente",datos.idcliente);
+                    intent1.putExtra("IdVendedor",datos.idvendedor);
+
+                    intent1.putExtra("nombreproducto",tvnombreproducto.getText());
+                    intent1.putExtra("cantidad",editcantidad.getText());
+                    startActivity(intent1);
+                    finish();
+
+ */
+                }
+
+                break;
+        }
     }
 
     public ArrayAdapter precioDolar()
@@ -218,28 +389,41 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void initValues(){
-        itemDatail= (ModelItemsProducto) getIntent().getExtras().getSerializable("itemDetail");
-        Picasso.get().load(img+itemDatail.getImagen())
-                .error(R.drawable.error)
-                .into(imageView);
 
-        codigo.setText(itemDatail.getCodigo());
-        NombreDetalle.setText(itemDatail.getNombre());
-        Descripcion.setText(itemDatail.getMarca());
-        UnidadMedida.setText("UM: "+itemDatail.getUnidad_Med());
-        Presentacion.setText(itemDatail.getPresentacion());
-        Precio.setText("P1: "+ "C$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioC())));
-        Precio2.setText("P2: "+"C$"+String.valueOf(String.format("%,.2f", itemDatail.getPrecioC2())));
-        Precio3.setText("P3: "+"C$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioC3())));
-        Precio4.setText("P4:"+"C$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioC4())));
-        Precio5.setText("P5: "+"C$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioC5())));
-        PrecioD.setText("PD1: "+"$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioD())));
-        PrecioD2.setText("PD2: "+"$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioD2())));
-        PrecioD3.setText("PD3: "+"$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioD3())));
-        PrecioD4.setText("PD4: "+"$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioD4())));
-        PrecioD5.setText("PD5: "+"$"+String.valueOf(String.format("%,.2f",itemDatail.getPrecioD5())));
-        Existencias.setText(String.valueOf("Cantidad disponible: "+itemDatail.getExistencia()));
-        Estados.setText("Estado: "+itemDatail.getEstado());
+    private void GuardarProductos() {
+
+        /*mandando a llamar conexion a SQLite */
+        conexionSQLiteHelper conn= new conexionSQLiteHelper(this,"bd_productos",null,1);
+        /*abrir la conexion a SQLite*/
+        SQLiteDatabase db= conn.getWritableDatabase();
+
+        Cursor cantidad_registrado=db.rawQuery("SELECT count(*) as cantidad from producto", null);
+
+        if (cantidad_registrado.moveToFirst()) {
+            if (cantidad_registrado.getInt(cantidad_registrado.getColumnIndex("cantidad")) == 30) {
+                Toast.makeText(this,"Limite de Registros permitidos "+idResultante+" Productos",Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        cantidad_registrado.close();
+
+        Cursor c=db.rawQuery("SELECT * FROM producto WHERE id='"+tvIDproducto.getText()+"'", null);
+        if(c.moveToFirst()) {
+            Toast.makeText(this,"Error ya seleccionaste este Producto",Toast.LENGTH_LONG).show();
+        }
+        else { // Inserting record
+            ContentValues values= new ContentValues();
+            values.put(utilidades.CAMPO_ID,tvIDproducto.getText().toString());
+            values.put(utilidades.CAMPO_NOMBRE,tvnombreproducto.getText().toString());
+            values.put(utilidades.CAMPO_CANTIDAD,editcantidad.getText().toString());
+            values.put(utilidades.CAMPO_PRECIO,precios.getSelectedItem().toString());
+            values.put(utilidades.CAMPO_IMAGEN,tvimagenBD.getText().toString());
+            values.put(utilidades.CAMPO_TIPOPRECIO,tvtipoprecio.getText().toString());
+            idResultante= (int) db.insert(utilidades.TABLA_PRODUCTO,utilidades.CAMPO_ID,values);
+
+            Toast.makeText(this,"CANTIDAD INGRESADA: " + idResultante,Toast.LENGTH_LONG).show();
+        }
+        c.close();
     }
+
 }

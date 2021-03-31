@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FacturacionCarpintero">
-        <activity android:name=".MainDetalleProducto"></activity>
+        <activity android:name=".MainFactura"></activity>
+        <activity android:name=".MainDetalleProducto" />
         <activity android:name=".MainListaProductos" />
         <activity android:name=".MainClientes" />
         <activity android:name=".MainActivity">

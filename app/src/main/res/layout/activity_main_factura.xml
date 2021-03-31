@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainFactura"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/codigo"
+                android:textAllCaps="true"
+                android:textColor="#050505" />
+
+            <TextView
+                android:id="@+id/textViewCodigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/codigo"
+                android:textColor="#0C0B0B" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cliente"
+                android:textAllCaps="true"
+                android:textColor="#2A3B9A"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textViewcliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/nombre_vendedor"
+                android:textAllCaps="true"
+                android:textColor="#121111"
+                android:gravity="center"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tipo_fact"
+                android:textAllCaps="true"
+                android:textColor="#2A3B9A"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spinner_facura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/zona"
+                android:textAllCaps="true"
+                android:textColor="#2A3B9A"
+                android:gravity="center"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView_Zona"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/L_zona"
+                android:textAllCaps="true"
+                android:textColor="#0E0C0C"
+                android:gravity="center"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/credito_D"
+                android:textAllCaps="true"
+                android:textColor="#0E0D0D" />
+
+            <TextView
+                android:id="@+id/textView_C_Disponible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="40000"
+                android:textColor="#0B0909" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tipo_venta"
+                android:textAllCaps="true"
+                android:textColor="#2A3B9A"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spinner_tventas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="2dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total de Factura: "
+                android:textColor="#2A3B9A"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:text="C$"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textV_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IdCliente"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/textV_idcliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:visibility="gone"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="3dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IdVendedor"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/textV_idvendedor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:visibility="gone"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/cuerpo">
+
+
+        <ListView
+            android:id="@+id/lista_Factura"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:smoothScrollbar="true"
+            tools:listitem="@android:layout/simple_list_item_1" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
