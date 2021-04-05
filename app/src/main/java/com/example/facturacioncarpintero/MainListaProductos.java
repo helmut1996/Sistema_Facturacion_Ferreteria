@@ -47,7 +47,7 @@ public class MainListaProductos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_lista_productos);
-
+        getSupportActionBar().setTitle(" Lista Productos");
         listaProducto=new ArrayList<>();
         init();
 

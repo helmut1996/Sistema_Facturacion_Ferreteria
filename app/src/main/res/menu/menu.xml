@@ -4,13 +4,16 @@
 <item
     android:id="@+id/Mbtn_guardar"
     app:showAsAction="always"
+    android:icon="@drawable/ic_save"
     android:title="Guardar"></item>
     <item
         android:id="@+id/Mbtn_addProducto"
         app:showAsAction="always"
+        android:icon="@drawable/ic_add"
         android:title="Agregar Productos"></item>
     <item
         android:id="@+id/Mbtn_Home"
         app:showAsAction="always"
+        android:icon="@drawable/ic_home"
         android:title="Agregar Productos"></item>
 </menu>

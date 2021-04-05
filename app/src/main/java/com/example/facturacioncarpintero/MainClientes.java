@@ -31,7 +31,7 @@ public class MainClientes extends AppCompatActivity {
     RecyclerView recyclerViewCliente;
     AdapterClientes adapterCliente;
     EditText search;
-    Button btn_buscador_cliente;
+    Button btn_buscador_cliente,btn_Cliente;
     List<itemList> itemCList;
     DBConnection sesion;
     String CapturandoClientes;
@@ -43,7 +43,7 @@ public class MainClientes extends AppCompatActivity {
 
         initview();
 
-
+        search.requestFocus();
         btn_buscador_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +62,15 @@ public class MainClientes extends AppCompatActivity {
         });
 
 
+        btn_Cliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MainListaProductos.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void filter(String text) {
         initValues();
@@ -81,6 +89,7 @@ public class MainClientes extends AppCompatActivity {
         recyclerViewCliente = findViewById(R.id.listaClientes);
         search = findViewById(R.id.search);
         btn_buscador_cliente=findViewById(R.id.btnBuscadorCliente);
+        btn_Cliente=findViewById(R.id.btncliente);
     }
 
     public void initValues() {
