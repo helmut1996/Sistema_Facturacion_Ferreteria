@@ -16,7 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.facturacioncarpintero.MainClientes;
 import com.example.facturacioncarpintero.MainDetalleProducto;
+import com.example.facturacioncarpintero.MainFactura;
+import com.example.facturacioncarpintero.MainListaProductos;
 import com.example.facturacioncarpintero.R;
 import com.example.facturacioncarpintero.model.ModelItemsProducto;
 import com.squareup.picasso.Picasso;
@@ -63,7 +66,7 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
         holder.tvinfo5.setText(String.valueOf( item.getInfo5()));
         holder.tvunidad_medida.setText(item.getUnidadmedidaP());
         holder.tvproducto.setText(item.getProducto());
-        holder.tvexistencia.setText(String.valueOf(item.getStock()));
+        holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
         holder.tvImagen.setText(item.getImg());
 
 
@@ -72,18 +75,7 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
                 .into(holder.image);
 
 
-
-
-
-/*
-        File file= new File("///storage/emulated/0/MARNOR/"+item.getImg()+".jpg");
-        Picasso.get().load(file)
-                //.placeholder(R.drawable.bucandoimg)
-                .error(R.drawable.error)
-                .into(holder.image);
-
- */
-        if (holder.tvexistencia.getText().toString().equals("100")){
+        if (holder.tvexistencia.getText().toString().equals("0")){
             holder.tvexistencia.setVisibility(View.VISIBLE);
             holder.tvexistencia.setText(" hay poco inventario");
 
@@ -137,85 +129,34 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                 //   MainListaproducto datos = new MainListaproducto();
-                   // MainFactura datos2= new MainFactura();
+                    MainListaProductos datos = new MainListaProductos();
+                    MainClientes datos2= new MainClientes();
                     int stock= Integer.parseInt(tvexistencia.getText().toString());
+                    Intent intent=new Intent(context, MainDetalleProducto.class);
 
-                    if (stock<100){
-                        AlertDialog.Builder alerta2 = new AlertDialog.Builder(context);
-                        alerta2.setMessage("Hay poca cantidad Disponible de este producto quieres agregarlo?")
-                                .setCancelable(false)
-                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        Intent intent=new Intent(context, MainDetalleProducto.class);
-                                        /*
-                                        intent.putExtra("NombreCliente",datos.nombrecliente);
-                                        intent.putExtra("CodigoCliente",datos.codigocliente);
-                                        intent.putExtra("ZonaCliente",datos.zonacliente);
-                                        intent.putExtra("IdCliente",datos.idcliente);
-                                        intent.putExtra("IdVendedor",datos2.id);
+                    intent.putExtra("NombreCliente",datos.nombrecliente);
+                    intent.putExtra("CodigoCliente",datos.codigocliente);
+                    intent.putExtra("ZonaCliente",datos.zonacliente);
+                    intent.putExtra("IdCliente",datos.idcliente);
+                    intent.putExtra("IdVendedor",datos2.id);
 
 
-                                         */
-
-                                        intent.putExtra("NombreP",tvproducto.getText());
-                                        intent.putExtra("UnidadMed",tvunidad_medida.getText());
-                                        intent.putExtra("info1",tvinfo1.getText());
-                                        intent.putExtra("info2",tvinfo2.getText());
-                                        intent.putExtra("info3",tvinfo3.getText());
-                                        intent.putExtra("info4",tvinfo4.getText());
-                                        intent.putExtra("info5",tvinfo5.getText());
-                                        intent.putExtra("imagenproducto",tvImagen.getText());
-                                        intent.putExtra("stock",tvexistencia.getText());
-                                     //   intent.putExtra("idproducto",tvidproducto.getText());
-                                       // intent.putExtra("idinventario",datos.IdInventario);
-
-                                        context.startActivity(intent);
-                                        //((Activity)context).finish();
-
-                                    }
-                                })
-                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        AlertDialog titulo= alerta2.create();
-                        titulo.setTitle(tvproducto.getText().toString());
-                        titulo.show();
-
-                    }else{
-                        Intent intent=new Intent(context,MainDetalleProducto.class);
-                        /*
-                        intent.putExtra("NombreCliente",datos.nombrecliente);
-                        intent.putExtra("CodigoCliente",datos.codigocliente);
-                        intent.putExtra("ZonaCliente",datos.zonacliente);
-                        intent.putExtra("IdCliente",datos.idcliente);
-                        intent.putExtra("IdVendedor",datos2.id);
 
 
-                         */
+                    intent.putExtra("NombreP",tvproducto.getText());
+                    intent.putExtra("UnidadMed",tvunidad_medida.getText());
+                    intent.putExtra("info1",tvinfo1.getText());
+                    intent.putExtra("info2",tvinfo2.getText());
+                    intent.putExtra("info3",tvinfo3.getText());
+                    intent.putExtra("info4",tvinfo4.getText());
+                    intent.putExtra("info5",tvinfo5.getText());
+                    intent.putExtra("imagenproducto",tvImagen.getText());
+                    intent.putExtra("stock",tvexistencia.getText());
+                    intent.putExtra("idproducto",tvproducto.getText());
+                    intent.putExtra("idinventario",datos.IdInventario);
 
-                        intent.putExtra("NombreP",tvproducto.getText());
-                        intent.putExtra("UnidadMed",tvunidad_medida.getText());
-                        intent.putExtra("info1",tvinfo1.getText());
-                        intent.putExtra("info2",tvinfo2.getText());
-                        intent.putExtra("info3",tvinfo3.getText());
-                        intent.putExtra("info4",tvinfo4.getText());
-                        intent.putExtra("info5",tvinfo5.getText());
-                        intent.putExtra("imagenproducto",tvImagen.getText());
-                        intent.putExtra("stock",tvexistencia.getText());
-                        //intent.putExtra("idproducto",tvidproducto.getText());
+                    context.startActivity(intent);
 
-
-                        context.startActivity(intent);
-                        // ((Activity)context).finish();
-
-                    }
 
                 }
             });

@@ -4,5 +4,6 @@
     <item
         android:id="@+id/Mbtn_Factura"
         app:showAsAction="ifRoom"
-        android:title="Cheques"></item>
+        android:title="Factura"
+        android:icon="@drawable/ic_check"></item>
 </menu>

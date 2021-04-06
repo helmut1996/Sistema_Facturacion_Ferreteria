@@ -21,6 +21,7 @@
     <string name="login">Iniciar sesion</string>
     <string name="user">Usuarios</string>
     <string name="text_buscar2">Buscar Producto</string>
+    <string name="titulo_producto">Titulo Producto</string>
 
     <string-array name="tipo_moneda">
         <item>Cordoba</item>

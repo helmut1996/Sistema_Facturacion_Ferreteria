@@ -64,6 +64,31 @@
             android:textColor="#090808"
             android:textSize="20sp" />
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center_horizontal"
+               android:text="Cantidad Disponible"
+               android:textColor="#0E0E0E"
+               android:textSize="20sp"
+               android:layout_weight="1"/>
+           <TextView
+               android:id="@+id/text_contar"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center_horizontal"
+               android:text="0"
+               android:textAllCaps="true"
+               android:textColor="#0E0E0E"
+               android:textSize="20sp"
+               android:layout_weight="1"/>
+       </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -257,16 +282,6 @@
             android:textColor="@color/black"
             android:layout_marginBottom="20dp"/>
 
-        <TextView
-            android:id="@+id/text_contar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="0"
-            android:textAllCaps="true"
-            android:textColor="#0E0E0E"
-            android:textSize="20dp"
-            android:visibility="gone"/>
 
 
         <LinearLayout

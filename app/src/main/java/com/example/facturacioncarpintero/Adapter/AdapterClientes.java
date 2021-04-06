@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.facturacioncarpintero.MainClientes;
 import com.example.facturacioncarpintero.MainListaProductos;
 import com.example.facturacioncarpintero.R;
 import com.example.facturacioncarpintero.model.itemList;
@@ -82,9 +83,9 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
             seleccionar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    MainClientes datos = new MainClientes();
                     Intent intent=new Intent(context, MainListaProductos.class);
-                   // intent.putExtra("Idvendedor",datos.id);
+                    intent.putExtra("Idvendedor",datos.id);
                     intent.putExtra("Nombrecliente",nombre.getText());
                     intent.putExtra("Codigocliente",codigo.getText());
                     intent.putExtra("Zonacliente",zona.getText());

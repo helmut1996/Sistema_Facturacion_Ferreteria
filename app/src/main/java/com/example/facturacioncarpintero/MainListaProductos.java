@@ -50,7 +50,7 @@ public class MainListaProductos extends AppCompatActivity {
         getSupportActionBar().setTitle(" Lista Productos");
         listaProducto=new ArrayList<>();
         init();
-
+        CapturaDatosCliente();
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,11 +71,31 @@ public class MainListaProductos extends AppCompatActivity {
         });
     }
 
+    private void CapturaDatosCliente() {
+        Bundle extra=getIntent().getExtras();
+        if (extra != null){
+            nombrecliente= extra.getString("Nombrecliente");
+            System.out.println("----> NombreCliente: "+nombrecliente);
+
+            codigocliente= extra.getString("Codigocliente");
+            System.out.println("----> CodigoCliente: "+codigocliente);
+
+            zonacliente= extra.getString("Zonacliente");
+            System.out.println("----> Nombre Zona Cliente: "+zonacliente);
+
+            idcliente= extra.getString("Idcliente");
+            System.out.println("----> ID Cliente: "+idcliente);
+
+            idvendedor= extra.getInt("Idvendedor");
+            System.out.println("----> ID Vendedor lista Producto: "+idvendedor);
+
+        }
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu2,menu);
+        getMenuInflater().inflate(R.menu.menu4,menu);
         return true;
 
     }
@@ -84,18 +104,18 @@ public class MainListaProductos extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.Mbtn_Factura:
-/*
-                Intent intent2 = new Intent(getApplicationContext(),MainFacturaList.class);
-                intent2.putExtra("NombreCliente",nombrecliente);
-                intent2.putExtra("CodigoCliente",codigocliente);
-                intent2.putExtra("ZonaCliente",zonacliente);
-                intent2.putExtra("IdCliente",idcliente);
-                intent2.putExtra("IdVendedor",idvendedor);
+
+                Intent intent2 = new Intent(getApplicationContext(),MainFactura.class);
+                intent2.putExtra("Nombrecliente",nombrecliente);
+                intent2.putExtra("Codigocliente",codigocliente);
+                intent2.putExtra("Zonacliente",zonacliente);
+                intent2.putExtra("Idcliente",idcliente);
+                intent2.putExtra("Idvendedor",idvendedor);
                 startActivity(intent2);
                 finish();
 
 
- */
+
                 break;
 
         }
@@ -173,6 +193,7 @@ public class MainListaProductos extends AppCompatActivity {
 
 
     }
+
 
 
 }

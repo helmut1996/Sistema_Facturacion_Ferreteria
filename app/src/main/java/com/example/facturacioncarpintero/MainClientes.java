@@ -35,12 +35,18 @@ public class MainClientes extends AppCompatActivity {
     List<itemList> itemCList;
     DBConnection sesion;
     String CapturandoClientes;
+    public static int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_clientes);
         getSupportActionBar().setTitle(" Lista Clientes");
 
+        id=getIntent().getIntExtra("IdVendedor",0);
+
+        System.out.println("ID VENDEDOR =====>"+id);
+        Bundle extra=getIntent().getExtras();
         initview();
 
         search.requestFocus();

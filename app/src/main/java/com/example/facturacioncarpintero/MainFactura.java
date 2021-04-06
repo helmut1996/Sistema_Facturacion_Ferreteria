@@ -56,6 +56,7 @@ public class MainFactura extends AppCompatActivity {
     public static String ZonaCliente;
     public static String IDCliente;
     public static int IDVendedor;
+    MainClientes id = new MainClientes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,12 +105,20 @@ public class MainFactura extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("Tratando de descubrir la informacion: ------> " +lista_factura.getAdapter().getItem(position));
-             //   Dialog_detalle_factura(position);
+
                 nombre = listaproducto.get(position).getNombreproduc();
                 cantidadProducto=listaproducto.get(position).getCantidad();
                 precioProducto=listaproducto.get(position).getPrecios();
                 idProd=listaproducto.get(position).getId_producto();
                 nombreImagen=listaproducto.get(position).getImagenProducto();
+
+                Intent i =new Intent(getApplicationContext(),MainEliminar_Actualizar.class);
+                i.putExtra("NombreProducto",nombre);
+                i.putExtra("CantidadProducto",cantidadProducto);
+                i.putExtra("PrecioProducto",precioProducto);
+                i.putExtra("IdProducto",idProd);
+                i.putExtra("NombreImagen",nombreImagen);
+                startActivity(i);
             }
         });
         /////pasando los datos del cliente
@@ -126,7 +135,7 @@ public class MainFactura extends AppCompatActivity {
             textV_Codigo.setText(CodigoCliente);
             textV_zona.setText(ZonaCliente);
             textIdcliente.setText(IDCliente);
-           // textIdvendedor.setText(String.valueOf(id.id));
+            textIdvendedor.setText(String.valueOf(id.id));
 
             System.out.println("----> NombreCliente activity preFactura: "+NombreCliente);
             System.out.println("----> IDCliente activity preFactura: "+IDCliente);

@@ -51,7 +51,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     private LinearLayout cuerpoProductCliente;
     int TotalP;
     private ModelItemsProducto itemDatail;
-    String imagen="http://ferreteriaelcarpintero.com/images/carpintero/";
     /* variables globales */
     String NombreCliente;
     String CodigoCliente;
@@ -297,21 +296,21 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                     intent1.putExtra("nombreproducto",tvnombreproducto.getText());
                     intent1.putExtra("cantidad",editcantidad.getText());
                     startActivity(intent1);
-/*
-                    MainListaproducto datos= new MainListaproducto();
-                    Intent intent1 = new Intent(getApplicationContext(), MainFacturaList.class);
-                    intent1.putExtra("NombreCliente",datos.nombrecliente);
-                    intent1.putExtra("CodigoCliente",datos.codigocliente);
-                    intent1.putExtra("ZonaCliente",datos.zonacliente);
-                    intent1.putExtra("IdCliente",datos.idcliente);
-                    intent1.putExtra("IdVendedor",datos.idvendedor);
 
-                    intent1.putExtra("nombreproducto",tvnombreproducto.getText());
-                    intent1.putExtra("cantidad",editcantidad.getText());
+                    MainListaProductos datos= new MainListaProductos();
+                    Intent intent2 = new Intent(getApplicationContext(), MainFactura.class);
+                    intent2.putExtra("NombreCliente",datos.nombrecliente);
+                    intent2.putExtra("CodigoCliente",datos.codigocliente);
+                    intent2.putExtra("ZonaCliente",datos.zonacliente);
+                    intent2.putExtra("IdCliente",datos.idcliente);
+                    intent2.putExtra("IdVendedor",datos.idvendedor);
+
+                    intent2.putExtra("nombreproducto",tvnombreproducto.getText());
+                    intent2.putExtra("cantidad",editcantidad.getText());
                     startActivity(intent1);
                     finish();
 
- */
+
                 }
 
                 break;
