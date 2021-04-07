@@ -40,7 +40,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class MainDetalleProducto extends AppCompatActivity implements View.OnClickListener{
+public class MainDetalleProducto extends AppCompatActivity implements View.OnClickListener,Dialog_pin_precio.DialogListennerPinPrecio{
 
     /*variables de los componentes de la vista*/
     private ImageButton IbuttonSiguiente;
@@ -122,7 +122,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
             IdCliente = extra.getString("IdCliente");
             System.out.println("ID Cliente Activity ProductosClientea----->"+IdCliente);
 
-            IdVendedor = extra.getInt("Idvendedor");
+            IdVendedor = extra.getInt("IdVendedor");
             System.out.println("ID Vendedor Activity ProductosClientea----->"+IdVendedor);
 
             ZonaCliente = extra.getString("ZonaCliente");
@@ -257,12 +257,19 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                 }
 
                 break;
+            case R.id.Mbtn_pin:
 
+                openDialogPrecio();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void  openDialogPrecio(){
+        Dialog_pin_precio dialog = new Dialog_pin_precio();
+        dialog.show(getSupportFragmentManager(),"Pin para activar precio");
+    }
 
     private void CargarImagen() {
         Picasso.get().load(URL_IMAGES+tvimagenBD.getText()+".jpg")
@@ -308,7 +315,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                     intent2.putExtra("nombreproducto",tvnombreproducto.getText());
                     intent2.putExtra("cantidad",editcantidad.getText());
                     startActivity(intent1);
-                    finish();
+
 
 
                 }
@@ -316,6 +323,8 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
+
+
 
     public ArrayAdapter precioDolar()
     {
@@ -329,7 +338,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
-                data.add(rs.getString("PrecioDolar1"));
                 data.add(rs.getString("PrecioDolar2"));
                 data.add(rs.getString("PrecioDolar3"));
                 data.add(rs.getString("PrecioDolar4"));
@@ -358,7 +366,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
-                data.add(rs.getString("Precio1"));
                 data.add(rs.getString("Precio2"));
                 data.add(rs.getString("Precio3"));
                 data.add(rs.getString("Precio4"));
@@ -425,4 +432,8 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         c.close();
     }
 
+    @Override
+    public void appliyTexts(String cambio) {
+
+    }
 }

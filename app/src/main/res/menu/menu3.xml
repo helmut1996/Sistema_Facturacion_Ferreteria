@@ -5,6 +5,15 @@
         android:id="@+id/Mbtn_MenuAdd"
         app:showAsAction="always"
         android:icon="@drawable/ic_add"
-        android:title="@string/addProducto"></item>
+        android:title="@string/addProducto">
+
+    </item>
+    <item
+        android:id="@+id/Mbtn_pin"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/pin">
+
+    </item>
 
 </menu>

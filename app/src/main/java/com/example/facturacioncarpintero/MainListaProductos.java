@@ -106,13 +106,13 @@ public class MainListaProductos extends AppCompatActivity {
             case R.id.Mbtn_Factura:
 
                 Intent intent2 = new Intent(getApplicationContext(),MainFactura.class);
-                intent2.putExtra("Nombrecliente",nombrecliente);
-                intent2.putExtra("Codigocliente",codigocliente);
-                intent2.putExtra("Zonacliente",zonacliente);
-                intent2.putExtra("Idcliente",idcliente);
-                intent2.putExtra("Idvendedor",idvendedor);
+                intent2.putExtra("NombreCliente",nombrecliente);
+                intent2.putExtra("CodigoCliente",codigocliente);
+                intent2.putExtra("ZonaCliente",zonacliente);
+                intent2.putExtra("IdCliente",idcliente);
+                intent2.putExtra("IdVendedor",idvendedor);
                 startActivity(intent2);
-                finish();
+
 
 
 

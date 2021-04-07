@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.facturacioncarpintero.Adapter.AdapterClientes;
@@ -26,12 +27,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainClientes extends AppCompatActivity {
+public class MainClientes extends AppCompatActivity implements Dialog_TasaCambio.DialogListenner{
     // VARIABLE PARA RECYCLEVIEW
     RecyclerView recyclerViewCliente;
     AdapterClientes adapterCliente;
     EditText search;
-    Button btn_buscador_cliente,btn_Cliente;
+    TextView TCambio;
+    Button btn_buscador_cliente;
     List<itemList> itemCList;
     DBConnection sesion;
     String CapturandoClientes;
@@ -46,10 +48,19 @@ public class MainClientes extends AppCompatActivity {
         id=getIntent().getIntExtra("IdVendedor",0);
 
         System.out.println("ID VENDEDOR =====>"+id);
-        Bundle extra=getIntent().getExtras();
+
+
+
         initview();
 
-        search.requestFocus();
+        TCambio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openDialog();
+            }
+        });
+
         btn_buscador_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,13 +79,6 @@ public class MainClientes extends AppCompatActivity {
         });
 
 
-        btn_Cliente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MainListaProductos.class);
-                startActivity(intent);
-            }
-        });
     }
 
 
@@ -91,11 +95,16 @@ public class MainClientes extends AppCompatActivity {
     }
 
 
+  private void  openDialog(){
+        Dialog_TasaCambio dialog_tasaCambio = new Dialog_TasaCambio();
+        dialog_tasaCambio.show(getSupportFragmentManager(),"tasa de cambio");
+  }
+
     public void initview() {
+        TCambio=findViewById(R.id.tv_tasa_cambio);
         recyclerViewCliente = findViewById(R.id.listaClientes);
         search = findViewById(R.id.search);
         btn_buscador_cliente=findViewById(R.id.btnBuscadorCliente);
-        btn_Cliente=findViewById(R.id.btncliente);
     }
 
     public void initValues() {
@@ -162,5 +171,11 @@ public class MainClientes extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void appliyTexts(String cambio) {
+
+        TCambio.setText("Tasa de Cambio\n"+"C$"+cambio);
     }
 }
