@@ -23,6 +23,7 @@
     <string name="text_buscar2">Buscar Producto</string>
     <string name="titulo_producto">Titulo Producto</string>
     <string name="pin">ingresar pin</string>
+    <string name="factura">Factura</string>
 
     <string-array name="tipo_moneda">
         <item>Cordoba</item>
@@ -31,5 +32,10 @@
     <string-array name="tipo_ventas">
         <item>Credito</item>
         <item>Contado</item>
+    </string-array>
+
+    <string-array name="tipo_estados">
+        <item>Facturado</item>
+        <item>Pagado</item>
     </string-array>
 </resources>

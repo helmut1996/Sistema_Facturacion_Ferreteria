@@ -141,7 +141,27 @@
                 android:text="40000"
                 android:textColor="#0B0909" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/factura"
+                android:textAllCaps="true"
+                android:textColor="#2A3B9A"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spinner_estadoº"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

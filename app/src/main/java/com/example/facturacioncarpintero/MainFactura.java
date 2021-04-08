@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class MainFactura extends AppCompatActivity {
 
     TextView textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
-    Spinner T_factura,T_ventas,List_Vendedores;
+    Spinner T_factura,T_ventas,List_Vendedores,Estados;
     ListView lista_factura;
     LinearLayout cuerpo;
     ArrayList<String> listainformacion;
@@ -75,6 +75,7 @@ public class MainFactura extends AppCompatActivity {
         textIdvendedor= findViewById(R.id.textV_idvendedor);
         List_Vendedores=findViewById(R.id.list_vendedores);
         cuerpo=findViewById(R.id.cuerpo);
+        Estados=findViewById(R.id.spinner_estadoº);
 
         T_ventas = findViewById(R.id.spinner_tventas);
         T_factura = findViewById(R.id.spinner_facura);
@@ -86,6 +87,11 @@ public class MainFactura extends AppCompatActivity {
 
         List_Vendedores.setAdapter(Lista_Vendedores());
 
+
+        ////////////spinner Estados de Facturas
+        ArrayAdapter<CharSequence> adapter2 =ArrayAdapter.createFromResource(this, R.array.tipo_estados, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Estados.setAdapter(adapter2);
 
         ////////////spinner tipo factura
         ArrayAdapter<CharSequence> adapter1 =ArrayAdapter.createFromResource(this, R.array.tipo_moneda, android.R.layout.simple_spinner_item);
@@ -360,7 +366,7 @@ public class MainFactura extends AppCompatActivity {
                 pst2.setString(7, listaproducto.get(i).getTipoprecio());//tipoPrecio
                 pst2.executeUpdate();
             }
-            
+
         }catch (SQLException e){
             dbConnection.getConnection().rollback();
             System.out.println("ERROR: ======> "+e);

@@ -27,12 +27,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainClientes extends AppCompatActivity implements Dialog_TasaCambio.DialogListenner{
+public class MainClientes extends AppCompatActivity{
     // VARIABLE PARA RECYCLEVIEW
     RecyclerView recyclerViewCliente;
     AdapterClientes adapterCliente;
     EditText search;
-    TextView TCambio;
     Button btn_buscador_cliente;
     List<itemList> itemCList;
     DBConnection sesion;
@@ -53,13 +52,6 @@ public class MainClientes extends AppCompatActivity implements Dialog_TasaCambio
 
         initview();
 
-        TCambio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                openDialog();
-            }
-        });
 
         btn_buscador_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,13 +87,8 @@ public class MainClientes extends AppCompatActivity implements Dialog_TasaCambio
     }
 
 
-  private void  openDialog(){
-        Dialog_TasaCambio dialog_tasaCambio = new Dialog_TasaCambio();
-        dialog_tasaCambio.show(getSupportFragmentManager(),"tasa de cambio");
-  }
 
     public void initview() {
-        TCambio=findViewById(R.id.tv_tasa_cambio);
         recyclerViewCliente = findViewById(R.id.listaClientes);
         search = findViewById(R.id.search);
         btn_buscador_cliente=findViewById(R.id.btnBuscadorCliente);
@@ -173,9 +160,4 @@ public class MainClientes extends AppCompatActivity implements Dialog_TasaCambio
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void appliyTexts(String cambio) {
-
-        TCambio.setText("Tasa de Cambio\n"+"C$"+cambio);
-    }
 }
