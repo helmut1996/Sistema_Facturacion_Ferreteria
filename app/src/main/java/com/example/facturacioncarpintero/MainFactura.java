@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +36,12 @@ import java.util.ArrayList;
 public class MainFactura extends AppCompatActivity {
 
     TextView textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
-    Spinner T_factura,T_ventas;
+    Spinner T_factura,T_ventas,List_Vendedores;
     ListView lista_factura;
     LinearLayout cuerpo;
     ArrayList<String> listainformacion;
     ArrayList<ProductosAdd>listaproducto;
-    ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////
     public static String nombre ="HOLA MUNDO";
     public static int cantidadProducto, idProd ;
     public static double precioProducto;
@@ -48,7 +49,7 @@ public class MainFactura extends AppCompatActivity {
     double TotalFact;
     ///////////////////variables Dialog detalle producto/////////////////////////////////////
     conexionSQLiteHelper conn;
-    private static final String TAG ="MainFacturaList";
+    private static final String TAG ="MainFactura";
     double TotalComision= 0;
     /////////////////////////////Variables por parametros////////////////////////////////////////
     public static String NombreCliente;
@@ -65,8 +66,6 @@ public class MainFactura extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Facturacion");
 
-
-
         textV_Codigo = findViewById(R.id.textViewCodigo);
         textV_Cliente = findViewById(R.id.textViewcliente);
         textV_zona = findViewById(R.id.textView_Zona);
@@ -74,6 +73,7 @@ public class MainFactura extends AppCompatActivity {
         textV_total = findViewById(R.id.textV_total);
         textIdcliente= findViewById(R.id.textV_idcliente);
         textIdvendedor= findViewById(R.id.textV_idvendedor);
+        List_Vendedores=findViewById(R.id.list_vendedores);
         cuerpo=findViewById(R.id.cuerpo);
 
         T_ventas = findViewById(R.id.spinner_tventas);
@@ -84,6 +84,7 @@ public class MainFactura extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         T_ventas.setAdapter(adapter);
 
+        List_Vendedores.setAdapter(Lista_Vendedores());
 
 
         ////////////spinner tipo factura
@@ -143,6 +144,30 @@ public class MainFactura extends AppCompatActivity {
         }
         /////pasando los datos del cliente
         CalcularTotalFactura();
+
+    }
+
+    public ArrayAdapter Lista_Vendedores() {
+        ArrayAdapter NoCoreAdapter=null;
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.conectar();
+        String query = "select Nombre,idVendedor,Estado from Vendedores where Estado='activo'";
+        try {
+            Statement stm = dbConnection.getConnection().createStatement();
+            ResultSet rs = stm.executeQuery(query);
+
+            ArrayList<String> data = new ArrayList<>();
+            while (rs.next()) {
+                data.add(rs.getString("Nombre"));
+                data.add(rs.getString("idVendedor"));
+            }
+
+            NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return NoCoreAdapter;
 
     }
 
@@ -335,14 +360,13 @@ public class MainFactura extends AppCompatActivity {
                 pst2.setString(7, listaproducto.get(i).getTipoprecio());//tipoPrecio
                 pst2.executeUpdate();
             }
-
-
+            
         }catch (SQLException e){
             dbConnection.getConnection().rollback();
             System.out.println("ERROR: ======> "+e);
             Toast.makeText(this," No Registrado en SQLServer",Toast.LENGTH_LONG).show();
         }finally {
-
+            
             dbConnection.getConnection().setAutoCommit(true);
         }
 
