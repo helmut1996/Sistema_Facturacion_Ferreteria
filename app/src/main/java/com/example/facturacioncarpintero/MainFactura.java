@@ -33,7 +33,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class MainFactura extends AppCompatActivity {
+public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo{
 
     TextView textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
@@ -85,6 +85,8 @@ public class MainFactura extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         T_ventas.setAdapter(adapter);
 
+
+
         List_Vendedores.setAdapter(Lista_Vendedores());
 
 
@@ -97,7 +99,6 @@ public class MainFactura extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter1 =ArrayAdapter.createFromResource(this, R.array.tipo_moneda, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         T_factura.setAdapter(adapter1);
-
 
         ////////////////////////////// ListView///////////////////////////////
         //conexion de SQLite
@@ -128,28 +129,37 @@ public class MainFactura extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         /////pasando los datos del cliente
         Bundle extra=getIntent().getExtras();
+
         if (extra != null){
+
             NombreCliente=(extra.getString("NombreCliente"));
             CodigoCliente=(extra.getString("CodigoCliente"));
             ZonaCliente=(extra.getString("ZonaCliente"));
             IDCliente=(extra.getString("IdCliente"));
-            IDVendedor=(extra.getInt("IdVendedor"));
 
 
             textV_Cliente.setText(NombreCliente);
             textV_Codigo.setText(CodigoCliente);
             textV_zona.setText(ZonaCliente);
             textIdcliente.setText(IDCliente);
-            textIdvendedor.setText(String.valueOf(id.id));
+           // textIdvendedor.setText(String.valueOf(id.id));
 
             System.out.println("----> NombreCliente activity preFactura: "+NombreCliente);
             System.out.println("----> IDCliente activity preFactura: "+IDCliente);
-            System.out.println("----> IDVemdedor activity preFactura: "+IDVendedor);
+
         }
         /////pasando los datos del cliente
         CalcularTotalFactura();
+
+        textV_Cliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialoNombreNuevo();
+            }
+        });
 
     }
 
@@ -165,7 +175,8 @@ public class MainFactura extends AppCompatActivity {
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
                 data.add(rs.getString("Nombre"));
-                data.add(rs.getString("idVendedor"));
+                IDVendedor=(rs.getInt("idVendedor"));
+                System.out.println("----> IDVemdedor activity preFactura: "+IDVendedor);
             }
 
             NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
@@ -372,10 +383,18 @@ public class MainFactura extends AppCompatActivity {
             System.out.println("ERROR: ======> "+e);
             Toast.makeText(this," No Registrado en SQLServer",Toast.LENGTH_LONG).show();
         }finally {
-            
+
             dbConnection.getConnection().setAutoCommit(true);
         }
 
     }
 
+    @Override
+    public void appliyTexts(String nombre) {
+        textV_Cliente.setText(nombre);
+    }
+    private void  openDialoNombreNuevo(){
+        Dialog_nombre_nuevo dialog =  new Dialog_nombre_nuevo();
+        dialog.show(getSupportFragmentManager(),"Pin para activar precio");
+    }
 }

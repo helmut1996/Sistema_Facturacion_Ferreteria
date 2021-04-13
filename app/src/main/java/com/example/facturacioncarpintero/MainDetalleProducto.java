@@ -44,7 +44,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
     /*variables de los componentes de la vista*/
     private ImageButton IbuttonSiguiente;
-    private TextView tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
+    private TextView textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
     private EditText editcantidad;
@@ -85,6 +85,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         ////////////imagen producto
         image=findViewById(R.id.imgProducto);
         /////////// campos de texto
+        textPin=findViewById(R.id.pin_text);
         tvnombreproducto=findViewById(R.id.tvnombreP);
         textcontar=findViewById(R.id.text_contar);
         textinfo1=findViewById(R.id.text_info1);
@@ -197,6 +198,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0){
+
                     tvtipoprecio.setText("1");
                 }else if(position==1){
                     tvtipoprecio.setText("2");
@@ -209,6 +211,9 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                 }
             }
 
+
+
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -216,6 +221,11 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         });
 
         CargarImagen();
+
+
+        if (textPin.getText().toString().equals("2233")){
+            precios.setVisibility(View.GONE );
+        }
     }
 
     @Override
@@ -227,6 +237,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
 
         precioEscogido= (Double.parseDouble(precios.getSelectedItem().toString()));
         switch (item.getItemId()){
@@ -338,6 +349,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
+                data.add(rs.getString("PrecioDolar1"));
                 data.add(rs.getString("PrecioDolar2"));
                 data.add(rs.getString("PrecioDolar3"));
                 data.add(rs.getString("PrecioDolar4"));
@@ -366,6 +378,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
+                data.add(rs.getString("Precio1"));
                 data.add(rs.getString("Precio2"));
                 data.add(rs.getString("Precio3"));
                 data.add(rs.getString("Precio4"));
@@ -434,6 +447,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
     @Override
     public void appliyTexts(String cambio) {
-
+        textPin.setText(cambio);
     }
 }

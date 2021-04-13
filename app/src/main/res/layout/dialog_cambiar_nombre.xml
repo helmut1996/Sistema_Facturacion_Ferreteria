@@ -3,14 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/pin"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingrese Pin"
+        android:text="Ingrese nombre"
         android:layout_marginVertical="10dp"
         android:gravity="center"
         android:textSize="20sp"
@@ -18,9 +14,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"
-        android:hint="pin"
-        android:id="@+id/edit_pin_precio"
+        android:inputType="text"
+        android:hint="Nuevo Nombre"
+        android:id="@+id/edit_nombre_cliente"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="15dp"/>
 
