@@ -179,7 +179,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(monedas.getSelectedItem().toString().equals("Cordoba"))
                 {
-
                     precios.setAdapter(precioCordoba());
                 }
                 else
@@ -224,7 +223,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
 
         if (textPin.getText().toString().equals("2233")){
-            precios.setVisibility(View.GONE );
+
         }
     }
 
@@ -335,9 +334,36 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         }
     }
 
-
-
     public ArrayAdapter precioDolar()
+    {
+        ArrayAdapter NoCoreAdapter=null;
+        DBConnection dbConnection= new DBConnection();
+        dbConnection.conectar();
+        String query = "select PrecioDolar1, PrecioDolar2,PrecioDolar3,PrecioDolar4,PrecioDolar5 from Inventario where Nombre='" + producto + "'";
+        try {
+            Statement stm = dbConnection.getConnection().createStatement();
+            ResultSet rs = stm.executeQuery(query);
+
+            ArrayList<String> data = new ArrayList<>();
+            while (rs.next()) {
+                data.add(rs.getString("PrecioDolar2"));
+                data.add(rs.getString("PrecioDolar3"));
+                data.add(rs.getString("PrecioDolar4"));
+                data.add(rs.getString("PrecioDolar5"));
+
+            }
+            System.out.println("Capturando nombre Producto====>"+producto);
+            NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return NoCoreAdapter;
+
+    }
+
+
+    public ArrayAdapter precioDolar2()
     {
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection= new DBConnection();
@@ -367,6 +393,34 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     }
 
     public ArrayAdapter precioCordoba()
+    {
+        ArrayAdapter NoCoreAdapter=null;
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.conectar();
+        String query = "select Precio1, Precio2,Precio3,Precio4,Precio5 from Inventario where Nombre= '" +producto+" ' ";
+        try {
+            Statement stm = dbConnection.getConnection().createStatement();
+            ResultSet rs = stm.executeQuery(query);
+
+            ArrayList<String> data = new ArrayList<>();
+            while (rs.next()) {
+                data.add(rs.getString("Precio2"));
+                data.add(rs.getString("Precio3"));
+                data.add(rs.getString("Precio4"));
+                data.add(rs.getString("Precio5"));
+            }
+            System.out.println("Nombre:"+producto);
+
+            System.out.println("Capturando nombre Producto====>"+producto);
+            NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return NoCoreAdapter;
+
+    }
+    public ArrayAdapter precioCordoba2()
     {
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection = new DBConnection();
@@ -448,5 +502,26 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     @Override
     public void appliyTexts(String cambio) {
         textPin.setText(cambio);
+        if (textPin.getText().toString().equals("2233")){
+            precios.setAdapter(precioCordoba2());
+            monedas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(monedas.getSelectedItem().toString().equals("Cordoba"))
+                    {
+                        precios.setAdapter(precioCordoba2());
+                    }
+                    else
+                    {
+                        precios.setAdapter(precioDolar2());
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
     }
 }

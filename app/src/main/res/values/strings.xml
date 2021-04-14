@@ -5,7 +5,7 @@
     <string name="info_dato1">info2</string>
     <string name="unidad_medida">Unidad Medida</string>
     <string name="tinte">Nombre Producto</string>
-    <string name="text_cantidad">0</string>
+    <string name="text_cantidad">Cantidad</string>
     <string name="text_precio">Precio</string>
     <string name="precio">Tipo de Precio</string>
     <string name="text_cliente">Cliente Varios</string>
