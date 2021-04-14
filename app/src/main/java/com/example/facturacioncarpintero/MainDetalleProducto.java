@@ -502,7 +502,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
     @Override
     public void appliyTexts(String cambio) {
         textPin.setText(cambio);
-        if (textPin.getText().toString().equals("2233")){
+        if (textPin.getText().toString().equals("033")){
             precios.setAdapter(precioCordoba2());
             monedas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -522,6 +522,10 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
 
                 }
             });
+        }else if (textPin.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"Debes de ingresar pin",Toast.LENGTH_LONG).show();
+        } else{
+            Toast.makeText(getApplicationContext(),"pin Incorrecto",Toast.LENGTH_LONG).show();
         }
     }
 }

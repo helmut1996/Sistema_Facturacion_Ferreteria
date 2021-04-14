@@ -68,7 +68,8 @@
             android:layout_height="wrap_content"
             android:text="pin"
             android:gravity="center"
-            android:id="@+id/pin_text"/>
+            android:id="@+id/pin_text"
+            android:visibility="gone"/>
 
        <LinearLayout
            android:layout_width="match_parent"
