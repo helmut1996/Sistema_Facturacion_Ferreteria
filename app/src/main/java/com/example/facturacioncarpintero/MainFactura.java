@@ -52,7 +52,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo{
+public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo, Dialog_pin_precio.DialogListennerPinPrecio{
 
     TextView  tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
@@ -67,6 +67,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static double precioProducto;
     public static String nombreImagen,valor,idInventario;
     double TotalFact;
+    double TotalDolar;
     ///////////////////variables Dialog detalle producto/////////////////////////////////////
     conexionSQLiteHelper conn;
     private static final String TAG ="MainFactura";
@@ -78,6 +79,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static String IDCliente;
     public static int IDVendedor;
     public static int IDInventario;
+    public static String LimiteCreditosC;
+    public static double tasaCambio;
     MainClientes id = new MainClientes();
 
 
@@ -379,6 +382,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         IDCliente= extra.getString("IdCliente");
         IDVendedor = extra.getInt("IdVendedor");
         IDInventario= extra.getInt("idinventario");
+        LimiteCreditosC= extra.getString("limitecredito");
 
 
             textV_Cliente.setText(NombreCliente);
@@ -393,11 +397,14 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             System.out.println("----> ZONA CLIENTE: "+ZonaCliente);
             System.out.println("------> CODIGO CLIENTE: "+ CodigoCliente);
             System.out.println("------> CODIGO IDINVENTARIO: "+ IDInventario);
+            System.out.println("------> CREDITO DISPONIBLE CLIENTE: "+ LimiteCreditosC);
 
 
         }
         /////pasando los datos del cliente
+        TasaDolar();
         CalcularTotalFactura();
+        ConversionDolares();
 
         textV_Cliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -685,6 +692,29 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         dialogFactura.show(getSupportFragmentManager(),"ventana emergente");
     }
 */
+
+
+
+    public void TasaDolar(){
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st2 = dbConnection.getConnection().createStatement();
+            ResultSet rs2 = st2.executeQuery("\n" +
+                    "select top 1 Cambio from Cambio_Dolar order by idDolar desc");
+            while (rs2.next()) {
+                tasaCambio = rs2.getDouble("Cambio");
+
+                System.out.println("==============> Ultimo tasa de cambio en dolares:" + tasaCambio);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     public  void AgregarDatosSQLSEVER() throws SQLException {
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
@@ -740,5 +770,16 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private void  openDialoNombreNuevo(){
         Dialog_nombre_nuevo dialog =  new Dialog_nombre_nuevo();
         dialog.show(getSupportFragmentManager(),"Pin para activar precio");
+    }
+
+
+
+    public void ConversionDolares(){
+
+
+       TotalDolar= TotalFact / tasaCambio;
+
+        System.out.println("cambio de total cordobas a dolar:---->"+TotalDolar);
+
     }
 }

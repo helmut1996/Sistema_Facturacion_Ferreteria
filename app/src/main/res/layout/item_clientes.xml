@@ -34,6 +34,12 @@
                 android:id="@+id/btn_select"/>
 
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:id="@+id/LimiteCredito"/>
 
         <TextView
             android:id="@+id/CodigoCliente"
@@ -67,5 +73,6 @@
             android:background="@color/black"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"/>
+
     </LinearLayout>
 </LinearLayout>

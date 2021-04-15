@@ -51,6 +51,7 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
         holder.nombre.setText(item.getNombre());
         holder.zona.setText(item.getZona());
         holder.idcliente.setText(String.valueOf(item.getIdCliente()));
+        holder.limitecredito.setText(String.valueOf(item.getLimiteCredito()));
 
 
     }
@@ -69,7 +70,7 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
     }
     public static class RecyclerHolder extends RecyclerView.ViewHolder{
 
-        TextView codigo,nombre,zona,idcliente;
+        TextView codigo,nombre,zona,idcliente,limitecredito;
         Button seleccionar;
         public RecyclerHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +80,7 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
             zona=itemView.findViewById(R.id.cliente_zona);
             idcliente=itemView.findViewById(R.id.id_cliente);
             seleccionar=itemView.findViewById(R.id.btn_select);
+            limitecredito=itemView.findViewById(R.id.LimiteCredito);
 
             seleccionar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,6 +92,7 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
                     intent.putExtra("Codigocliente",codigo.getText());
                     intent.putExtra("Zonacliente",zona.getText());
                     intent.putExtra("Idcliente",idcliente.getText());
+                    intent.putExtra("LimiteCredito",limitecredito.getText());
                     context.startActivity(intent);
                 }
             });

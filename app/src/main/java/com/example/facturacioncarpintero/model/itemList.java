@@ -4,15 +4,17 @@ public class itemList {
     String nombre,zona;
     int codigo;
     int idCliente;
+    double limiteCredito;
 
     public itemList() {
     }
 
-    public itemList(String nombre, String zona, int codigo, int idCliente) {
+    public itemList(String nombre, String zona, int codigo, int idCliente, double limiteCredito) {
         this.nombre = nombre;
         this.zona = zona;
         this.codigo = codigo;
         this.idCliente = idCliente;
+        this.limiteCredito = limiteCredito;
     }
 
     public String getNombre() {
@@ -45,5 +47,13 @@ public class itemList {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public double getLimiteCredito() {
+        return limiteCredito;
+    }
+
+    public void setLimiteCredito(double limiteCredito) {
+        this.limiteCredito = limiteCredito;
     }
 }

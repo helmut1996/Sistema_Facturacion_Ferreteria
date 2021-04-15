@@ -113,12 +113,13 @@ public class MainClientes extends AppCompatActivity{
 
                     Statement st = dbConnection.getConnection().createStatement();
 
-                    ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente from Clientes where Estado = 'Activo' order by Nombre asc");
+                    ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente,LimiteCredito from Clientes where Estado = 'Activo' order by Nombre asc");
                     while (rs.next()) {
                         listCliiente.add(new itemList(rs.getString("Nombre"),
                                 rs.getString("Direccion"),
                                 rs.getInt("Codigo"),
-                                rs.getInt("idCliente")));
+                                rs.getInt("idCliente"),
+                                rs.getDouble("LimiteCredito")));
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
