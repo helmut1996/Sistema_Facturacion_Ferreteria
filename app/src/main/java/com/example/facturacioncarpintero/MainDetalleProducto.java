@@ -1,4 +1,4 @@
-package com.example.facturacioncarpintero;
+ package com.example.facturacioncarpintero;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,10 +40,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class MainDetalleProducto extends AppCompatActivity implements View.OnClickListener,Dialog_pin_precio.DialogListennerPinPrecio{
+public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin_precio.DialogListennerPinPrecio{
 
     /*variables de los componentes de la vista*/
-    private ImageButton IbuttonSiguiente;
+
     private TextView textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
@@ -79,7 +79,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         cuerpoProductCliente=findViewById(R.id.linearLayoutClienteProducto);
         ///////// Botones
 
-        IbuttonSiguiente = findViewById(R.id.btn_siguente);
 
         editcantidad=findViewById(R.id.editTextCantidad);
         ////////////imagen producto
@@ -103,7 +102,7 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
         precios = findViewById(R.id.spinerPrecios);
         monedas = findViewById(R.id.spinner_tipo_moneda);
 
-        IbuttonSiguiente.setOnClickListener(this);
+
 
 //////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
 
@@ -286,52 +285,6 @@ public class MainDetalleProducto extends AppCompatActivity implements View.OnCli
                 .error(R.drawable.error)
                 .into(image);
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        precioEscogido= (Double.parseDouble(precios.getSelectedItem().toString()));
-        switch (v.getId()){
-
-            case R.id.btn_siguente:
-
-                if (editcantidad.getText().toString().isEmpty()){
-                    editcantidad.setError("Debe Ingresar una cantidad");
-                } else if(Integer.parseInt(editcantidad.getText().toString())==0){
-                    editcantidad.setError("la cantidad no puede ser 0");
-                }else if (precioEscogido == 0){
-                    //  Toast.makeText(this,"Precio seleccionado es 0",Toast.LENGTH_SHORT).show();
-                    Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"Precio Seleccionado 0!!",Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if(Integer.parseInt(editcantidad.getText().toString())>Integer.parseInt(textcontar.getText().toString())){
-                    //Toast.makeText(this,"no hay disponible",Toast.LENGTH_SHORT).show();
-                    Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"no hay inventario suficiente  de este producto ",Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else{
-                    GuardarProductos();
-                    Intent intent1 = new Intent(getApplicationContext(), MainFactura.class);
-                    intent1.putExtra("nombreproducto",tvnombreproducto.getText());
-                    intent1.putExtra("cantidad",editcantidad.getText());
-                    startActivity(intent1);
-
-                    MainListaProductos datos= new MainListaProductos();
-                    Intent intent2 = new Intent(getApplicationContext(), MainFactura.class);
-                    intent2.putExtra("NombreCliente",datos.nombrecliente);
-                    intent2.putExtra("CodigoCliente",datos.codigocliente);
-                    intent2.putExtra("ZonaCliente",datos.zonacliente);
-                    intent2.putExtra("IdCliente",datos.idcliente);
-                    intent2.putExtra("IdVendedor",datos.idvendedor);
-
-                    intent2.putExtra("nombreproducto",tvnombreproducto.getText());
-                    intent2.putExtra("cantidad",editcantidad.getText());
-                    startActivity(intent1);
-
-
-
-                }
-
-                break;
-        }
     }
 
     public ArrayAdapter precioDolar()

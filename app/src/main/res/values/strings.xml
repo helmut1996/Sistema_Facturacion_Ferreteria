@@ -38,4 +38,12 @@
         <item>Facturado</item>
         <item>Pagado</item>
     </string-array>
+
+    <string name="out_of_paper">Papel Fuera de Impresora</string>
+    <string name="exists_paper">打印机纸已准备就绪</string>
+    <string name="printer_is_working">Recibo impreso</string>
+    <string name="printer_high_temp_alarm">当前打印机温度过高，请稍后打印~</string>
+    <string name="motor_high_temp_alarm">当前马达温度过高，请稍后打印~</string>
+    <string name="printer_current_task_print_complete">打印任务已经打印完成</string>
+    <string name="text_precioE">Precio Especial</string>
 </resources>

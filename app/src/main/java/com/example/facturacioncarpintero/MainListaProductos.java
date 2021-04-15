@@ -111,6 +111,8 @@ public class MainListaProductos extends AppCompatActivity {
                 intent2.putExtra("ZonaCliente",zonacliente);
                 intent2.putExtra("IdCliente",idcliente);
                 intent2.putExtra("IdVendedor",idvendedor);
+                intent2.putExtra("idinventario",IdInventario);
+
                 startActivity(intent2);
 
 

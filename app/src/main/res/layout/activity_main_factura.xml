@@ -72,6 +72,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/list_vendedores"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/idVendedorSpinner"
+            android:text="0"
+            android:gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -230,7 +236,13 @@
 
         </LinearLayout>
 
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Imprimir"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_imprimir"/>
 
         <LinearLayout
             android:layout_width="match_parent"
