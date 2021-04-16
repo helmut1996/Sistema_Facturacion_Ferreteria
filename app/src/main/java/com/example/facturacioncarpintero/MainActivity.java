@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     int id=rs.getInt(1);
                     Intent i = new Intent(this,MainClientes.class);
                     i.putExtra("IdVendedor",id);
-                    i.putExtra("NombreVendedor",NombreVendedor);
+                    i.putExtra("NombreUsuario",NombreVendedor);
                     startActivity(i);
                     finish();
                 } else {

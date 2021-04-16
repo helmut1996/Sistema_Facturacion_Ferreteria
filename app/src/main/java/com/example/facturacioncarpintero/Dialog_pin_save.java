@@ -77,7 +77,7 @@ public class Dialog_pin_save extends AppCompatDialogFragment {
                 DBConnection dbConnection = new DBConnection();
                 dbConnection.conectar();
                 Statement stm = dbConnection.getConnection().createStatement();
-                ResultSet rs = stm.executeQuery("Select IdVendedor, Nombre From Vendedores where Pin='" + editPinSave.getText().toString() + "'");
+                ResultSet rs = stm.executeQuery("Select pin, name from users where pin='" + editPinSave.getText().toString() + "'");
                 if (rs.next()) {
                     NombreVendedor= rs.getString(2);
                     int id=rs.getInt(1);

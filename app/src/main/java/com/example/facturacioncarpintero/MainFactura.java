@@ -82,7 +82,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static String IDCliente;
     public static int IDVendedor;
     public static int IDInventario;
-    public static String LimiteCreditosC;
+    public static double LimiteCreditosC;
+    public static String nombreUsuarioC;
     public static double tasaCambio;
     MainClientes id = new MainClientes();
 
@@ -412,7 +413,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         IDCliente= extra.getString("IdCliente");
         IDVendedor = extra.getInt("IdVendedor");
         IDInventario= extra.getInt("idinventario");
-        LimiteCreditosC= extra.getString("limitecredito");
+        LimiteCreditosC= extra.getDouble("limitecredito");
+        nombreUsuarioC= extra.getString("nombreUsuario");
 
 
             textV_Cliente.setText(NombreCliente);
@@ -428,7 +430,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             System.out.println("------> CODIGO CLIENTE: "+ CodigoCliente);
             System.out.println("------> CODIGO IDINVENTARIO: "+ IDInventario);
             System.out.println("------> CREDITO DISPONIBLE CLIENTE: "+ LimiteCreditosC);
-
+            System.out.println("------> NOMBRE USUARIO:" +nombreUsuarioC);
 
         }
         /////pasando los datos del cliente
@@ -447,6 +449,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             @Override
             public void onClick(View v) {
                     GenerarTickets();
+                    IdFactura();
                 if (getPrinterStatus() == PRINTER_NORMAL)
                     printText();
 
@@ -705,14 +708,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         db.close();
     }
 
-    /*
-    public void Dialog_detalle_factura(int position){
-        ClassDialogFactura dialogFactura = new ClassDialogFactura();
-        dialogFactura.show(getSupportFragmentManager(),"ventana emergente");
-    }
-*/
-
-
 
     public void TasaDolar(){
         DBConnection dbConnection=new DBConnection();
@@ -733,6 +728,23 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     }
 
 
+    public void IdFactura(){
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st2 = dbConnection.getConnection().createStatement();
+            ResultSet rs2 = st2.executeQuery("\n" +
+                    "select top 1 idFactura from Facturas order by idFactura desc");
+            while (rs2.next()) {
+                valor  = rs2.getString("idFactura");
+                System.out.println("==============> Ultimo Registro:"+valor);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public  void AgregarDatosSQLSEVER() throws SQLException {
         DBConnection dbConnection = new DBConnection();
@@ -740,34 +752,28 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
         try {
             dbConnection.getConnection().setAutoCommit(false);
-            PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertPrefacturas ?,?,?,?,?,?,?");
-            pst.setInt(1, Integer.parseInt(textIdcliente.getText().toString()));
-            pst.setInt(2, Integer.parseInt(textIdvendedor.getText().toString()));
-            pst.setString(3, T_factura.getSelectedItem().toString()
-            );
-            pst.setString(4,T_ventas.getSelectedItem().toString());
-            pst.setDouble(5, Double.parseDouble(String.valueOf(TotalFact)));
-            pst.setDouble(6,TotalComision);
-            pst.setString(7,textV_Cliente.getText().toString());
+            PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?");
+            pst.setInt(1, Integer.parseInt(List_Vendedores.getSelectedItem().toString()));
+            pst.setInt(2, Integer.parseInt(textIdcliente.getText().toString()));
+            pst.setString(3, Estados.getSelectedItem().toString());
+            pst.setDouble(4, Double.parseDouble(String.valueOf(LimiteCreditosC)));
+            pst.setDouble(5, Double.parseDouble(String.valueOf(tasaCambio)));
+            pst.setString(6,T_ventas.getSelectedItem().toString());
+            pst.setDouble(7, Double.parseDouble(String.valueOf(TotalFact)));
+            pst.setString(8, nombreUsuarioC);
+            pst.setString(9,T_factura.getSelectedItem().toString());
+            pst.setDouble(10,TotalDolar);
+            pst.setString(11,textV_Cliente.getText().toString());
             pst.executeUpdate();
 
-            Statement st= dbConnection.getConnection().createStatement();
-            ResultSet rs = st.executeQuery("select top 1 idPrefactura from Prefacturas order by idPrefactura desc");
-            while (rs.next()){
-                valor  = rs.getString("idPrefactura");
-                System.out.println("==============> Ultimo Registro:"+valor);
-
-            }
-
             for (int i=0; i<listaproducto.size();i++){
-                PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertDetallePrefacturas   ?,?,?,?,?,?,?");
+                PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertar_Detalle_FacturasMovil ?,?,?,?,?,?");
                 pst2.setInt(1, Integer.parseInt(valor));
                 pst2.setInt(2, IDInventario);//idInventario
                 pst2.setDouble(3, listaproducto.get(i).getPrecios());//precio cordobas
                 pst2.setDouble(4,0.0);//precio Dolar
                 pst2.setFloat(5,listaproducto.get(i).getCantidad());// cantidad
-                pst2.setDouble(6,3.00);//PorcComision
-                pst2.setString(7, listaproducto.get(i).getTipoprecio());//tipoPrecio
+                pst2.setDouble(6,5.00);//PorcComision
                 pst2.executeUpdate();
             }
 

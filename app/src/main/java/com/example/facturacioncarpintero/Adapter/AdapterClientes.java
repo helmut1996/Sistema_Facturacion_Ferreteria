@@ -88,6 +88,7 @@ public class AdapterClientes extends RecyclerView.Adapter<AdapterClientes.Recycl
                     MainClientes datos = new MainClientes();
                     Intent intent=new Intent(context, MainListaProductos.class);
                     intent.putExtra("Idvendedor",datos.id);
+                    intent.putExtra("Nombreusuario",datos.NombreUsuario);
                     intent.putExtra("Nombrecliente",nombre.getText());
                     intent.putExtra("Codigocliente",codigo.getText());
                     intent.putExtra("Zonacliente",zona.getText());

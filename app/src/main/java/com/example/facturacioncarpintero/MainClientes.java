@@ -37,6 +37,7 @@ public class MainClientes extends AppCompatActivity{
     DBConnection sesion;
     String CapturandoClientes;
     public static int id;
+    public static String NombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,12 @@ public class MainClientes extends AppCompatActivity{
 
         System.out.println("ID VENDEDOR =====>"+id);
 
+        Bundle extra=getIntent().getExtras();
+
+        if (extra !=null) {
+            NombreUsuario = extra.getString("NombreUsuario");
+            System.out.println("Nombre Usuario Activity Clientes----->" + NombreUsuario);
+        }
 
 
         initview();

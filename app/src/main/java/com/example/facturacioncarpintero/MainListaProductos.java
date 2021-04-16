@@ -42,6 +42,7 @@ public class MainListaProductos extends AppCompatActivity {
     public static int stock;
     public static int IdInventario;
     public static String limiteCredito;
+    public static String nombreusuario;
     public String CapturaBuscador="";
     public RecyclerView recyclerlistproducto;
     @Override
@@ -77,6 +78,9 @@ public class MainListaProductos extends AppCompatActivity {
         if (extra != null){
             nombrecliente= extra.getString("Nombrecliente");
             System.out.println("----> NombreCliente: "+nombrecliente);
+
+            nombreusuario=extra.getString("Nombreusuario");
+            System.out.println("------> NombreUsuario: "+nombreusuario);
 
             codigocliente= extra.getString("Codigocliente");
             System.out.println("----> CodigoCliente: "+codigocliente);
@@ -117,6 +121,7 @@ public class MainListaProductos extends AppCompatActivity {
                 intent2.putExtra("IdVendedor",idvendedor);
                 intent2.putExtra("idinventario",IdInventario);
                 intent2.putExtra("limitecredito",limiteCredito);
+                intent2.putExtra("nombreUsuario",nombreusuario);
 
                 startActivity(intent2);
 
