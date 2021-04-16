@@ -26,7 +26,7 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
     private double prec;
     private int cant;
     private String idp;
-    private String URL="http://ferreteriaelcarpintero.com/images/productos/";
+    private String URL="http://ferreteriaelcarpintero.com/images/carpintero/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

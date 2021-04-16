@@ -35,7 +35,7 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
     private RecyclerItemClick itemClick;
     private boolean modoSeleccion;
     private SparseBooleanArray seleccionados;
-    private String URL_IMAGE="http://ferreteriaelcarpintero.com/images/productos/";
+    private String URL_IMAGE="http://ferreteriaelcarpintero.com/images/carpintero/";
 
     private int cantidad;
 
@@ -69,12 +69,14 @@ public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Recy
         holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
         holder.tvImagen.setText(item.getImg());
 
-
+/*
         Picasso.get().load(URL_IMAGE+item.getImg()+".jpg")
                 .error(R.drawable.error)
                 .into(holder.image);
 
 
+
+ */
         if (holder.tvexistencia.getText().toString().equals("0")){
             holder.tvexistencia.setVisibility(View.VISIBLE);
             holder.tvexistencia.setText(" hay poco inventario");

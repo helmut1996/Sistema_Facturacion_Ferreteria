@@ -218,7 +218,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
             }
         });
 
-        CargarImagen();
+       // CargarImagen();
 
 
         if (textPin.getText().toString().equals("2233")){
