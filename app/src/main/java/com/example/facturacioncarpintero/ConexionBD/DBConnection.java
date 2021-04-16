@@ -9,7 +9,7 @@ public class DBConnection
     private static String ip = "161.0.62.5";
     private static String port = "1440";
     private static String Classes = "net.sourceforge.jtds.jdbc.Driver";
-    private static String database = "BDPRUEBA";
+    private static String database = "BDCARPINTERO";
     private static String username = "sa";
     private static String password = "System32";
     private Connection connection = null;

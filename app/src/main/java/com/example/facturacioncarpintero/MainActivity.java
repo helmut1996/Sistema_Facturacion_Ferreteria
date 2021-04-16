@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 DBConnection dbConnection = new DBConnection();
                 dbConnection.conectar();
                 Statement stm = dbConnection.getConnection().createStatement();
-                ResultSet rs = stm.executeQuery("Select IdVendedor, Nombre From Vendedores where Pin='" + pass.getText().toString() + "'");
+                ResultSet rs = stm.executeQuery("Select pin, name from users where pin='" + pass.getText().toString() + "'");
                 if (rs.next()) {
                     NombreVendedor= rs.getString(2);
                     int id=rs.getInt(1);
