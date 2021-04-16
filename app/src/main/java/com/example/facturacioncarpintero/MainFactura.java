@@ -41,8 +41,8 @@ import com.example.facturacioncarpintero.Utils.BytesUtil;
 import com.example.facturacioncarpintero.Utils.HandlerUtils;
 import com.google.android.material.expandable.ExpandableTransformationWidget;
 import com.google.android.material.snackbar.Snackbar;
-import com.iposprinter.iposprinterservice.IPosPrinterCallback;
-import com.iposprinter.iposprinterservice.IPosPrinterService;
+//import com.iposprinter.iposprinterservice.IPosPrinterCallback;
+//import com.iposprinter.iposprinterservice.IPosPrinterService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,7 +52,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo, Dialog_pin_precio.DialogListennerPinPrecio{
+public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo,Dialog_pin_save.DialogListennerPinSave{
 
     TextView  tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
@@ -90,6 +90,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
 
     /* Demo 版本号*/
+    /*
     private static final String VERSION = "V1.1.0";
 
     private IPosPrinterService mIPosPrinterService;
@@ -98,7 +99,11 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private HandlerUtils.MyHandler handler;
 
 
+     */
+
     /*Definir el estado de la impresora*/
+
+    /*
     private final int PRINTER_NORMAL = 0;
     private final int PRINTER_PAPERLESS = 1;
     private final int PRINTER_THP_HIGH_TEMPERATURE = 2;
@@ -106,6 +111,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final int PRINTER_IS_BUSY = 4;
     private final int PRINTER_ERROR_UNKNOWN = 5;
     /*El estado actual de la impresora*/
+    /*
     private int printerStatus = 0;
 
     private final String PRINTER_NORMAL_ACTION = "com.iposprinter.iposprinterservice.NORMAL_ACTION";
@@ -117,7 +123,10 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final String PRINTER_BUSY_ACTION = "com.iposprinter.iposprinterservice.BUSY_ACTION";
     private final String PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION = "com.iposprinter.iposprinterservice.CURRENT_TASK_PRINT_COMPLETE_ACTION";
 
+
+     */
     /*Mensaje*/
+/*
     private final int MSG_TEST = 1;
     private final int MSG_IS_NORMAL = 2;
     private final int MSG_IS_BUSY = 3;
@@ -130,60 +139,66 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final int MSG_CURRENT_TASK_PRINT_COMPLETE = 10;
 
     /*El tipo de imprecion circular*/
+  /*
     private final int MULTI_THREAD_LOOP_PRINT = 1;
     private final int INPUT_CONTENT_LOOP_PRINT = 2;
     private final int DEMO_LOOP_PRINT = 3;
     private final int PRINT_DRIVER_ERROR_TEST = 4;
     private final int DEFAULT_LOOP_PRINT = 0;
 
+
+   */
     // Ciclo a través de la broca de la bandera
-    private int loopPrintFlag = DEFAULT_LOOP_PRINT;
-    private byte loopContent = 0x00;
-    private int printDriverTestCount = 0;
+
+//    private int loopPrintFlag = DEFAULT_LOOP_PRINT;
+  //  private byte loopContent = 0x00;
+   // private int printDriverTestCount = 0;
 
 
-    private final HandlerUtils.IHandlerIntent iHandlerIntent = new HandlerUtils.IHandlerIntent() {
-        @Override
-        public void handlerIntent(Message msg) {
-            switch (msg.what) {
-                case MSG_TEST:
-                    break;
-                case MSG_IS_NORMAL:
-                    if (getPrinterStatus() == PRINTER_NORMAL) {
-                        loopPrint(loopPrintFlag);
-                    }
-                    break;
-                case MSG_IS_BUSY:
-                    Toast.makeText(MainFactura.this, R.string.printer_is_working, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_PAPER_LESS:
-                    loopPrintFlag = DEFAULT_LOOP_PRINT;
-                    Toast.makeText(MainFactura.this, R.string.out_of_paper, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_PAPER_EXISTS:
-                    Toast.makeText(MainFactura.this, R.string.exists_paper, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_THP_HIGH_TEMP:
-                    Toast.makeText(MainFactura.this, R.string.printer_high_temp_alarm, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_MOTOR_HIGH_TEMP:
-                    loopPrintFlag = DEFAULT_LOOP_PRINT;
-                    Toast.makeText(MainFactura.this, R.string.motor_high_temp_alarm, Toast.LENGTH_SHORT).show();
-                    handler.sendEmptyMessageDelayed(MSG_MOTOR_HIGH_TEMP_INIT_PRINTER, 180000);  //马达高温报警，等待3分钟后复位打印机
-                    break;
-                case MSG_MOTOR_HIGH_TEMP_INIT_PRINTER:
-                    printerInit();
-                    break;
-                case MSG_CURRENT_TASK_PRINT_COMPLETE:
-                    Toast.makeText(MainFactura.this, R.string.printer_current_task_print_complete, Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+
+  //  private final HandlerUtils.IHandlerIntent iHandlerIntent = new HandlerUtils.IHandlerIntent() {
+    //    @Override
+      //  public void handlerIntent(Message msg) {
+        //    switch (msg.what) {
+          //      case MSG_TEST:
+            //        break;
+              //  case MSG_IS_NORMAL:
+                //    if (getPrinterStatus() == PRINTER_NORMAL) {
+                  //      loopPrint(loopPrintFlag);
+                    //}
+                   // break;
+                //case MSG_IS_BUSY:
+                  //  Toast.makeText(MainFactura.this, R.string.printer_is_working, Toast.LENGTH_SHORT).show();
+                //    break;
+              //  case MSG_PAPER_LESS:
+                //    loopPrintFlag = DEFAULT_LOOP_PRINT;
+                  //  Toast.makeText(MainFactura.this, R.string.out_of_paper, Toast.LENGTH_SHORT).show();
+                    //break;
+                //case MSG_PAPER_EXISTS:
+                 //   Toast.makeText(MainFactura.this, R.string.exists_paper, Toast.LENGTH_SHORT).show();
+                 //   break;
+              //  case MSG_THP_HIGH_TEMP:
+               //     Toast.makeText(MainFactura.this, R.string.printer_high_temp_alarm, Toast.LENGTH_SHORT).show();
+                //    break;
+                //case MSG_MOTOR_HIGH_TEMP:
+                 //   loopPrintFlag = DEFAULT_LOOP_PRINT;
+                 //   Toast.makeText(MainFactura.this, R.string.motor_high_temp_alarm, Toast.LENGTH_SHORT).show();
+                  //  handler.sendEmptyMessageDelayed(MSG_MOTOR_HIGH_TEMP_INIT_PRINTER, 180000);  //马达高温报警，等待3分钟后复位打印机
+                  //  break;
+              //  case MSG_MOTOR_HIGH_TEMP_INIT_PRINTER:
+                //    printerInit();
+                 //   break;
+               // case MSG_CURRENT_TASK_PRINT_COMPLETE:
+               //     Toast.makeText(MainFactura.this, R.string.printer_current_task_print_complete, Toast.LENGTH_SHORT).show();
+                 //   break;
+               // default:
+                //    break;
+           // }
+      //  }
+  //  };
 
 
+    /*
     private void setButtonEnable(boolean flag) {
         imprimirC.setEnabled(flag);
     }
@@ -234,8 +249,10 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             {
                 handler.sendEmptyMessageDelayed(MSG_TEST,0);
             }*/
-        }
-    };
+      //  }
+   // };
+
+    /*
 
     private ServiceConnection connectService = new ServiceConnection() {
 
@@ -250,6 +267,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             mIPosPrinterService = null;
         }
     };
+
+     */
     ///////////////////////Impresora//////////////////////////////////
 
 
@@ -259,6 +278,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         setContentView(R.layout.activity_main_factura);
 
         getSupportActionBar().setTitle("Facturacion");
+
+
+        /*
 
 
         callback = new IPosPrinterCallback.Stub() {
@@ -274,6 +296,10 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             }
         };
 
+
+         */
+
+/*
         Intent intent = new Intent();
         intent.setPackage("com.iposprinter.iposprinterservice");
         intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
@@ -292,6 +318,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         registerReceiver(IPosPrinterStatusListener, printerStatusFilter);
 
 
+
+ */
 
         imprimirC=findViewById(R.id.btn_imprimir);
         tv_idVendedorSpinner=findViewById(R.id.idVendedorSpinner);
@@ -416,8 +444,12 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         imprimirC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 if (getPrinterStatus() == PRINTER_NORMAL)
                     printText();
+
+                 */
+                open_pin_save();
             }
         });
 
@@ -428,6 +460,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
      *Funciones de la imprsora
      * */
 
+    /*
     public int getPrinterStatus() {
 
         Log.i(TAG, "***** printerStatus" + printerStatus);
@@ -440,10 +473,14 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         return printerStatus;
     }
 
+
+     */
+
     /**
      * La impresora se inicializa
      */
 
+    /*
     public void printerInit() {
         ThreadPoolManager.getInstance().executeTask(new Runnable() {
             @Override
@@ -508,6 +545,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         });
     }
 
+
+     */
     /**
      * Funciones de la imprsora
      */
@@ -772,6 +811,12 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         dialog.show(getSupportFragmentManager(),"Pin para activar precio");
     }
 
+    private void open_pin_save(){
+        Dialog_pin_save dialog_pin_save=  new Dialog_pin_save();
+
+        dialog_pin_save.show(getSupportFragmentManager(),"pin para Guardar");
+    }
+
 
 
     public void ConversionDolares(){
@@ -780,6 +825,43 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
        TotalDolar= TotalFact / tasaCambio;
 
         System.out.println("cambio de total cordobas a dolar:---->"+TotalDolar);
+
+    }
+
+    @Override
+    public void appliyTexts_pin(String pin_s) {
+        Dialog_pin_save  pin= new Dialog_pin_save();
+        tv_idVendedorSpinner.setText(pin_s);
+        conexionSQLiteHelper conn= new conexionSQLiteHelper(MainFactura.this,"bd_productos",null,1);
+        SQLiteDatabase db= conn.getWritableDatabase();
+
+            Cursor verificar_prefactura=db.rawQuery("select count(*) as cantidad from producto;", null);
+
+            if (verificar_prefactura.moveToFirst()) {
+                if (verificar_prefactura.getInt(verificar_prefactura.getColumnIndex("cantidad")) == 0) {
+                    Snackbar snackbar = Snackbar.make(cuerpo, "No puedes Guardar Prefactura Vacia", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    return;
+                }else{
+                    try {
+                        AgregarDatosSQLSEVER();
+                    }
+                    catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+            borrardatosTabla();
+            Toast.makeText(getApplicationContext(),"Guardar",Toast.LENGTH_SHORT).show();
+            Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
+            refresh.putExtra("IdVendedor",IDVendedor);
+            startActivity(refresh);
+            finish();
+
+
 
     }
 }
