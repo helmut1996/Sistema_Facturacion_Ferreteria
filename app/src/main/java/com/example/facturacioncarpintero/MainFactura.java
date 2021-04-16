@@ -63,7 +63,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     ArrayList<ProductosAdd>listaproducto;
     ////////////////////////////////////////////////////////////
     public static String nombre ="HOLA MUNDO";
-    public static int cantidadProducto, idProd ;
+    public static int cantidadProducto;
+    public static String idProd;
     public static double precioProducto;
     public static String nombreImagen,valor,idInventario;
     double TotalFact;
@@ -685,7 +686,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         Cursor cursor=db.rawQuery("select * from "+ utilidades.TABLA_PRODUCTO,null);
         while (cursor.moveToNext()){
             productosAdd=new ProductosAdd();
-            productosAdd.setId_producto(cursor.getInt(0));
+            productosAdd.setId_producto(cursor.getString(cursor.getColumnIndex("id")));
             productosAdd.setNombreproduc(cursor.getString(1));
             productosAdd.setCantidad(cursor.getInt(2));
             productosAdd.setPrecios(cursor.getDouble(3));

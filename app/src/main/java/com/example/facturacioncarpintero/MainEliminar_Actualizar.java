@@ -24,7 +24,8 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
     private ImageView imagen;
     private String nombre,img;
     private double prec;
-    private int idp,cant;
+    private int cant;
+    private String idp;
     private String URL="http://ferreteriaelcarpintero.com/images/productos/";
 
     @Override
@@ -45,7 +46,7 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
             nombre=extra.getString("NombreProducto");
             cant=extra.getInt("CantidadProducto");
             prec=extra.getDouble("PrecioProducto");
-            idp=extra.getInt("IdProducto");
+            idp=extra.getString("IdProducto");
             img= extra.getString("NombreImagen");
 
             System.out.println("nombre P===>"+nombre);
@@ -104,9 +105,9 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
 
             Toast.makeText(getApplicationContext(),"No se Actualizo en cantidad 0",Toast.LENGTH_LONG).show();
         }else {
-            db.execSQL("update producto set cantidad ="+cantidad.getText().toString()+" where id = "+idproducto.getText().toString()+" ");
+            String dbQuery = "update producto set cantidad ="+"'"+cantidad.getText().toString()+"'"+"where id ="+"'"+idproducto.getText().toString()+"'";
+            db.execSQL(dbQuery);
             db.close();
-
             Toast.makeText(getApplicationContext(),"Actualizado!!!",Toast.LENGTH_SHORT).show();
         }
 
@@ -115,7 +116,8 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
     private void EliminarDatosSQLite() {
         conexionSQLiteHelper conn = new conexionSQLiteHelper(this,"bd_productos",null,1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        db.execSQL("DELETE FROM producto WHERE id = "+idproducto.getText().toString()+" ");
+        String dbQuery = "delete from producto where id ="+"'"+idproducto.getText().toString()+"'";
+        db.execSQL(dbQuery);
         db.close();
         Toast.makeText(getApplicationContext(),"Registro Eliminado!!!",Toast.LENGTH_SHORT).show();
     }

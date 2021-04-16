@@ -1,7 +1,7 @@
 package com.example.facturacioncarpintero.SQLite.entidades;
 
 public class ProductosAdd {
-    private int id_producto;
+    private String id_producto;
     private String nombreproduc;
     private int cantidad;
     private double precios;
@@ -13,7 +13,7 @@ public class ProductosAdd {
     }
 
 
-    public ProductosAdd(int idcliente, int idvendedor, int id_producto, String nombreproduc, int cantidad, double precios, String imagenProducto, String tipoprecio) {
+    public ProductosAdd(int idcliente, int idvendedor, String id_producto, String nombreproduc, int cantidad, double precios, String imagenProducto, String tipoprecio) {
         this.id_producto = id_producto;
         this.nombreproduc = nombreproduc;
         this.cantidad = cantidad;
@@ -24,11 +24,11 @@ public class ProductosAdd {
         this.tipoprecio=tipoprecio;
     }
 
-    public int getId_producto() {
+    public String getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(int id_producto) {
+    public void setId_producto(String id_producto) {
         this.id_producto = id_producto;
     }
 
