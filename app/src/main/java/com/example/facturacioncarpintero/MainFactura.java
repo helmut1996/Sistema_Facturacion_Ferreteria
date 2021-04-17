@@ -449,7 +449,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             @Override
             public void onClick(View v) {
                     GenerarTickets();
-                    IdFactura();
+
                 if (getPrinterStatus() == PRINTER_NORMAL)
                     printText();
 
@@ -730,22 +730,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     }
 
 
-    public void IdFactura(){
-        DBConnection dbConnection=new DBConnection();
-        dbConnection.conectar();
-        try {
-            Statement st2 = dbConnection.getConnection().createStatement();
-            ResultSet rs2 = st2.executeQuery("\n" +
-                    "select top 1 idFactura from Facturas order by idFactura desc");
-            while (rs2.next()) {
-                valor  = rs2.getString("idFactura");
-                System.out.println("==============> Ultimo Registro:"+valor);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     public  void AgregarDatosSQLSEVER() throws SQLException {
@@ -768,14 +752,23 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             pst.setString(11,textV_Cliente.getText().toString());
             pst.executeUpdate();
 
+
+            Statement st= dbConnection.getConnection().createStatement();
+            ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
+            while (rs.next()){
+                valor  = rs.getString("idFactura");
+                System.out.println("==============> Ultimo Registro idFactura:"+valor);
+            }
+
             for (int i=0; i<listaproducto.size();i++){
-                PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertar_Detalle_FacturasMovil ?,?,?,?,?,?");
-                pst2.setInt(1, Integer.parseInt(valor));
-                pst2.setInt(2, IDInventario);//idInventario
-                pst2.setDouble(3, listaproducto.get(i).getPrecios());//precio cordobas
-                pst2.setDouble(4,0.0);//precio Dolar
-                pst2.setFloat(5,listaproducto.get(i).getCantidad());// cantidad
-                pst2.setDouble(6,5.00);//PorcComision
+                PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertar_Detalle_Facturas ?,?,?,?,?,?");
+                pst2.setInt(1, IDInventario);//idInventario
+                pst2.setInt(2, Integer.parseInt(valor));
+                pst2.setFloat(3,listaproducto.get(i).getCantidad());// cantidad
+                pst2.setDouble(4, listaproducto.get(i).getPrecios());//precio cordobas
+                pst2.setDouble(5,5.00);//PorcComision
+                pst2.setDouble(6,0.0);//precio Dolar
+
                 pst2.executeUpdate();
             }
 
