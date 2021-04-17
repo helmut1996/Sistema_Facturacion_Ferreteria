@@ -10,14 +10,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:text="Login"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/black"
-        android:paddingVertical="70dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/fondo"
-        android:layout_marginBottom="25dp"/>
+        android:fontFamily="sans-serif-condensed"
+        android:paddingVertical="70dp"
+        android:text="Iniciar secion"
+        android:textAlignment="center"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp"
+        android:textAllCaps="true"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

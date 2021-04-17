@@ -31,7 +31,9 @@
                 android:layout_height="wrap_content"
                 android:text="selecionar"
                 android:layout_weight="1"
-                android:id="@+id/btn_select"/>
+                android:id="@+id/btn_select"
+                android:background="@color/primary"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
         <TextView
@@ -39,7 +41,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="0"
-            android:id="@+id/LimiteCredito"/>
+            android:id="@+id/LimiteCredito"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/CodigoCliente"

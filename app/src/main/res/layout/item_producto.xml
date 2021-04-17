@@ -41,6 +41,7 @@
                 android:id="@+id/NombreProducto"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:textColor="@color/primary_text"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +84,8 @@
                     android:textStyle="bold"
                     android:id="@+id/precio"
                     android:gravity="end"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/primary_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +94,8 @@
                     android:textStyle="bold"
                     android:id="@+id/precio_D"
                     android:gravity="end"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/primary_text"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +108,8 @@
                     android:text="UM"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:textColor="@color/primary_text"/>
 
                 <TextView
                     android:id="@+id/unidad_medida"
@@ -115,7 +119,8 @@
                     android:layout_weight="1"
                     android:text="medida"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"/>
             </LinearLayout>
 
             <TextView

@@ -561,6 +561,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);

@@ -53,7 +53,7 @@
                 android:layout_weight="1"
                 android:text="@string/cliente"
                 android:textAllCaps="true"
-                android:textColor="#2A3B9A"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"/>
 
             <TextView
@@ -91,7 +91,7 @@
                 android:layout_weight="1"
                 android:text="@string/tipo_fact"
                 android:textAllCaps="true"
-                android:textColor="#2A3B9A"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"/>
 
             <Spinner
@@ -107,7 +107,7 @@
                 android:layout_weight="1"
                 android:text="@string/zona"
                 android:textAllCaps="true"
-                android:textColor="#2A3B9A"
+                android:textColor="@color/primary_text"
                 android:gravity="center"
                 android:textStyle="bold"/>
 
@@ -159,7 +159,7 @@
                 android:layout_weight="1"
                 android:text="@string/factura"
                 android:textAllCaps="true"
-                android:textColor="#2A3B9A"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"/>
 
             <Spinner
@@ -182,8 +182,8 @@
                 android:layout_weight="1"
                 android:text="@string/tipo_venta"
                 android:textAllCaps="true"
-                android:textColor="#2A3B9A"
-                android:textStyle="bold"/>
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinner_tventas"
@@ -205,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total de Factura: "
-                android:textColor="#2A3B9A"
+                android:textColor="@color/primary_text"
                 android:textAllCaps="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
@@ -242,7 +242,9 @@
             android:layout_gravity="center"
             android:text="Imprimir"
             android:layout_marginTop="10dp"
-            android:id="@+id/btn_imprimir"/>
+            android:id="@+id/btn_imprimir"
+            android:background="@color/primary"
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
