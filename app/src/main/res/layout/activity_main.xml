@@ -19,17 +19,7 @@
         android:textColor="@color/primary_text"
         android:textSize="30sp"
         android:textAllCaps="true"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/user"
-        android:layout_marginHorizontal="30dp"/>
 
-    <Spinner
-        android:id="@+id/editUsers"
-        android:layout_marginHorizontal="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:hint="ingrese contraseña"
         android:layout_marginBottom="30dp"/>
     <Button

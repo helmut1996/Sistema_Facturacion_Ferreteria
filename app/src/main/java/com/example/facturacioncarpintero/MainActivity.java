@@ -25,7 +25,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     Button btn_login;
     EditText pass;
-    Spinner user;
     String NombreVendedor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void initView() {
-        user=findViewById(R.id.editUsers);
+
         pass=findViewById(R.id.editPassword);
         btn_login=findViewById(R.id.btn_Login);
         btn_login.setOnClickListener(this);
@@ -86,7 +85,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
-        //Intent intent= new Intent(getApplicationContext(), MainActivity.class);
-        //startActivity(intent);
+
     }
 }

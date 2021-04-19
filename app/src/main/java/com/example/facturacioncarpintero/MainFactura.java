@@ -71,6 +71,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static String nombreImagen,valor,idInventario;
     double TotalFact;
     double TotalDolar;
+    int NumFact;
     ///////////////////variables Dialog detalle producto/////////////////////////////////////
     conexionSQLiteHelper conn;
     private static final String TAG ="MainFactura";
@@ -573,56 +574,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.Mbtn_guardar:
-                conexionSQLiteHelper conn= new conexionSQLiteHelper(MainFactura.this,"bd_productos",null,1);
-                SQLiteDatabase db= conn.getWritableDatabase();
-                AlertDialog.Builder alerta = new AlertDialog.Builder(MainFactura.this);
-                alerta.setMessage("Quieres Guardar")
-                        .setCancelable(false)
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Cursor verificar_prefactura=db.rawQuery("select count(*) as cantidad from producto;", null);
-
-                                if (verificar_prefactura.moveToFirst()) {
-                                    if (verificar_prefactura.getInt(verificar_prefactura.getColumnIndex("cantidad")) == 0) {
-                                        Snackbar snackbar = Snackbar.make(cuerpo, "No puedes Guardar Prefactura Vacia", Snackbar.LENGTH_LONG);
-                                        snackbar.show();
-                                        return;
-                                    }else{
-                                        try {
-                                            AgregarDatosSQLSEVER();
-                                        }
-                                        catch (SQLException e)
-                                        {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-
-
-                                borrardatosTabla();
-                                Toast.makeText(getApplicationContext(),"Guardar",Toast.LENGTH_SHORT).show();
-                                Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
-                                refresh.putExtra("IdVendedor",IDVendedor);
-                                startActivity(refresh);
-                                finish();
-
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alertDialog= alerta.create();
-                alertDialog.setTitle("Guardar Factura");
-                alertDialog.show();
-
-                break;
 
             case R.id.Mbtn_addProducto:
                 Intent intent2 = new Intent(getApplicationContext(),MainListaProductos.class);
@@ -738,7 +689,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
         try {
             dbConnection.getConnection().setAutoCommit(false);
-            PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?");
+            PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?,?");
             pst.setInt(1, Integer.parseInt(List_Vendedores.getSelectedItem().toString()));
             pst.setInt(2, Integer.parseInt(textIdcliente.getText().toString()));
             pst.setString(3, Estados.getSelectedItem().toString());
@@ -750,6 +701,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             pst.setString(9,T_factura.getSelectedItem().toString());
             pst.setDouble(10,TotalDolar);
             pst.setString(11,textV_Cliente.getText().toString());
+            pst.setInt(12,NumFact);
             pst.executeUpdate();
 
 
@@ -816,6 +768,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         conexionSQLiteHelper conn= new conexionSQLiteHelper(MainFactura.this,"bd_productos",null,1);
         SQLiteDatabase db= conn.getWritableDatabase();
 
+        if(tv_idVendedorSpinner.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"Debes de ingresar tu  pin ",Toast.LENGTH_LONG).show();
+        }else{
             Cursor verificar_prefactura=db.rawQuery("select count(*) as cantidad from producto;", null);
 
             if (verificar_prefactura.moveToFirst()) {
@@ -824,29 +779,59 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     snackbar.show();
                     return;
                 }else{
+
+                    NumeroFactura();
+
                     try {
-                        AgregarDatosSQLSEVER();
+                       AgregarDatosSQLSEVER();
                     }
                     catch (SQLException e)
                     {
                         e.printStackTrace();
                     }
+
+
+
                 }
             }
 
 
             borrardatosTabla();
-            Toast.makeText(getApplicationContext(),"Guardar",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Factura Guarda!!!",Toast.LENGTH_SHORT).show();
             Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
             refresh.putExtra("IdVendedor",IDVendedor);
             startActivity(refresh);
             finish();
 
+        }
+
+
     }
 
     public void GenerarTickets(){
         Random NumeroAleatorio= new Random();
-        NumeroTikets= NumeroAleatorio.nextInt(300);
+        NumeroTikets= NumeroAleatorio.nextInt(1000);
         System.out.println("Numero de tikets es: ---->"+NumeroTikets);
     }
+
+    public void NumeroFactura(){
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st2 = dbConnection.getConnection().createStatement();
+            ResultSet rs2 = st2.executeQuery("\n" +
+
+                    "select top 1 NumFact from Facturas order by idFactura desc ");
+            while (rs2.next()) {
+                NumFact = rs2.getInt("NumFact");
+
+                NumFact+=1;
+                System.out.println("==============> NumeroFactura :" + NumFact);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -33,6 +33,7 @@
                 android:id="@+id/btn_Buscar"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:background="@drawable/button_bg"/>
 
         </LinearLayout>
