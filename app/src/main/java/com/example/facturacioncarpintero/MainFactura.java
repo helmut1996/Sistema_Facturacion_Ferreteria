@@ -429,7 +429,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             System.out.println("-----> IDVENDEDOR Factura: "+IDVendedor);
             System.out.println("----> ZONA CLIENTE: "+ZonaCliente);
             System.out.println("------> CODIGO CLIENTE: "+ CodigoCliente);
-            System.out.println("------> CODIGO IDINVENTARIO: "+ IDInventario);
+            System.out.println("------>  ID INVENTARIO Capturado: "+ IDInventario);
             System.out.println("------> CREDITO DISPONIBLE CLIENTE: "+ LimiteCreditosC);
             System.out.println("------> NOMBRE USUARIO:" +nombreUsuarioC);
 
@@ -452,7 +452,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     GenerarTickets();
 
                 if (getPrinterStatus() == PRINTER_NORMAL)
-                    printText();
+                   // printText();
 
 
                 open_pin_save();
@@ -478,8 +478,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         Log.i(TAG, "#### printerStatus" + printerStatus);
         return printerStatus;
     }
-
-
 
 
     /**
@@ -687,6 +685,10 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
 
+
+
+
+
         try {
             dbConnection.getConnection().setAutoCommit(false);
             PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?,?");
@@ -780,8 +782,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     return;
                 }else{
 
-                    NumeroFactura();
 
+                    NumeroFactura();
                     try {
                        AgregarDatosSQLSEVER();
                     }
@@ -810,7 +812,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
     public void GenerarTickets(){
         Random NumeroAleatorio= new Random();
-        NumeroTikets= NumeroAleatorio.nextInt(1000);
+        NumeroTikets= NumeroAleatorio.nextInt(2000);
         System.out.println("Numero de tikets es: ---->"+NumeroTikets);
     }
 
@@ -820,13 +822,12 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         try {
             Statement st2 = dbConnection.getConnection().createStatement();
             ResultSet rs2 = st2.executeQuery("\n" +
-
-                    "select top 1 NumFact from Facturas order by idFactura desc ");
+                    "select top 1 NumFact from Facturas order by idFactura desc");
             while (rs2.next()) {
                 NumFact = rs2.getInt("NumFact");
 
-                NumFact+=1;
-                System.out.println("==============> NumeroFactura :" + NumFact);
+                System.out.println("<===========> NumeroFactura: <=============>" + NumFact);
+
             }
 
         } catch (SQLException e) {
