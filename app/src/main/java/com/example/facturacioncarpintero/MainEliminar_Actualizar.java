@@ -26,6 +26,8 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
     private double prec;
     private int cant;
     private String idp;
+    private  int idc;
+    private String nc;
     private String URL="http://ferreteriaelcarpintero.com/images/carpintero/";
 
     @Override
@@ -48,13 +50,18 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
             prec=extra.getDouble("PrecioProducto");
             idp=extra.getString("IdProducto");
             img= extra.getString("NombreImagen");
+            idc= extra.getInt("IdCliente");
+            nc=extra.getString("NombreCliente");
+
 
             System.out.println("nombre P===>"+nombre);
             System.out.println("cantidad P===>"+cant);
             System.out.println("precio P===>"+prec);
             System.out.println("ID P===>"+idp);
             System.out.println("imagen P===>"+img);
-            
+            System.out.println("idcliente P===>"+idc);
+            System.out.println("nombrecliente P===>"+nc);
+
             titulo.setText(nombre);
             cantidad.setText(String.valueOf(cant));
             precio.setText(String.valueOf(prec));
@@ -85,11 +92,15 @@ public class MainEliminar_Actualizar extends Activity implements View.OnClickLis
                     ActualizarDatosSQLite();
                     Intent intent =new Intent(getApplicationContext(),MainFactura.class);
                     startActivity(intent);
+                    intent.putExtra("IdCliente",idc);
+                    intent.putExtra("NombreCliente",nc);
                     finish();
                     break;
                 case R.id.btn_Eliminar:
                     EliminarDatosSQLite();
                         Intent i =new Intent(getApplicationContext(),MainFactura.class);
+                    i.putExtra("IdCliente",idc);
+                    i.putExtra("NombreCliente",nc);
                         startActivity(i);
                         finish();
                     break;

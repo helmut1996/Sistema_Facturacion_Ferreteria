@@ -399,6 +399,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                 i.putExtra("PrecioProducto",precioProducto);
                 i.putExtra("IdProducto",idProd);
                 i.putExtra("NombreImagen",nombreImagen);
+                i.putExtra("IdCliente",IDCliente);
+                i.putExtra("NombreCliente",NombreCliente);
+
                 startActivity(i);
             }
         });
@@ -685,10 +688,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
 
-
-
-
-
         try {
             dbConnection.getConnection().setAutoCommit(false);
             PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?,?");
@@ -716,8 +715,8 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
             for (int i=0; i<listaproducto.size();i++){
                 PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertar_Detalle_Facturas ?,?,?,?,?,?");
-                pst2.setInt(1, IDInventario);//idInventario
-                pst2.setInt(2, Integer.parseInt(valor));
+                pst2.setInt(1, Integer.parseInt(listaproducto.get(i).getId_producto()));//idInventario
+                     pst2.setInt(2, Integer.parseInt(valor));
                 pst2.setFloat(3,listaproducto.get(i).getCantidad());// cantidad
                 pst2.setDouble(4, listaproducto.get(i).getPrecios());//precio cordobas
                 pst2.setDouble(5,5.00);//PorcComision
@@ -781,9 +780,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     snackbar.show();
                     return;
                 }else{
-
-
-                    NumeroFactura();
+                        NumeroFactura();
                     try {
                        AgregarDatosSQLSEVER();
                     }
@@ -791,8 +788,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     {
                         e.printStackTrace();
                     }
-
-
 
                 }
             }
@@ -806,7 +801,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             finish();
 
         }
-
 
     }
 
@@ -822,7 +816,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         try {
             Statement st2 = dbConnection.getConnection().createStatement();
             ResultSet rs2 = st2.executeQuery("\n" +
-                    "select top 1 NumFact from Facturas order by idFactura desc");
+                    "select top 1 NumFact +1 as NumFact + 1 from Facturas order by idFactura desc  ");
             while (rs2.next()) {
                 NumFact = rs2.getInt("NumFact");
 
