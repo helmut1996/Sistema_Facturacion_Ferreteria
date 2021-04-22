@@ -162,6 +162,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
 
 
             tvIDproducto.setText(extra.getString("idproducto"));
+            tvIDproducto.setVisibility(View.VISIBLE);
 //////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
 
         }
@@ -439,7 +440,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         }
         else { // Inserting record
             ContentValues values= new ContentValues();
-            values.put(utilidades.CAMPO_ID,tvIDproducto.getText().toString());
+            values.put(utilidades.CAMPO_ID,IdInventario);
             values.put(utilidades.CAMPO_NOMBRE,tvnombreproducto.getText().toString());
             values.put(utilidades.CAMPO_CANTIDAD,editcantidad.getText().toString());
             values.put(utilidades.CAMPO_PRECIO,precios.getSelectedItem().toString());

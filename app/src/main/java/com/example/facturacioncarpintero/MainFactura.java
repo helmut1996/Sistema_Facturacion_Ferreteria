@@ -455,7 +455,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                     GenerarTickets();
 
                 if (getPrinterStatus() == PRINTER_NORMAL)
-                   // printText();
+                    printText();
 
 
                 open_pin_save();
@@ -681,9 +681,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         }
     }
 
-
-
-
     public  void AgregarDatosSQLSEVER() throws SQLException {
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
@@ -721,7 +718,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                 pst2.setDouble(4, listaproducto.get(i).getPrecios());//precio cordobas
                 pst2.setDouble(5,5.00);//PorcComision
                 pst2.setDouble(6,0.0);//precio Dolar
-
                 pst2.executeUpdate();
             }
 
@@ -793,6 +789,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             }
 
 
+
             borrardatosTabla();
             Toast.makeText(getApplicationContext(),"Factura Guarda!!!",Toast.LENGTH_SHORT).show();
             Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
@@ -816,7 +813,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         try {
             Statement st2 = dbConnection.getConnection().createStatement();
             ResultSet rs2 = st2.executeQuery("\n" +
-                    "select top 1 NumFact +1 as NumFact + 1 from Facturas order by idFactura desc  ");
+                    "select top 1 NumFact +1 as NumFact from Facturas order by idFactura desc");
             while (rs2.next()) {
                 NumFact = rs2.getInt("NumFact");
 

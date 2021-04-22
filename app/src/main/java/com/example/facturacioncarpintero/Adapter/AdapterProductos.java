@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdapterProductos extends RecyclerView.Adapter<AdapterProductos.RecyclerHolder> {
+public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.RecyclerHolder> {
     private List<ModelItemsProducto> items;
     private List<ModelItemsProducto>originalItems;
     private RecyclerItemClick itemClick;
