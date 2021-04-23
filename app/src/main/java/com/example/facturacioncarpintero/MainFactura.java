@@ -794,6 +794,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             Toast.makeText(getApplicationContext(),"Factura Guarda!!!",Toast.LENGTH_SHORT).show();
             Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
             refresh.putExtra("IdVendedor",IDVendedor);
+            refresh.putExtra("NombreUsuario",nombreUsuarioC);
             startActivity(refresh);
             finish();
 
@@ -807,13 +808,19 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         System.out.println("Numero de tikets es: ---->"+NumeroTikets);
     }
 
+
+
+
+
+
+
     public void NumeroFactura(){
         DBConnection dbConnection=new DBConnection();
         dbConnection.conectar();
         try {
             Statement st2 = dbConnection.getConnection().createStatement();
             ResultSet rs2 = st2.executeQuery("\n" +
-                    "select top 1 NumFact +1 as NumFact from Facturas order by idFactura desc");
+                    "select next value for [dbo].[SecFact] as NumFact");
             while (rs2.next()) {
                 NumFact = rs2.getInt("NumFact");
 
