@@ -61,7 +61,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     Button imprimirC;
     ArrayList<String> listainformacion;
     ArrayList<ProductosAdd>listaproducto;
-
     int NumeroTikets;
     ////////////////////////////////////////////////////////////
     public static String nombre ="HOLA MUNDO";
@@ -88,12 +87,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static double tasaCambio;
     MainClientes id = new MainClientes();
 
-
-
-
     ///////////////////////Impresora//////////////////////////////////
-
-
     /* Demo 版本号*/
 
     private static final String VERSION = "V1.1.0";
@@ -102,9 +96,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private IPosPrinterCallback callback = null;
     private Random random = new Random();
     private HandlerUtils.MyHandler handler;
-
-
-
 
     /*Definir el estado de la impresora*/
 
@@ -127,8 +118,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final String PRINTER_BUSY_ACTION = "com.iposprinter.iposprinterservice.BUSY_ACTION";
     private final String PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION = "com.iposprinter.iposprinterservice.CURRENT_TASK_PRINT_COMPLETE_ACTION";
 
-
-
     /*Mensaje*/
 
     private final int MSG_TEST = 1;
@@ -150,14 +139,11 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final int PRINT_DRIVER_ERROR_TEST = 4;
     private final int DEFAULT_LOOP_PRINT = 0;
 
-
-
     // Ciclo a través de la broca de la bandera
 
   private int loopPrintFlag = DEFAULT_LOOP_PRINT;
     private byte loopContent = 0x00;
     private int printDriverTestCount = 0;
-
 
 
     private final HandlerUtils.IHandlerIntent iHandlerIntent = new HandlerUtils.IHandlerIntent() {
@@ -300,10 +286,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             }
         };
 
-
-
-
-
         Intent intent = new Intent();
         intent.setPackage("com.iposprinter.iposprinterservice");
         intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
@@ -320,9 +302,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         printerStatusFilter.addAction(PRINTER_BUSY_ACTION);
 
         registerReceiver(IPosPrinterStatusListener, printerStatusFilter);
-
-
-
 
 
         imprimirC=findViewById(R.id.btn_imprimir);
@@ -529,14 +508,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             }
         });
     }
-
-
-
     /**
      * Funciones de la imprsora
      */
-
-
 
     public ArrayAdapter Lista_Vendedores() {
         ArrayAdapter NoCoreAdapter=null;
@@ -562,7 +536,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         return NoCoreAdapter;
 
     }
-
 
 
     @Override
@@ -653,6 +626,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
             textV_total.setText(String.format("%,.2f",TotalFact));
         }
+
         db.close();
     }
 
@@ -702,7 +676,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             pst.setInt(12,NumFact);
             pst.executeUpdate();
 
-
             Statement st= dbConnection.getConnection().createStatement();
             ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
             while (rs.next()){
@@ -726,7 +699,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             System.out.println("ERROR: ======> "+e);
             Toast.makeText(this," No Registrado en SQLServer",Toast.LENGTH_LONG).show();
         }finally {
-
             dbConnection.getConnection().setAutoCommit(true);
         }
 
@@ -747,11 +719,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         dialog_pin_save.show(getSupportFragmentManager(),"pin para Guardar");
     }
 
-
-
     public void ConversionDolares(){
-
-
        TotalDolar= TotalFact / tasaCambio;
 
         System.out.println("cambio de total cordobas a dolar:---->"+TotalDolar);
@@ -809,11 +777,6 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     }
 
 
-
-
-
-
-
     public void NumeroFactura(){
         DBConnection dbConnection=new DBConnection();
         dbConnection.conectar();
@@ -833,4 +796,4 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         }
     }
 
-}
+  }

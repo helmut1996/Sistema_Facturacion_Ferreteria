@@ -30,8 +30,8 @@
         <item>Dolar</item>
     </string-array>
     <string-array name="tipo_ventas">
-        <item>Credito</item>
         <item>Contado</item>
+        <item>Credito</item>
     </string-array>
 
     <string-array name="tipo_estados">
