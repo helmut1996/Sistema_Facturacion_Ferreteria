@@ -3,7 +3,9 @@ package com.example.facturacioncarpintero;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,11 +13,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
@@ -43,7 +47,23 @@ import com.google.android.material.expandable.ExpandableTransformationWidget;
 import com.google.android.material.snackbar.Snackbar;
 import com.iposprinter.iposprinterservice.*;
 import com.iposprinter.iposprinterservice.IPosPrinterService;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.HeaderFooter;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +71,8 @@ import java.sql.SQLOutput;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
+
+import harmony.java.awt.Color;
 
 public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo,Dialog_pin_save.DialogListennerPinSave{
 
@@ -61,6 +83,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     Button imprimirC;
     ArrayList<String> listainformacion;
     ArrayList<ProductosAdd>listaproducto;
+
     int NumeroTikets;
     ////////////////////////////////////////////////////////////
     public static String nombre ="HOLA MUNDO";
@@ -87,7 +110,16 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static double tasaCambio;
     MainClientes id = new MainClientes();
 
+////////////////////////////////Archivo PDF///////////////////////////
+private final static String NOMBRE_DIRECTORIO = "MiPdf";
+    private final static String NOMBRE_DOCUMENTO = "prueba.pdf";
+    private final static String ETIQUETA_ERROR = "ERROR";
+    private static final int PICK_PDF_FILE = 2;
+
+
     ///////////////////////Impresora//////////////////////////////////
+
+
     /* Demo 版本号*/
 
     private static final String VERSION = "V1.1.0";
@@ -96,6 +128,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private IPosPrinterCallback callback = null;
     private Random random = new Random();
     private HandlerUtils.MyHandler handler;
+
+
+
 
     /*Definir el estado de la impresora*/
 
@@ -139,11 +174,14 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     private final int PRINT_DRIVER_ERROR_TEST = 4;
     private final int DEFAULT_LOOP_PRINT = 0;
 
+
+
     // Ciclo a través de la broca de la bandera
 
   private int loopPrintFlag = DEFAULT_LOOP_PRINT;
     private byte loopContent = 0x00;
     private int printDriverTestCount = 0;
+
 
 
     private final HandlerUtils.IHandlerIntent iHandlerIntent = new HandlerUtils.IHandlerIntent() {
@@ -331,9 +369,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
         List_Vendedores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -384,6 +420,13 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                 startActivity(i);
             }
         });
+
+
+        // Permisos.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,}, 1000);
+        } else {
+        }
 
         /////pasando los datos del cliente
         Bundle extra=getIntent().getExtras();
@@ -508,6 +551,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             }
         });
     }
+
+
+
     /**
      * Funciones de la imprsora
      */
@@ -555,6 +601,9 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
                 break;
             case R.id.Mbtn_Home:
 
+                generarPdf();
+                Toast.makeText(MainFactura.this, "Se creo tu archivo pdf", Toast.LENGTH_SHORT).show();
+
 
                 AlertDialog.Builder alerta2 = new AlertDialog.Builder(MainFactura.this);
                 alerta2.setMessage("Regresar al menu principal")
@@ -586,6 +635,119 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void generarPdf() {
+        // Creamos el documento.
+        Document documento = new Document();
+
+        try {
+
+            File f = crearFichero(NOMBRE_DOCUMENTO);
+
+            // Creamos el flujo de datos de salida para el fichero donde
+            // guardaremos el pdf.
+            FileOutputStream ficheroPdf = new FileOutputStream(
+                    f.getAbsolutePath());
+
+            // Asociamos el flujo que acabamos de crear al documento.
+            PdfWriter writer = PdfWriter.getInstance(documento, ficheroPdf);
+
+            // Incluimos el pie de pagina y una cabecera
+            HeaderFooter cabecera = new HeaderFooter(new Phrase(
+                    "Esta es mi cabecera"), false);
+            HeaderFooter pie = new HeaderFooter(new Phrase(
+                    "Este es mi pie de pagina"), false);
+
+            documento.setHeader(cabecera);
+            documento.setFooter(pie);
+
+            // Abrimos el documento.
+            documento.open();
+
+            // Añadimos un titulo con la fuente por defecto.
+            documento.add(new Paragraph("Titulo 1"));
+
+            Font font = FontFactory.getFont(FontFactory.HELVETICA, 28,
+                    Font.BOLD, Color.RED);
+            documento.add(new Paragraph("Titulo personalizado", font));
+
+            // Insertamos una imagen que se encuentra en los recursos de la
+            // aplicacion.
+            //Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
+              //      R.drawable.logo);
+           // ByteArrayOutputStream stream = new ByteArrayOutputStream();
+         //   bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            //Image imagen = Image.getInstance(stream.toByteArray());
+            //documento.add(imagen);
+
+            // Insertamos una tabla.
+            PdfPTable tabla = new PdfPTable(5);
+            for (int i = 0; i < 15; i++) {
+                tabla.addCell("Celda " + i);
+            }
+            documento.add(tabla);
+
+            // Agregar marca de agua
+            font = FontFactory.getFont(FontFactory.HELVETICA, 42, Font.BOLD,
+                    Color.GRAY);
+            ColumnText.showTextAligned(writer.getDirectContentUnder(),
+                    Element.ALIGN_CENTER, new Paragraph(
+                            "androfast.com", font), 297.5f, 421,
+                    writer.getPageNumber() % 2 == 1 ? 45 : -45);
+
+        } catch (DocumentException e) {
+
+            Log.e(ETIQUETA_ERROR, e.getMessage());
+
+        } catch (IOException e) {
+
+            Log.e(ETIQUETA_ERROR, e.getMessage());
+
+        } finally {
+            // Cerramos el documento.
+            documento.close();
+        }
+    }
+
+    public static File crearFichero(String nombreFichero) throws IOException {
+        File ruta = getRuta();
+        File fichero = null;
+        if (ruta != null)
+            fichero = new File(ruta, nombreFichero);
+        return fichero;
+    }
+
+    /**
+     * Obtenemos la ruta donde vamos a almacenar el fichero.
+     *
+     * @return
+     */
+    public static File getRuta() {
+
+        // El fichero sera almacenado en un directorio dentro del directorio
+        // Descargas
+        File ruta = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment
+                .getExternalStorageState())) {
+            ruta = new File(
+                    Environment
+                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    NOMBRE_DIRECTORIO);
+
+            if (ruta != null) {
+                if (!ruta.mkdirs()) {
+                    if (!ruta.exists()) {
+                        return null;
+                    }
+                }
+            }
+        } else {
+        }
+
+        return ruta;
+    }
+
+
 
     public void ConsultarlistaProducto() {
         SQLiteDatabase db=conn.getReadableDatabase();
@@ -676,6 +838,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             pst.setInt(12,NumFact);
             pst.executeUpdate();
 
+
             Statement st= dbConnection.getConnection().createStatement();
             ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
             while (rs.next()){
@@ -699,6 +862,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
             System.out.println("ERROR: ======> "+e);
             Toast.makeText(this," No Registrado en SQLServer",Toast.LENGTH_LONG).show();
         }finally {
+
             dbConnection.getConnection().setAutoCommit(true);
         }
 
@@ -796,4 +960,4 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
         }
     }
 
-  }
+}

@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation files('libs\\ePOS2.jar')
     implementation files('libs\\ePOSEasySelect.jar')
+    implementation files('libs\\droidText.0.4.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
