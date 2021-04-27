@@ -838,6 +838,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             pst.executeUpdate();
 
 
+
             Statement st= dbConnection.getConnection().createStatement();
             ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
             while (rs.next()){
@@ -855,6 +856,18 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 pst2.setDouble(6,0.0);//precio Dolar
                 pst2.executeUpdate();
             }
+
+            for (int j=0;j<listaproducto.size();j++){
+                PreparedStatement pst3= dbConnection.getConnection().prepareStatement("exec sp_insertar_kardex_movil ?,?,?,?,?,?");
+                pst3.setInt(1, Integer.parseInt(listaproducto.get(j).getId_producto()));
+                pst3.setInt(2, Integer.parseInt(valor));
+                pst3.setString(3,"Factura No:"+valor);
+                pst3.setString(4,"Factura");
+                pst3.setInt(5,listaproducto.get(j).getCantidad());
+                pst3.setDouble(6,listaproducto.get(j).getPrecios());
+                pst3.execute();
+            }
+
 
         }catch (SQLException e){
             dbConnection.getConnection().rollback();
