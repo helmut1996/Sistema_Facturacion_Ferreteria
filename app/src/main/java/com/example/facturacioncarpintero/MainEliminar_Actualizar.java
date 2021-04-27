@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.facturacioncarpintero.SQLite.conexionSQLiteHelper;
 import com.squareup.picasso.Picasso;
 
-public class MainEliminar_Actualizar extends Activity implements View.OnClickListener {
+public class    MainEliminar_Actualizar extends Activity implements View.OnClickListener {
 
     private TextView titulo,precio,tvimagen,idproducto;
     private EditText cantidad;

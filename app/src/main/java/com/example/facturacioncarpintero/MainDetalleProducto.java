@@ -44,7 +44,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
 
     /*variables de los componentes de la vista*/
 
-    private TextView textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
+    private TextView textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
     private EditText editcantidad;
@@ -79,7 +79,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         cuerpoProductCliente=findViewById(R.id.linearLayoutClienteProducto);
         ///////// Botones
 
-
+        textCIdInventario=findViewById(R.id.capturaidInventario);
         editcantidad=findViewById(R.id.editTextCantidad);
         ////////////imagen producto
         image=findViewById(R.id.imgProducto);
@@ -116,6 +116,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
             CodigoCliente = extra.getString("CodigoCliente");
             System.out.println("Codigo Cliente Activity ProductosClientea----->"+CodigoCliente);
 
+            textCIdInventario.setText(extra.getString("idinventario"));
             IdInventario = extra.getInt("idinventario");
             System.out.println("IDINVENTARIO Activity ProductosClientea----->"+IdInventario);
 
@@ -434,13 +435,13 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         }
         cantidad_registrado.close();
 
-        Cursor c=db.rawQuery("SELECT * FROM producto WHERE id='"+tvIDproducto.getText()+"'", null);
+        Cursor c=db.rawQuery("SELECT * FROM producto WHERE id='"+textCIdInventario.getText()+"'", null);
         if(c.moveToFirst()) {
             Toast.makeText(this,"Error ya seleccionaste este Producto",Toast.LENGTH_LONG).show();
         }
         else { // Inserting record
             ContentValues values= new ContentValues();
-            values.put(utilidades.CAMPO_ID,IdInventario);
+            values.put(utilidades.CAMPO_ID,textCIdInventario.getText().toString());
             values.put(utilidades.CAMPO_NOMBRE,tvnombreproducto.getText().toString());
             values.put(utilidades.CAMPO_CANTIDAD,editcantidad.getText().toString());
             values.put(utilidades.CAMPO_PRECIO,precios.getSelectedItem().toString());

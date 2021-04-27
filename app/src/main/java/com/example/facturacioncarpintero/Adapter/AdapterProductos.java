@@ -66,6 +66,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
         holder.tvinfo5.setText(String.valueOf( item.getInfo5()));
         holder.tvunidad_medida.setText(item.getUnidadmedidaP());
         holder.tvproducto.setText(item.getProducto());
+        holder.tvIdInventario.setText(String.valueOf(item.getIdproducto()));
         holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
         holder.tvImagen.setText(item.getImg());
 
@@ -107,7 +108,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
 
     public static class RecyclerHolder extends RecyclerView.ViewHolder{
 
-        TextView tvNombre,tvImagen,tvinfo1,tvinfo2,tvinfo3,tvinfo4,tvunidad_medida,tvproducto,tvprecio_d,tvinfo5,tvexistencia;
+        TextView tvIdInventario, tvNombre,tvImagen,tvinfo1,tvinfo2,tvinfo3,tvinfo4,tvunidad_medida,tvproducto,tvprecio_d,tvinfo5,tvexistencia;
         ImageView image;
         public static CheckBox check;
         public RecyclerHolder(@NonNull View itemView) {
@@ -125,6 +126,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
             tvprecio_d=itemView.findViewById(R.id.precio_D);
             tvinfo5=itemView.findViewById(R.id.tvinfo5);
             tvexistencia =itemView.findViewById(R.id.Existencia);
+            tvIdInventario=itemView.findViewById(R.id.CapIdInventarioItemP);
 
             check=itemView.findViewById(R.id.check);
 
@@ -155,7 +157,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
                     intent.putExtra("imagenproducto",tvImagen.getText());
                     intent.putExtra("stock",tvexistencia.getText());
                     intent.putExtra("idproducto",tvproducto.getText());
-                    intent.putExtra("idinventario",datos.IdInventario);
+                    intent.putExtra("idinventario",tvIdInventario.getText());
 
                     context.startActivity(intent);
 

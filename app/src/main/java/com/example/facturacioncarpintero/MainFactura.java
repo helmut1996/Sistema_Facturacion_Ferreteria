@@ -476,8 +476,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             public void onClick(View v) {
                     GenerarTickets();
 
-                if (getPrinterStatus() == PRINTER_NORMAL)
-                    printText();
+             //   if (getPrinterStatus() == PRINTER_NORMAL)
+                //    printText();
 
 
                 open_pin_save();
@@ -551,8 +551,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             }
         });
     }
-
-
 
     /**
      * Funciones de la imprsora
@@ -665,11 +663,11 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             documento.open();
 
             // Añadimos un titulo con la fuente por defecto.
-            documento.add(new Paragraph("Titulo 1"));
+            documento.add(new Paragraph("Factura"));
 
             Font font = FontFactory.getFont(FontFactory.HELVETICA, 28,
                     Font.BOLD, Color.RED);
-            documento.add(new Paragraph("Titulo personalizado", font));
+            documento.add(new Paragraph("Factura el Carpintero", font));
 
             // Insertamos una imagen que se encuentra en los recursos de la
             // aplicacion.
@@ -731,7 +729,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 .getExternalStorageState())) {
             ruta = new File(
                     Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+
+                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     NOMBRE_DIRECTORIO);
 
             if (ruta != null) {
@@ -919,7 +918,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
 
                 }
             }
-
 
 
             borrardatosTabla();

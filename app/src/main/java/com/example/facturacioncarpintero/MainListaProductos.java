@@ -177,7 +177,7 @@ public class MainListaProductos extends AppCompatActivity {
                         rs.getString("info5"),
                         rs.getString("ImagenApk"),
                         stock= rs.getInt("Stock"),
-                        IdInventario= rs.getInt("idInventario")));
+                        rs.getInt("idInventario")));
 
 
             }
