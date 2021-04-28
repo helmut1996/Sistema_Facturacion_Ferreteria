@@ -868,6 +868,14 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 pst3.execute();
             }
 
+            PreparedStatement pst4=dbConnection.getConnection().prepareStatement("exec sp_insertar_Cuentas_X_Cobrar_Movil ?,?,?,?,?,?");
+            pst4.setInt(1,Integer.parseInt(valor));
+            pst4.setDouble(2,TotalFact);
+            pst4.setDouble(3,0);
+            pst4.setString(4,"Activo");
+            pst4.setDouble(5,0);
+            pst4.setString(6,"Contado");
+            pst4.execute();
 
         }catch (SQLException e){
             dbConnection.getConnection().rollback();
