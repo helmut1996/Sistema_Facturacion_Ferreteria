@@ -64,7 +64,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
     int idResultante;
 
 
-    private String URL_IMAGES="http://ferreteriaelcarpintero.com/images/productos/";
+    private String URL_IMAGES="http://ferreteriaelcarpintero.com/images/carpintero/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,7 +163,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
 
 
             tvIDproducto.setText(extra.getString("idproducto"));
-            tvIDproducto.setVisibility(View.VISIBLE);
+            tvimagenBD.setVisibility(View.VISIBLE);
 //////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
 
         }
@@ -220,7 +220,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
             }
         });
 
-       // CargarImagen();
+        CargarImagen();
 
 
         if (textPin.getText().toString().equals("2233")){
@@ -283,7 +283,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
     }
 
     private void CargarImagen() {
-        Picasso.get().load(URL_IMAGES+tvimagenBD.getText()+".jpg")
+        Picasso.get().load(URL_IMAGES+tvimagenBD.getText())
                 .error(R.drawable.error)
                 .into(image);
 

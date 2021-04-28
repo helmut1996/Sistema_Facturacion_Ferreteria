@@ -134,8 +134,8 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
     }
 
     private void CargarImagen() {
-        Picasso.get().load(URL+tvimagen.getText()+".jpg")
-                .error(R.drawable.error)
+        Picasso.get().load(URL+tvimagen.getText())
+               // .error(R.drawable.error)
                 .into(imagen);
 
     }

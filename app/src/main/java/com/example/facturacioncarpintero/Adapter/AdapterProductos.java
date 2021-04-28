@@ -70,14 +70,14 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
         holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
         holder.tvImagen.setText(item.getImg());
 
-/*
-        Picasso.get().load(URL_IMAGE+item.getImg()+".jpg")
+
+        Picasso.get().load(URL_IMAGE+item.getImg())
                 .error(R.drawable.error)
                 .into(holder.image);
 
 
 
- */
+
         if (holder.tvexistencia.getText().toString().equals("0")){
             holder.tvexistencia.setVisibility(View.VISIBLE);
             holder.tvexistencia.setText(" hay poco inventario");

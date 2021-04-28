@@ -39,6 +39,7 @@ dependencies {
     implementation files('libs\\ePOSEasySelect.jar')
     implementation files('libs\\droidText.0.4.jar')
     testImplementation 'junit:junit:4.+'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
