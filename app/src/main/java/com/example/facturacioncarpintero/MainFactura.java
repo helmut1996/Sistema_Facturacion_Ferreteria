@@ -76,7 +76,7 @@ import harmony.java.awt.Color;
 
 public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo,Dialog_pin_save.DialogListennerPinSave{
 
-    TextView  tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
+    TextView tv_numVendedor,tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
     ListView lista_factura;
     LinearLayout cuerpo;
@@ -226,7 +226,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     };
 
 
-
     private void setButtonEnable(boolean flag) {
         imprimirC.setEnabled(flag);
     }
@@ -351,6 +350,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         textV_total = findViewById(R.id.textV_total);
         textIdcliente= findViewById(R.id.textV_idcliente);
         textIdvendedor= findViewById(R.id.textV_idvendedor);
+        tv_numVendedor=findViewById(R.id.numVendedor);
         List_Vendedores=findViewById(R.id.list_vendedores);
         cuerpo=findViewById(R.id.cuerpo);
         Estados=findViewById(R.id.spinner_estadoº);
@@ -365,11 +365,35 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
 
 
 
+
         List_Vendedores.setAdapter(Lista_Vendedores());
 
         List_Vendedores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+
+                    tv_numVendedor.setText("1");
+                }else if(position==1){
+                    tv_numVendedor.setText("2");
+                }else if (position==2){
+                    tv_numVendedor.setText("3");
+                }else if (position==3){
+                    tv_numVendedor.setText("4");
+                }else if (position==4){
+                    tv_numVendedor.setText("5");
+                }else if (position==5){
+                    tv_numVendedor.setText("7");
+                }else if (position==6){
+                    tv_numVendedor.setText("9");
+                }else if (position==7){
+                    tv_numVendedor.setText("10");
+                }else if (position==8){
+                    tv_numVendedor.setText("11");
+                }else if (position==9){
+                    tv_numVendedor.setText("12");
+                }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -476,9 +500,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             public void onClick(View v) {
                     GenerarTickets();
 
-             //   if (getPrinterStatus() == PRINTER_NORMAL)
-                //    printText();
-
+                if (getPrinterStatus() == PRINTER_NORMAL)
+                    printText();
 
                 open_pin_save();
             }
@@ -568,7 +591,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             ArrayList<String> data = new ArrayList<>();
             while (rs.next()) {
                 data.add(rs.getString("Nombre"));
-                data.add(rs.getString("idVendedor"));
 
             }
 
@@ -600,7 +622,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             case R.id.Mbtn_Home:
 
                 generarPdf();
-                Toast.makeText(MainFactura.this, "Se creo tu archivo pdf", Toast.LENGTH_SHORT).show();
 
 
                 AlertDialog.Builder alerta2 = new AlertDialog.Builder(MainFactura.this);
@@ -823,7 +844,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         try {
             dbConnection.getConnection().setAutoCommit(false);
             PreparedStatement pst= dbConnection.getConnection().prepareStatement("exec sp_insertar_Facturas ?,?,?,?,?,?,?,?,?,?,?,?");
-            pst.setInt(1, Integer.parseInt(List_Vendedores.getSelectedItem().toString()));
+            pst.setInt(1, Integer.parseInt(tv_numVendedor.getText().toString()));
             pst.setInt(2, Integer.parseInt(textIdcliente.getText().toString()));
             pst.setString(3, Estados.getSelectedItem().toString());
             pst.setDouble(4, Double.parseDouble(String.valueOf(LimiteCreditosC)));
@@ -892,6 +913,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     public void appliyTexts(String nombre) {
         textV_Cliente.setText(nombre);
     }
+
     private void  openDialoNombreNuevo(){
         Dialog_nombre_nuevo dialog =  new Dialog_nombre_nuevo();
         dialog.show(getSupportFragmentManager(),"Pin para activar precio");
@@ -909,6 +931,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         System.out.println("cambio de total cordobas a dolar:---->"+TotalDolar);
 
     }
+
 
     @Override
     public void appliyTexts_pin(String pin_s) {
