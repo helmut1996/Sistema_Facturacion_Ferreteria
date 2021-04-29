@@ -35,8 +35,8 @@
             android:textColor="@color/primary_text"/>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fondo"
+            android:layout_height="250dp"
+            android:src="@drawable/imagenedit"
             android:id="@+id/imagenActualizar"/>
 
         <EditText

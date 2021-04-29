@@ -284,7 +284,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
 
     private void CargarImagen() {
         Picasso.get().load(URL_IMAGES+tvimagenBD.getText())
-                .error(R.drawable.error)
+                //.error(R.drawable.error)
                 .into(image);
 
     }

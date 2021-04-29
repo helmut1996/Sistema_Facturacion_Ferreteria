@@ -37,7 +37,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
 
         init();
         capturandoDatos();
-        CargarImagen();
+        //CargarImagen();
 
     }
 
@@ -132,11 +132,14 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
         db.close();
         Toast.makeText(getApplicationContext(),"Registro Eliminado!!!",Toast.LENGTH_SHORT).show();
     }
-
+/*
     private void CargarImagen() {
         Picasso.get().load(URL+tvimagen.getText())
                // .error(R.drawable.error)
                 .into(imagen);
 
     }
+
+
+ */
 }

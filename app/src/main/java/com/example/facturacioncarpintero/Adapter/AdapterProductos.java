@@ -72,7 +72,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
 
 
         Picasso.get().load(URL_IMAGE+item.getImg())
-                .error(R.drawable.error)
+               // .error(R.drawable.error)
                 .into(holder.image);
 
 
