@@ -40,11 +40,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin_precio.DialogListennerPinPrecio{
+import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
+
+ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin_precio.DialogListennerPinPrecio{
 
     /*variables de los componentes de la vista*/
 
-    private TextView textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
+    private TextView tvCambioD, textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
     private EditText editcantidad;
@@ -58,6 +60,8 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
     String IdCliente;
     int IdVendedor;
     int IdInventario;
+    double conversion;
+
 
     private String producto;
     double precioEscogido;
@@ -97,6 +101,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         tvIDproducto=findViewById(R.id.IDProduto);
         tvtipoprecio=findViewById(R.id.tipoPrecio);
         tvUnidadMedida=findViewById(R.id.tvUnidadMedida);
+        tvCambioD=findViewById(R.id.mostrandoPrecio);
         ////////// Spinmer
 
         precios = findViewById(R.id.spinerPrecios);
@@ -200,14 +205,22 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
                 if (position==0){
 
                     tvtipoprecio.setText("1");
+                    tvCambioD.setText(precios.getSelectedItem().toString());
+
+
                 }else if(position==1){
                     tvtipoprecio.setText("2");
+                    tvCambioD.setText(precios.getSelectedItem().toString());
+
                 }else if (position==2){
                     tvtipoprecio.setText("3");
+                    tvCambioD.setText(precios.getSelectedItem().toString());
                 }else if (position==3){
                     tvtipoprecio.setText("4");
+                    tvCambioD.setText(precios.getSelectedItem().toString());
                 }else if (position==4){
                     tvtipoprecio.setText("5");
+                    tvCambioD.setText(precios.getSelectedItem().toString());
                 }
             }
 
@@ -221,7 +234,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         });
 
         CargarImagen();
-
+        TasaDolar();
 
         if (textPin.getText().toString().equals("2233")){
 
@@ -252,7 +265,6 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
                 }else if (precioEscogido == 0){
                     Snackbar snackbar= Snackbar.make(cuerpoProductCliente,"Precio seleccionado es  0!!",Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //                      Toast.makeText(this,"Precio seleccionado es 0",Toast.LENGTH_SHORT).show();
                 }else if(Integer.parseInt(editcantidad.getText().toString())>Integer.parseInt(textcontar.getText().toString())){
                     Toast.makeText(this,"no hay inventario suficiente  de este producto ",Toast.LENGTH_LONG).show();
                 }else if(idResultante==30){
@@ -406,6 +418,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
     }
 
 
+
     private void checkExternalStoragePermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -419,6 +432,7 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
 
 
     private void GuardarProductos() {
+
 
         /*mandando a llamar conexion a SQLite */
         conexionSQLiteHelper conn= new conexionSQLiteHelper(this,"bd_productos",null,1);
@@ -448,7 +462,6 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
             values.put(utilidades.CAMPO_IMAGEN,tvimagenBD.getText().toString());
             values.put(utilidades.CAMPO_TIPOPRECIO,tvtipoprecio.getText().toString());
             idResultante= (int) db.insert(utilidades.TABLA_PRODUCTO,utilidades.CAMPO_ID,values);
-
             Toast.makeText(this,"CANTIDAD INGRESADA: " + idResultante,Toast.LENGTH_LONG).show();
         }
         c.close();
@@ -482,5 +495,26 @@ public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin
         } else{
             Toast.makeText(getApplicationContext(),"pin Incorrecto",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void TasaDolar(){
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st2 = dbConnection.getConnection().createStatement();
+            ResultSet rs2 = st2.executeQuery("\n" +
+                    "select top 1 Cambio from Cambio_Dolar order by idDolar desc");
+            while (rs2.next()) {
+                tasaCambio = rs2.getDouble("Cambio");
+
+                System.out.println("==============> Ultimo tasa de cambio en dolares:" + tasaCambio);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ConversionesD(){
     }
 }

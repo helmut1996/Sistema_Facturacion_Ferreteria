@@ -76,7 +76,7 @@ import harmony.java.awt.Color;
 
 public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo,Dialog_pin_save.DialogListennerPinSave{
 
-    TextView tv_numVendedor,tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
+    TextView tv_signo_precio, tv_numVendedor,tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
     ListView lista_factura;
     LinearLayout cuerpo;
@@ -108,6 +108,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static double LimiteCreditosC;
     public static String nombreUsuarioC;
     public static double tasaCambio;
+
     MainClientes id = new MainClientes();
 
 ////////////////////////////////Archivo PDF///////////////////////////
@@ -154,7 +155,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     private final String PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION = "com.iposprinter.iposprinterservice.CURRENT_TASK_PRINT_COMPLETE_ACTION";
 
     /*Mensaje*/
-
     private final int MSG_TEST = 1;
     private final int MSG_IS_NORMAL = 2;
     private final int MSG_IS_BUSY = 3;
@@ -279,8 +279,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         }
     };
 
-
-
     private ServiceConnection connectService = new ServiceConnection() {
 
         @Override
@@ -354,6 +352,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         List_Vendedores=findViewById(R.id.list_vendedores);
         cuerpo=findViewById(R.id.cuerpo);
         Estados=findViewById(R.id.spinner_estadoº);
+        tv_signo_precio=findViewById(R.id.signo_precio);
 
         T_ventas = findViewById(R.id.spinner_tventas);
         T_factura = findViewById(R.id.spinner_facura);
@@ -362,7 +361,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         ArrayAdapter<CharSequence> adapter  = ArrayAdapter.createFromResource(this, R.array.tipo_ventas, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         T_ventas.setAdapter(adapter);
-
 
 
 
@@ -411,6 +409,22 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         ArrayAdapter<CharSequence> adapter1 =ArrayAdapter.createFromResource(this, R.array.tipo_moneda, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         T_factura.setAdapter(adapter1);
+
+        T_factura.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    tv_signo_precio.setText("C$");
+                }else if (position==1){
+                    tv_signo_precio.setText("$");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ////////////////////////////// ListView///////////////////////////////
         //conexion de SQLite
@@ -500,8 +514,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             public void onClick(View v) {
                     GenerarTickets();
 
-                if (getPrinterStatus() == PRINTER_NORMAL)
-                    printText();
 
                 open_pin_save();
             }
@@ -559,9 +571,9 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 try {
                     mIPosPrinterService.printSpecifiedTypeText("EL CARPINTERO\n", "ST", 48, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
-                    mIPosPrinterService.PrintSpecFormatText("Numero Cliente\n", "ST", 32, 1, callback);
+                    mIPosPrinterService.PrintSpecFormatText("Numero de Factura\n", "ST", 32, 1, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
-                    mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+NumeroTikets+"\n", "ST", 48, callback);
+                    mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+valor+"\n", "ST", 48, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
@@ -749,9 +761,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         if (Environment.MEDIA_MOUNTED.equals(Environment
                 .getExternalStorageState())) {
             ruta = new File(
-                    Environment
-
-                                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     NOMBRE_DIRECTORIO);
 
             if (ruta != null) {
@@ -937,6 +947,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     public void appliyTexts_pin(String pin_s) {
         Dialog_pin_save  pin= new Dialog_pin_save();
         tv_idVendedorSpinner.setText(pin_s);
+
+
         conexionSQLiteHelper conn= new conexionSQLiteHelper(MainFactura.this,"bd_productos",null,1);
         SQLiteDatabase db= conn.getWritableDatabase();
 
@@ -953,6 +965,9 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 }else{
                         NumeroFactura();
                     try {
+                        if (getPrinterStatus() == PRINTER_NORMAL)
+                            printText();
+
                        AgregarDatosSQLSEVER();
                     }
                     catch (SQLException e)
@@ -966,6 +981,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
 
             borrardatosTabla();
             Toast.makeText(getApplicationContext(),"Factura Guarda!!!",Toast.LENGTH_SHORT).show();
+
             Intent refresh = new Intent(getApplicationContext(), MainClientes.class);
             refresh.putExtra("IdVendedor",IDVendedor);
             refresh.putExtra("NombreUsuario",nombreUsuarioC);

@@ -101,6 +101,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <TextView
+            android:id="@+id/mostrarP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -172,6 +177,13 @@
                 android:textColor="#040303"
                 android:id="@+id/tipoPrecio"
                 android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/mostrandoPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
         </LinearLayout>
 
 

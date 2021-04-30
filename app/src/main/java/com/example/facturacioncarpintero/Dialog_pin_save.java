@@ -90,8 +90,6 @@ public class Dialog_pin_save extends AppCompatDialogFragment {
                 e.printStackTrace();
             }
         }
-        //Intent intent= new Intent(getApplicationContext(), MainActivity.class);
-        //startActivity(intent);
     }
 
 

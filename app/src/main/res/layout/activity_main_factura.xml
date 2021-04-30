@@ -223,6 +223,7 @@
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:text="C$"
+                android:id="@+id/signo_precio"
                 android:textColor="@color/black"
                 android:textAllCaps="true"
                 android:layout_gravity="center_horizontal"
