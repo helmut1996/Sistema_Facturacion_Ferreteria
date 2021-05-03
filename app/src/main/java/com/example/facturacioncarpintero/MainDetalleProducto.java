@@ -46,7 +46,7 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
 
     /*variables de los componentes de la vista*/
 
-    private TextView tvCambioD, textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
+    private TextView tvmostrarP,tvCambioD, textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
     private EditText editcantidad;
@@ -88,6 +88,7 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         ////////////imagen producto
         image=findViewById(R.id.imgProducto);
         /////////// campos de texto
+        tvmostrarP=findViewById(R.id.mostrarP);
         textPin=findViewById(R.id.pin_text);
         tvnombreproducto=findViewById(R.id.tvnombreP);
         textcontar=findViewById(R.id.text_contar);
@@ -202,25 +203,69 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         precios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                double datos= Double.parseDouble(precios.getSelectedItem().toString());
                 if (position==0){
 
                     tvtipoprecio.setText("1");
                     tvCambioD.setText(precios.getSelectedItem().toString());
+
+                    if (monedas.getSelectedItem().toString().equals("Dolar")){
+                        conversion=datos*tasaCambio;
+                        System.out.println("precioCapturado:-->"+conversion);
+                        tvmostrarP.setText(String.valueOf(conversion));
+                    }else{
+                        tvmostrarP.setText("");
+                    }
 
 
                 }else if(position==1){
                     tvtipoprecio.setText("2");
                     tvCambioD.setText(precios.getSelectedItem().toString());
 
+                    if (monedas.getSelectedItem().toString().equals("Dolar")){
+                        conversion=datos*tasaCambio;
+                        System.out.println("precioCapturado:-->"+conversion);
+                        tvmostrarP.setText(String.valueOf(conversion));
+                    }else{
+                        tvmostrarP.setText("");
+                    }
                 }else if (position==2){
                     tvtipoprecio.setText("3");
                     tvCambioD.setText(precios.getSelectedItem().toString());
+
+                    if (monedas.getSelectedItem().toString().equals("Dolar")){
+                        conversion=datos*tasaCambio;
+                        System.out.println("precioCapturado:-->"+conversion);
+                        tvmostrarP.setText(String.valueOf(conversion));
+                    }else{
+                        tvmostrarP.setText("");
+                    }
+
                 }else if (position==3){
                     tvtipoprecio.setText("4");
                     tvCambioD.setText(precios.getSelectedItem().toString());
+
+                    if (monedas.getSelectedItem().toString().equals("Dolar")){
+                        conversion=datos*tasaCambio;
+                        System.out.println("precioCapturado:-->"+conversion);
+                        tvmostrarP.setText(String.valueOf(conversion));
+                    }else{
+                        tvmostrarP.setText("");
+                    }
+
                 }else if (position==4){
                     tvtipoprecio.setText("5");
                     tvCambioD.setText(precios.getSelectedItem().toString());
+
+                    if (monedas.getSelectedItem().toString().equals("Dolar")){
+                        conversion=datos*tasaCambio;
+                        System.out.println("precioCapturado:-->"+conversion);
+                        tvmostrarP.setText(String.valueOf(conversion));
+                    }else{
+                        tvmostrarP.setText("");
+                    }
+
+
                 }
             }
 
@@ -458,7 +503,11 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
             values.put(utilidades.CAMPO_ID,textCIdInventario.getText().toString());
             values.put(utilidades.CAMPO_NOMBRE,tvnombreproducto.getText().toString());
             values.put(utilidades.CAMPO_CANTIDAD,editcantidad.getText().toString());
-            values.put(utilidades.CAMPO_PRECIO,precios.getSelectedItem().toString());
+            if (monedas.getSelectedItem().toString().equals("Dolar")){
+                values.put(utilidades.CAMPO_PRECIO,tvmostrarP.getText().toString());
+            }else{
+                values.put(utilidades.CAMPO_PRECIO,precios.getSelectedItem().toString());
+            }
             values.put(utilidades.CAMPO_IMAGEN,tvimagenBD.getText().toString());
             values.put(utilidades.CAMPO_TIPOPRECIO,tvtipoprecio.getText().toString());
             idResultante= (int) db.insert(utilidades.TABLA_PRODUCTO,utilidades.CAMPO_ID,values);
@@ -515,6 +564,5 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         }
     }
 
-    public void ConversionesD(){
-    }
+
 }
