@@ -58,7 +58,7 @@ public class MainClientes extends AppCompatActivity{
 
 
         initview();
-
+        filter2("00000-CLIENTE VARIOS");
 
         btn_buscador_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +94,18 @@ public class MainClientes extends AppCompatActivity{
     }
 
 
+    private void filter2(String text ) {
+        initValues();
+        text="CLIENTE VARIOS";
+        ArrayList<itemList> filteredlist = new ArrayList<>();
+        for (itemList item : itemCList) {
+            if (item.getNombre().toUpperCase().contains(search.getText().toString().toUpperCase())) {
+                filteredlist.add(item);
+            }
+        }
+        adapterCliente.filterList(filteredlist);
 
+    }
     public void initview() {
         recyclerViewCliente = findViewById(R.id.listaClientes);
         search = findViewById(R.id.search);

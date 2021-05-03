@@ -371,24 +371,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0){
 
-                    tv_numVendedor.setText("1");
-                }else if(position==1){
-                    tv_numVendedor.setText("2");
-                }else if (position==2){
-                    tv_numVendedor.setText("3");
-                }else if (position==3){
-                    tv_numVendedor.setText("4");
-                }else if (position==4){
-                    tv_numVendedor.setText("5");
-                }else if (position==5){
                     tv_numVendedor.setText("7");
-                }else if (position==6){
-                    tv_numVendedor.setText("9");
-                }else if (position==7){
-                    tv_numVendedor.setText("10");
-                }else if (position==8){
-                    tv_numVendedor.setText("11");
-                }else if (position==9){
+                }else if(position==1){
                     tv_numVendedor.setText("12");
                 }
             }
@@ -571,7 +555,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 try {
                     mIPosPrinterService.printSpecifiedTypeText("EL CARPINTERO\n", "ST", 48, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
-                    mIPosPrinterService.PrintSpecFormatText("Numero de Factura\n", "ST", 32, 1, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
                     mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+valor+"\n", "ST", 48, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
@@ -595,7 +578,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
-        String query = "select Nombre,idVendedor,Estado from Vendedores where Estado='activo'";
+        String query = "select Nombre,idVendedor,Estado from Vendedores  WHERE idVendedor IN (7, 12)";
         try {
             Statement stm = dbConnection.getConnection().createStatement();
             ResultSet rs = stm.executeQuery(query);

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import java.sql.Statement;
 
 public class Dialog_pin_save extends AppCompatDialogFragment {
     EditText editPinSave;
+    Button saveB;
     String pin_save;
     String  NombreVendedor;
     Dialog_pin_save.DialogListennerPinSave listennerPinSave;
@@ -35,19 +37,19 @@ public class Dialog_pin_save extends AppCompatDialogFragment {
         LayoutInflater inflater=getActivity().getLayoutInflater();
         View view=inflater.inflate(R.layout.dialog_pin_save_factura,null);
         builder.setView(view)
-                .setTitle("Ingresa pin")
-
-                .setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        pin_save= editPinSave.getText().toString();
-                        Conectarpin();
-
-                        listennerPinSave.appliyTexts_pin(pin_save);
-                    }
-                });
-
+                .setTitle("Ingresa pin");
         editPinSave = view.findViewById(R.id.edit_pin_save);
+        saveB=view.findViewById(R.id.buttonImprimir);
+
+        saveB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pin_save= editPinSave.getText().toString();
+                Conectarpin();
+
+                listennerPinSave.appliyTexts_pin(pin_save);
+            }
+        });
         return builder.create();
 
 
