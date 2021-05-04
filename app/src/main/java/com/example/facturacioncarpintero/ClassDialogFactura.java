@@ -1,5 +1,6 @@
 package com.example.facturacioncarpintero;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,8 +20,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.facturacioncarpintero.SQLite.conexionSQLiteHelper;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 public class ClassDialogFactura extends DialogFragment {
     TextView producto,cantidad,precio_C,precio_D,tvimagenSQLite;
@@ -123,5 +122,29 @@ public class ClassDialogFactura extends DialogFragment {
         db.execSQL("DELETE FROM producto WHERE id = "+precio_D.getText().toString()+" ");
         db.close();
         Toast.makeText(getContext(),"Registro Eliminado!!!",Toast.LENGTH_SHORT).show();
+    }
+
+    public static class ClassDialogLoading extends MainFactura {
+        private Activity activity;
+        private AlertDialog dialog;
+
+        ClassDialogLoading(Activity myActivity){
+            activity=myActivity;
+
+        }
+
+        public void iniciarCarga(){
+            AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+            LayoutInflater inflater= activity.getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.loading_dialog,null));
+            builder.setCancelable(false);
+            dialog=builder.create();
+            dialog.show();
+        }
+
+        public void cerrarCarga(){
+    //        LimpiarCampos();
+            dialog.dismiss();
+        }
     }
 }
