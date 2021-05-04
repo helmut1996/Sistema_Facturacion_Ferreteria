@@ -20,7 +20,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
@@ -90,7 +92,7 @@ public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuev
     public static int cantidadProducto;
     public static String idProd;
     public static double precioProducto;
-    public static String nombreImagen,valor,idInventario;
+    public static String nombreImagen,valor,valor2,idInventario;
     double TotalFact;
     double TotalDolar;
     int NumFact;
@@ -496,7 +498,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         imprimirC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    GenerarTickets();
+                GenerarTickets();
 
 
                 open_pin_save();
@@ -548,7 +550,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         }
     }
 
-    public void printText() {
+    public void printText(){
         ThreadPoolManager.getInstance().executeTask(new Runnable() {
             @Override
             public void run() {
@@ -556,7 +558,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                     mIPosPrinterService.printSpecifiedTypeText("EL CARPINTERO\n", "ST", 48, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
-                    mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+valor+"\n", "ST", 48, callback);
+                    mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+valor +"\n", "ST", 48, callback);
                     mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
                     mIPosPrinterService.printBlankLines(1, 16, callback);
@@ -830,6 +832,25 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         }
     }
 
+/*
+    public void NumeroFact(){
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st= dbConnection.getConnection().createStatement();
+            ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
+            while (rs.next()){
+                valor2  = rs.getString("idFactura");
+                System.out.println("==============> Ultimo Registro idFactura:"+valor2);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+ */
     public  void AgregarDatosSQLSEVER() throws SQLException {
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
@@ -859,6 +880,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 valor  = rs.getString("idFactura");
                 System.out.println("==============> Ultimo Registro idFactura:"+valor);
             }
+
+
 
             for (int i=0; i<listaproducto.size();i++){
                 PreparedStatement pst2 = dbConnection.getConnection().prepareStatement( "exec sp_insertar_Detalle_Facturas ?,?,?,?,?,?");
@@ -890,6 +913,12 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             pst4.setDouble(5,0);
             pst4.setString(6,"Contado");
             pst4.execute();
+
+            PreparedStatement pst5=dbConnection.getConnection().prepareStatement("sp_Factura_print ?,?");
+            pst5.setInt(1,Integer.parseInt(valor));
+            pst5.setString(2,"No_impreso");
+            pst5.execute();
+
 
         }catch (SQLException e){
             dbConnection.getConnection().rollback();
@@ -931,7 +960,8 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         Dialog_pin_save  pin= new Dialog_pin_save();
         tv_idVendedorSpinner.setText(pin_s);
 
-
+        /// mandando a llamar la clase  cuadro  dialogo de  carga
+        ClassDialogFactura.ClassDialogLoading loading=new ClassDialogFactura.ClassDialogLoading(MainFactura.this);
         conexionSQLiteHelper conn= new conexionSQLiteHelper(MainFactura.this,"bd_productos",null,1);
         SQLiteDatabase db= conn.getWritableDatabase();
 
@@ -949,9 +979,11 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                         NumeroFactura();
                     try {
                         if (getPrinterStatus() == PRINTER_NORMAL)
-                            printText();
+
 
                        AgregarDatosSQLSEVER();
+                       // NumeroFact();
+                        printText();
                     }
                     catch (SQLException e)
                     {
@@ -982,6 +1014,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     }
 
 
+
     public void NumeroFactura(){
         DBConnection dbConnection=new DBConnection();
         dbConnection.conectar();
@@ -1000,5 +1033,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             e.printStackTrace();
         }
     }
+
 
 }
