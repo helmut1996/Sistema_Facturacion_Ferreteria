@@ -27,7 +27,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"
+        android:inputType="number"
         android:hint="pin"
         android:id="@+id/edit_pin_save"
         android:layout_marginHorizontal="15dp"

@@ -456,7 +456,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         Bundle extra=getIntent().getExtras();
 
         if (extra != null){
-
         NombreCliente = extra.getString("NombreCliente");
         CodigoCliente= extra.getString("CodigoCliente");
         ZonaCliente= extra.getString("ZonaCliente");
@@ -473,7 +472,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             textIdcliente.setText(IDCliente);
             textIdvendedor.setText(String.valueOf(id.id));
 
-            System.out.println("----> NombreCliente activity Factura: "+NombreCliente);
+            System.out.println("----> NombreCliente activity Factura: "+ NombreCliente);
             System.out.println("----> IDCliente activity Factura: "+IDCliente);
             System.out.println("-----> IDVENDEDOR Factura: "+IDVendedor);
             System.out.println("----> ZONA CLIENTE: "+ZonaCliente);
@@ -832,25 +831,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         }
     }
 
-/*
-    public void NumeroFact(){
-        DBConnection dbConnection=new DBConnection();
-        dbConnection.conectar();
-        try {
-            Statement st= dbConnection.getConnection().createStatement();
-            ResultSet rs = st.executeQuery("select top 1 idFactura from Facturas order by idFactura desc");
-            while (rs.next()){
-                valor2  = rs.getString("idFactura");
-                System.out.println("==============> Ultimo Registro idFactura:"+valor2);
-            }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
- */
     public  void AgregarDatosSQLSEVER() throws SQLException {
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
