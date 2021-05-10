@@ -28,6 +28,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
     private String idp;
     private  String idc;
     private String nc;
+    private String nf;
     private String URL="http://ferreteriaelcarpintero.com/images/carpintero/";
 
     @Override
@@ -52,6 +53,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
             img= extra.getString("NombreImagen");
             idc= extra.getString("IdCliente");
             nc=extra.getString("NombreCliente");
+            nf=extra.getString("nombreUsuario");
 
 
             System.out.println("nombre P===>"+nombre);
@@ -61,7 +63,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
             System.out.println("imagen P===>"+img);
             System.out.println("idcliente P===>"+idc);
             System.out.println("nombrecliente P===>"+nc);
-
+            System.out.println("nombrefacturador P===>"+nf);
             titulo.setText(nombre);
             cantidad.setText(String.valueOf(cant));
             precio.setText(String.valueOf(prec));
@@ -93,6 +95,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
                     Intent intent =new Intent(getApplicationContext(),MainFactura.class);
                     intent.putExtra("IdCliente",idc);
                     intent.putExtra("NombreCliente",nc);
+                    intent.putExtra("nombreUsuario",nf);
                     startActivity(intent);
                     finish();
                     break;
@@ -101,6 +104,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
                         Intent i =new Intent(getApplicationContext(),MainFactura.class);
                     i.putExtra("IdCliente",idc);
                     i.putExtra("NombreCliente",nc);
+                    i.putExtra("nombreUsuario",nf);
                         startActivity(i);
                         finish();
                     break;

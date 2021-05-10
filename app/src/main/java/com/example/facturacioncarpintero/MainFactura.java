@@ -78,7 +78,7 @@ import harmony.java.awt.Color;
 
 public class MainFactura extends AppCompatActivity implements Dialog_nombre_nuevo.DialogListennerNombreNuevo,Dialog_pin_save.DialogListennerPinSave{
 
-    TextView tv_signo_precio, tv_numVendedor,tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
+    TextView  tvnombreFacturador, tv_signo_precio, tv_numVendedor,tv_idVendedorSpinner,textV_Codigo,textV_Cliente,textV_zona,textV_credito_disponible, textV_total,textIdcliente,textIdvendedor,tvtotalproducto;
     Spinner T_factura,T_ventas,List_Vendedores,Estados;
     ListView lista_factura;
     LinearLayout cuerpo;
@@ -351,6 +351,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         textIdcliente= findViewById(R.id.textV_idcliente);
         textIdvendedor= findViewById(R.id.textV_idvendedor);
         tv_numVendedor=findViewById(R.id.numVendedor);
+        tvnombreFacturador=findViewById(R.id.NombreUsuario);
         List_Vendedores=findViewById(R.id.list_vendedores);
         cuerpo=findViewById(R.id.cuerpo);
         Estados=findViewById(R.id.spinner_estadoº);
@@ -440,6 +441,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 i.putExtra("NombreImagen",nombreImagen);
                 i.putExtra("IdCliente",IDCliente);
                 i.putExtra("NombreCliente",NombreCliente);
+                i.putExtra("nombreUsuario",tvnombreFacturador.getText().toString());
 
                 startActivity(i);
             }
@@ -470,6 +472,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             textV_Codigo.setText(CodigoCliente);
             textV_zona.setText(ZonaCliente);
             textIdcliente.setText(IDCliente);
+            tvnombreFacturador.setText(nombreUsuarioC);
             textIdvendedor.setText(String.valueOf(id.id));
 
             System.out.println("----> NombreCliente activity Factura: "+ NombreCliente);
@@ -846,7 +849,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             pst.setDouble(5, Double.parseDouble(String.valueOf(tasaCambio)));
             pst.setString(6,T_ventas.getSelectedItem().toString());
             pst.setDouble(7, Double.parseDouble(String.valueOf(TotalFact)));
-            pst.setString(8, nombreUsuarioC);
+            pst.setString(8, tvnombreFacturador.getText().toString());
             pst.setString(9,T_factura.getSelectedItem().toString());
             pst.setDouble(10,TotalDolar);
             pst.setString(11,textV_Cliente.getText().toString());

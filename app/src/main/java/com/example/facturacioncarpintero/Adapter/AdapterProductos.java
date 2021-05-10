@@ -58,17 +58,17 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         final ModelItemsProducto item= items.get(position);
         holder.tvNombre.setText(item.getNombreP());
-        holder.tvprecio_d.setText("C$"+String.valueOf( item.getPrecioP()));
-        holder.tvinfo1.setText(String.valueOf( item.getInfo1()));
-        holder.tvinfo2.setText(String.valueOf( item.getInfo2()));
-        holder.tvinfo3.setText(String.valueOf( item.getInfo3()));
-        holder.tvinfo4.setText(String.valueOf( item.getInfo4()));
-        holder.tvinfo5.setText(String.valueOf( item.getInfo5()));
-        holder.tvunidad_medida.setText(item.getUnidadmedidaP());
-        holder.tvproducto.setText(item.getProducto());
-        holder.tvIdInventario.setText(String.valueOf(item.getIdproducto()));
-        holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
-        holder.tvImagen.setText(item.getImg());
+            holder.tvprecio_d.setText("C$"+String.valueOf( item.getPrecioP()));
+            holder.tvinfo1.setText(String.valueOf( item.getInfo1()));
+            holder.tvinfo2.setText(String.valueOf( item.getInfo2()));
+            holder.tvinfo3.setText(String.valueOf( item.getInfo3()));
+            holder.tvinfo4.setText(String.valueOf( item.getInfo4()));
+            holder.tvinfo5.setText(String.valueOf( item.getInfo5()));
+            holder.tvunidad_medida.setText(item.getUnidadmedidaP());
+            holder.tvproducto.setText(item.getProducto());
+            holder.tvIdInventario.setText(String.valueOf(item.getIdproducto()));
+            holder.tvexistencia.setText("Cantidad Disponible"+String.valueOf(item.getStock()));
+            holder.tvImagen.setText(item.getImg());
 
 
         Picasso.get().load(URL_IMAGE+item.getImg())
