@@ -74,24 +74,46 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:orientation="horizontal">
+           android:orientation="horizontal"
+           android:padding="15dp">
            <TextView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:gravity="center_horizontal"
                android:text="Cantidad Disponible"
                android:textColor="#0E0E0E"
-               android:textSize="20sp"
-               android:layout_weight="1"/>
+               android:textSize="15sp"
+               android:layout_weight="1"
+               android:padding="5dp"/>
            <TextView
                android:id="@+id/text_contar"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+               android:layout_height="match_parent"
                android:gravity="center_horizontal"
                android:text="0"
                android:textAllCaps="true"
                android:textColor="#0E0E0E"
-               android:textSize="20sp"
+               android:textSize="15sp"
+               android:layout_weight="1"/>
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center_horizontal"
+               android:text="Cajas Existentes"
+               android:textColor="#0E0E0E"
+               android:textSize="15sp"
+               android:layout_weight="1"
+               android:padding="5dp"/>
+           <TextView
+               android:id="@+id/text_cajas"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:gravity="center_horizontal"
+               android:text="0"
+               android:textAllCaps="true"
+               android:textColor="#0E0E0E"
+               android:textSize="15sp"
                android:layout_weight="1"/>
        </LinearLayout>
 

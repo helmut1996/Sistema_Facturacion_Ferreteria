@@ -40,13 +40,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import static com.example.facturacioncarpintero.MainFactura.idInventario;
 import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
 
  public class MainDetalleProducto extends AppCompatActivity implements Dialog_pin_precio.DialogListennerPinPrecio{
 
     /*variables de los componentes de la vista*/
 
-    private TextView tvmostrarP,tvCambioD, textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
+    private TextView tvexiscaja, tvmostrarP,tvCambioD, textCIdInventario, textPin, tvnombreproducto,textcontar,textinfo1,textinfo2,textinfo3,textinfo4,textinfo5,tvunidadmedida,tvtipoprecio,tvimagenBD,tvIDproducto,tvUnidadMedida;
     private Spinner precios,monedas;
     private ImageView image;
     private EditText editcantidad;
@@ -61,6 +62,8 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
     int IdVendedor;
     int IdInventario;
     double conversion;
+    int unidadpaquete;
+    double convercioncaja;
 
 
     private String producto;
@@ -88,6 +91,7 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         ////////////imagen producto
         image=findViewById(R.id.imgProducto);
         /////////// campos de texto
+        tvexiscaja=findViewById(R.id.text_cajas);
         tvmostrarP=findViewById(R.id.mostrarP);
         textPin=findViewById(R.id.pin_text);
         tvnombreproducto=findViewById(R.id.tvnombreP);
@@ -165,11 +169,11 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
 
 
             textcontar.setText(extra.getString("stock"));
+
             tvimagenBD.setText(extra.getString("imagenproducto"));
 
 
             tvIDproducto.setText(extra.getString("idproducto"));
-            tvimagenBD.setVisibility(View.VISIBLE);
 //////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
 
         }
@@ -280,7 +284,8 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
 
         CargarImagen();
         TasaDolar();
-
+        UnidadPaquete();
+        tvexiscaja.setText(String.valueOf(convercioncaja));
         if (textPin.getText().toString().equals("2233")){
 
         }
@@ -563,6 +568,31 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
             e.printStackTrace();
         }
     }
+
+
+
+     public void UnidadPaquete(){
+         DBConnection dbConnection=new DBConnection();
+         dbConnection.conectar();
+         double existencia= Double.parseDouble(textcontar.getText().toString());
+         try {
+             Statement st2 = dbConnection.getConnection().createStatement();
+             ResultSet rs2 = st2.executeQuery("\n" +
+                     "select Unidad_de_Paquete from Inventario where idInventario = '"+textCIdInventario.getText().toString()+"' ");
+             while (rs2.next()) {
+                 unidadpaquete = rs2.getInt("Unidad_de_Paquete");
+
+
+                 System.out.println("==============> la unidad de paquete de este Producto es:" + unidadpaquete);
+
+                 convercioncaja= existencia/unidadpaquete;
+                 System.out.println("Cajas Existentes:==>"+convercioncaja);
+             }
+
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     }
 
 
 }
