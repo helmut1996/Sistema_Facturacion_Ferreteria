@@ -13,12 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.facturacioncarpintero.ConexionBD.DBConnection;
 import com.example.facturacioncarpintero.SQLite.conexionSQLiteHelper;
 import com.squareup.picasso.Picasso;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class    MainEliminar_Actualizar extends Activity implements View.OnClickListener {
 
-    private TextView titulo,precio,tvimagen,idproducto;
+    private TextView titulo,precio,tvimagen,idproducto,Existencia;
     private EditText cantidad;
     private Button btn_actualizar,btn_eliminar;
     private ImageView imagen;
@@ -30,6 +35,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
     private String nc;
     private String nf;
     private String URL="http://ferreteriaelcarpintero.com/images/carpintero/";
+    private  int Strock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
         init();
         capturandoDatos();
         CargarImagen();
+        MostrandoStock();
 
     }
 
@@ -82,6 +89,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
         btn_actualizar=findViewById(R.id.btn_Actualizar);
         btn_eliminar=findViewById(R.id.btn_Eliminar);
         imagen=findViewById(R.id.imagenActualizar);
+        Existencia=findViewById(R.id.tvExistenciaActualizar);
         btn_actualizar.setOnClickListener(this);
         btn_eliminar.setOnClickListener(this);
     }
@@ -119,7 +127,11 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
         } else if(Integer.parseInt(cantidad.getText().toString())==0){
 
             Toast.makeText(getApplicationContext(),"No se Actualizo en cantidad 0",Toast.LENGTH_LONG).show();
-        }else {
+        }else if (Integer.parseInt(cantidad.getText().toString())>Strock){
+            Toast.makeText(getApplicationContext(),"No se Actualizo sobre pasa Existencia",Toast.LENGTH_LONG).show();
+        }
+
+        else {
             String dbQuery = "update producto set cantidad ="+"'"+cantidad.getText().toString()+"'"+"where id ="+"'"+idproducto.getText().toString()+"'";
             db.execSQL(dbQuery);
             db.close();
@@ -141,6 +153,31 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
         Picasso.get().load(URL+tvimagen.getText())
                // .error(R.drawable.error)
                 .into(imagen);
+
+    }
+
+
+    public void MostrandoStock(){
+
+        DBConnection dbConnection=new DBConnection();
+        dbConnection.conectar();
+        try {
+            Statement st = dbConnection.getConnection().createStatement();
+            ResultSet rs = st.executeQuery("\n" +
+                    "select Stock from Inventario where idInventario='"+idproducto.getText().toString()+"'");
+            while (rs.next()) {
+                Strock = rs.getInt("Stock");
+
+                System.out.println("==============>Existencia del producto:" + Strock);
+                Existencia.setText("Existencia: "+String.valueOf(Strock));
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

@@ -23,6 +23,7 @@
             android:text="imagen"
             android:visibility="gone"/>
 
+
         <TextView
             android:id="@+id/titulo"
             android:layout_width="match_parent"
@@ -33,6 +34,17 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/primary_text"/>
+
+        <TextView
+            android:id="@+id/tvExistenciaActualizar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            android:text="@string/Existencia"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -93,6 +105,7 @@
                 android:id="@+id/btn_Eliminar"
                 android:background="#f25"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
