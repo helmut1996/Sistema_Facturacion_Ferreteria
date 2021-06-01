@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#feb209">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/fondo"
-        android:fontFamily="sans-serif-condensed"
-        android:paddingVertical="70dp"
-        android:text="Iniciar secion"
-        android:textAlignment="center"
-        android:textColor="@color/primary_text"
-        android:textSize="30sp"
-        android:textAllCaps="true"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contraseña"
-        android:layout_marginHorizontal="30dp"/>
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:inputType="numberPassword"
-        android:hint="ingrese contraseña"
-        android:layout_marginBottom="30dp"/>
-    <Button
-        android:id="@+id/btn_Login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:layout_marginHorizontal="30dp"
-        android:background="@drawable/button_bg"
-        android:textColor="#fff"/>
+        android:layout_marginLeft="15.7dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15.7dp"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:orientation="vertical">
+            
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="480dp"
+                android:background="@drawable/white_cueve_bg"/>
 
-</LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="20.7dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="57.7dp"
+                        android:text="Iniciar sesion"
+                        android:textSize="31.2sp"
+                        android:textColor="#030303"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="35dp"
+                        android:text="contraseña"
+                        android:textSize="13.2sp"
+                        android:textColor="#c2c2c2"/>
+
+                    <EditText
+                        android:id="@+id/editPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:inputType="numberPassword"
+                        android:hint="@string/pin"/>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="6.3dp"
+                        android:layout_marginRight="44.3dp"
+                        android:background="#d5d5d5"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_gravity="end"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/btn_Login"/>
+                </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

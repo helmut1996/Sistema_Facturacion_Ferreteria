@@ -109,181 +109,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     private static final int PICK_PDF_FILE = 2;
 
 
-    ///////////////////////Impresora//////////////////////////////////
-
-
-    /* Demo 版本号*/
-
-    private static final String VERSION = "V1.1.0";
-
-    private IPosPrinterService mIPosPrinterService;
-    private IPosPrinterCallback callback = null;
-    private Random random = new Random();
-    private HandlerUtils.MyHandler handler;
-
-
-
-
-    /*Definir el estado de la impresora*/
-
-
-    private final int PRINTER_NORMAL = 0;
-    private final int PRINTER_PAPERLESS = 1;
-    private final int PRINTER_THP_HIGH_TEMPERATURE = 2;
-    private final int PRINTER_MOTOR_HIGH_TEMPERATURE = 3;
-    private final int PRINTER_IS_BUSY = 4;
-    private final int PRINTER_ERROR_UNKNOWN = 5;
-    /*El estado actual de la impresora*/
-    private int printerStatus = 0;
-
-    private final String PRINTER_NORMAL_ACTION = "com.iposprinter.iposprinterservice.NORMAL_ACTION";
-    private final String PRINTER_PAPERLESS_ACTION = "com.iposprinter.iposprinterservice.PAPERLESS_ACTION";
-    private final String PRINTER_PAPEREXISTS_ACTION = "com.iposprinter.iposprinterservice.PAPEREXISTS_ACTION";
-    private final String PRINTER_THP_HIGHTEMP_ACTION = "com.iposprinter.iposprinterservice.THP_HIGHTEMP_ACTION";
-    private final String PRINTER_THP_NORMALTEMP_ACTION = "com.iposprinter.iposprinterservice.THP_NORMALTEMP_ACTION";
-    private final String PRINTER_MOTOR_HIGHTEMP_ACTION = "com.iposprinter.iposprinterservice.MOTOR_HIGHTEMP_ACTION";
-    private final String PRINTER_BUSY_ACTION = "com.iposprinter.iposprinterservice.BUSY_ACTION";
-    private final String PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION = "com.iposprinter.iposprinterservice.CURRENT_TASK_PRINT_COMPLETE_ACTION";
-
-    /*Mensaje*/
-    private final int MSG_TEST = 1;
-    private final int MSG_IS_NORMAL = 2;
-    private final int MSG_IS_BUSY = 3;
-    private final int MSG_PAPER_LESS = 4;
-    private final int MSG_PAPER_EXISTS = 5;
-    private final int MSG_THP_HIGH_TEMP = 6;
-    private final int MSG_THP_TEMP_NORMAL = 7;
-    private final int MSG_MOTOR_HIGH_TEMP = 8;
-    private final int MSG_MOTOR_HIGH_TEMP_INIT_PRINTER = 9;
-    private final int MSG_CURRENT_TASK_PRINT_COMPLETE = 10;
-
-    /*El tipo de imprecion circular*/
-
-    private final int MULTI_THREAD_LOOP_PRINT = 1;
-    private final int INPUT_CONTENT_LOOP_PRINT = 2;
-    private final int DEMO_LOOP_PRINT = 3;
-    private final int PRINT_DRIVER_ERROR_TEST = 4;
-    private final int DEFAULT_LOOP_PRINT = 0;
-
-
-
-    // Ciclo a través de la broca de la bandera
-
-  private int loopPrintFlag = DEFAULT_LOOP_PRINT;
-    private byte loopContent = 0x00;
-    private int printDriverTestCount = 0;
-
-
-
-    private final HandlerUtils.IHandlerIntent iHandlerIntent = new HandlerUtils.IHandlerIntent() {
-        @Override
-        public void handlerIntent(Message msg) {
-            switch (msg.what) {
-                case MSG_TEST:
-                    break;
-                case MSG_IS_NORMAL:
-                    if (getPrinterStatus() == PRINTER_NORMAL) {
-                        loopPrint(loopPrintFlag);
-                    }
-                   break;
-                case MSG_IS_BUSY:
-                    Toast.makeText(MainFactura.this, R.string.printer_is_working, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_PAPER_LESS:
-                    loopPrintFlag = DEFAULT_LOOP_PRINT;
-                    Toast.makeText(MainFactura.this, R.string.out_of_paper, Toast.LENGTH_SHORT).show();
-                    break;
-                    case MSG_PAPER_EXISTS:
-                    Toast.makeText(MainFactura.this, R.string.exists_paper, Toast.LENGTH_SHORT).show();
-                    break;
-                case MSG_THP_HIGH_TEMP:
-                    Toast.makeText(MainFactura.this, R.string.printer_high_temp_alarm, Toast.LENGTH_SHORT).show();
-                    break;
-                 case MSG_MOTOR_HIGH_TEMP:
-                     loopPrintFlag = DEFAULT_LOOP_PRINT;
-                    Toast.makeText(MainFactura.this, R.string.motor_high_temp_alarm, Toast.LENGTH_SHORT).show();
-                    handler.sendEmptyMessageDelayed(MSG_MOTOR_HIGH_TEMP_INIT_PRINTER, 180000);  //马达高温报警，等待3分钟后复位打印机
-                    break;
-               case MSG_MOTOR_HIGH_TEMP_INIT_PRINTER:
-                    printerInit();
-                    break;
-                case MSG_CURRENT_TASK_PRINT_COMPLETE:
-                    Toast.makeText(MainFactura.this, R.string.printer_current_task_print_complete, Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-
-    private void setButtonEnable(boolean flag) {
-        imprimirC.setEnabled(flag);
-    }
-
-
-    private BroadcastReceiver IPosPrinterStatusListener = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action == null) {
-                Log.d(TAG, "IPosPrinterStatusListener onReceive action = null");
-                return;
-            }
-            Log.d(TAG, "IPosPrinterStatusListener action = " + action);
-           /* if(action.equals(PRINTER_NORMAL_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_IS_NORMAL,0);
-            }
-            else if (action.equals(PRINTER_PAPERLESS_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_PAPER_LESS,0);
-            }
-            else if (action.equals(PRINTER_BUSY_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_IS_BUSY,0);
-            }
-            else if (action.equals(PRINTER_PAPEREXISTS_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_PAPER_EXISTS,0);
-            }
-            else if (action.equals(PRINTER_THP_HIGHTEMP_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_THP_HIGH_TEMP,0);
-            }
-            else if (action.equals(PRINTER_THP_NORMALTEMP_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_THP_TEMP_NORMAL,0);
-            }
-            else if (action.equals(PRINTER_MOTOR_HIGHTEMP_ACTION))  //此时当前任务会继续打印，完成当前任务后，请等待2分钟以上时间，继续下一个打印任务
-            {
-                handler.sendEmptyMessageDelayed(MSG_MOTOR_HIGH_TEMP,0);
-            }
-            else if(action.equals(PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION))
-            {
-                handler.sendEmptyMessageDelayed(MSG_CURRENT_TASK_PRINT_COMPLETE,0);
-            }
-            else
-            {
-                handler.sendEmptyMessageDelayed(MSG_TEST,0);
-            }*/
-        }
-    };
-
-    private ServiceConnection connectService = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mIPosPrinterService = IPosPrinterService.Stub.asInterface(service);
-            setButtonEnable(true);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mIPosPrinterService = null;
-        }
-    };
-
 
     ///////////////////////Impresora//////////////////////////////////
 
@@ -294,40 +119,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         setContentView(R.layout.activity_main_factura);
 
         getSupportActionBar().setTitle("Facturacion");
-
-
-
-
-
-        callback = new IPosPrinterCallback.Stub() {
-
-            @Override
-            public void onRunResult(final boolean isSuccess) throws RemoteException {
-                Log.i(TAG, "result:" + isSuccess + "\n");
-            }
-
-            @Override
-            public void onReturnString(final String value) throws RemoteException {
-                Log.i(TAG, "result:" + value + "\n");
-            }
-        };
-
-        Intent intent = new Intent();
-        intent.setPackage("com.iposprinter.iposprinterservice");
-        intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
-        bindService(intent, connectService, Context.BIND_AUTO_CREATE);
-
-
-        IntentFilter printerStatusFilter = new IntentFilter();
-        printerStatusFilter.addAction(PRINTER_NORMAL_ACTION);
-        printerStatusFilter.addAction(PRINTER_PAPERLESS_ACTION);
-        printerStatusFilter.addAction(PRINTER_PAPEREXISTS_ACTION);
-        printerStatusFilter.addAction(PRINTER_THP_HIGHTEMP_ACTION);
-        printerStatusFilter.addAction(PRINTER_THP_NORMALTEMP_ACTION);
-        printerStatusFilter.addAction(PRINTER_MOTOR_HIGHTEMP_ACTION);
-        printerStatusFilter.addAction(PRINTER_BUSY_ACTION);
-
-        registerReceiver(IPosPrinterStatusListener, printerStatusFilter);
 
 
         imprimirC=findViewById(R.id.btn_imprimir);
@@ -499,73 +290,6 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
     }
 
 
-    /*
-     *Funciones de la imprsora
-     * */
-
-
-    public int getPrinterStatus() {
-
-        Log.i(TAG, "***** printerStatus" + printerStatus);
-        try {
-            printerStatus = mIPosPrinterService.getPrinterStatus();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG, "#### printerStatus" + printerStatus);
-        return printerStatus;
-    }
-
-
-    /**
-     * La impresora se inicializa
-     */
-
-
-    public void printerInit() {
-        ThreadPoolManager.getInstance().executeTask(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mIPosPrinterService.printerInit(callback);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void loopPrint(int flag) {
-        switch (flag) {
-
-        }
-    }
-
-    public void printText(){
-        ThreadPoolManager.getInstance().executeTask(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mIPosPrinterService.printSpecifiedTypeText("EL CARPINTERO\n", "ST", 48, callback);
-                    mIPosPrinterService.printBlankLines(1, 16, callback);
-                    mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
-                    mIPosPrinterService.printSpecifiedTypeText(" \t\t\t\t"+valor +"\n", "ST", 48, callback);
-                    mIPosPrinterService.printSpecifiedTypeText("********************************", "ST", 24, callback);
-                    mIPosPrinterService.printBlankLines(1, 16, callback);
-                    mIPosPrinterService.printBlankLines(1, 16, callback);
-                   mIPosPrinterService.printSpecifiedTypeText("**********END***********\n\n", "ST", 32, callback);
-
-                    mIPosPrinterService.printerPerformPrint(160,  callback);
-                }catch (RemoteException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Funciones de la imprsora
-     */
 
     public ArrayAdapter Lista_Vendedores() {
         ArrayAdapter NoCoreAdapter=null;
@@ -951,12 +675,10 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                 }else{
                         NumeroFactura();
                     try {
-                        if (getPrinterStatus() == PRINTER_NORMAL)
-
 
                        AgregarDatosSQLSEVER();
                        // NumeroFact();
-                        printText();
+
                     }
                     catch (SQLException e)
                     {
