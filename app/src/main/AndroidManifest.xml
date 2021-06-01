@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.facturacioncarpintero">
+    package="com.example.facturacionlibreria">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,12 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FacturacionCarpintero"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainEliminar_Actualizar"></activity>
-        <activity android:name=".MainFactura" />
-        <activity android:name=".MainDetalleProducto" />
-        <activity android:name=".MainListaProductos" />
-        <activity android:name=".MainClientes" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.facturacionlibreria.MainEliminar_Actualizar"></activity>
+        <activity android:name="com.example.facturacionlibreria.MainFactura" />
+        <activity android:name="com.example.facturacionlibreria.MainDetalleProducto" />
+        <activity android:name="com.example.facturacionlibreria.MainListaProductos" />
+        <activity android:name="com.example.facturacionlibreria.MainClientes" />
+        <activity android:name="com.example.facturacionlibreria.MainActivity">
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
