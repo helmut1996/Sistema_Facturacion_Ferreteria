@@ -525,7 +525,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
     @Override
     public void appliyTexts(String cambio) {
         textPin.setText(cambio);
-        if (textPin.getText().toString().equals("033")){
+        if (textPin.getText().toString().equals("1996")){
             precios.setAdapter(precioCordoba2());
             monedas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

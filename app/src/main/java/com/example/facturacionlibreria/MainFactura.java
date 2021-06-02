@@ -154,7 +154,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0){
 
-                    tv_numVendedor.setText("7");
+                    tv_numVendedor.setText("2");
                 }else if(position==1){
                     tv_numVendedor.setText("12");
                 }
