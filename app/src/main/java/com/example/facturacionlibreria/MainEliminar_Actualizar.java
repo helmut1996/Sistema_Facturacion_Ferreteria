@@ -32,7 +32,7 @@ public class    MainEliminar_Actualizar extends Activity implements View.OnClick
     private  String idc;
     private String nc;
     private String nf;
-    private String URL="http://ferreteriaelcarpintero.com/images/carpintero/";
+    private String URL="http://ferreteriaelcarpintero.com/imgesc/";
     private  int Strock;
 
     @Override

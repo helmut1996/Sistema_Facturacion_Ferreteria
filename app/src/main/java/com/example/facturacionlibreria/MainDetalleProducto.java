@@ -68,7 +68,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
     int idResultante;
 
 
-    private String URL_IMAGES="http://ferreteriaelcarpintero.com/images/carpintero/";
+    private String URL_IMAGES="http://ferreteriaelcarpintero.com/imgesc/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +135,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
 
             ZonaCliente = extra.getString("ZonaCliente");
             System.out.println("Zona Cliente Activity ProductosClientea----->"+ZonaCliente);
+            System.out.println("pasando url"+URL_IMAGES);
             NombrePreducto= extra.getString("NombreP");
             producto = extra.getString("NombreP");
             tvnombreproducto.setText(NombrePreducto);
@@ -169,6 +170,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
 
             tvimagenBD.setText(extra.getString("imagenproducto"));
 
+            tvimagenBD.setVisibility(View.VISIBLE);
 
             tvIDproducto.setText(extra.getString("idproducto"));
 //////////////////////////////pasando datos por parametros entre activitys/////////////////////////////////
@@ -345,6 +347,8 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
         Picasso.get().load(URL_IMAGES+tvimagenBD.getText())
                 //.error(R.drawable.error)
                 .into(image);
+
+        System.out.println("capturando todo la url"+URL_IMAGES+tvimagenBD.getText());
 
     }
 

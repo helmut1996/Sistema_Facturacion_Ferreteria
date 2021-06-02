@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.facturacionlibreria.ConexionBD.DBConnection;
@@ -21,7 +22,7 @@ import java.sql.Statement;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    Button btn_login;
+    ImageButton btn_login;
     EditText pass;
     String NombreVendedor;
     @Override

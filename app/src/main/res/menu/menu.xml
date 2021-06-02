@@ -5,7 +5,7 @@
     <item
         android:id="@+id/Mbtn_addProducto"
         app:showAsAction="always"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_baseline_add_shopping_cart"
         android:title="Agregar Productos"></item>
     <item
         android:id="@+id/Mbtn_Home"

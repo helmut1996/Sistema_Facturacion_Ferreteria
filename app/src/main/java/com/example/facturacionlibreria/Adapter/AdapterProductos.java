@@ -29,7 +29,7 @@ public class  AdapterProductos extends RecyclerView.Adapter<AdapterProductos.Rec
     private RecyclerItemClick itemClick;
     private boolean modoSeleccion;
     private SparseBooleanArray seleccionados;
-    private String URL_IMAGE="http://ferreteriaelcarpintero.com/images/carpintero/";
+    private String URL_IMAGE="http://ferreteriaelcarpintero.com/imgesc/";
 
     private int cantidad;
 

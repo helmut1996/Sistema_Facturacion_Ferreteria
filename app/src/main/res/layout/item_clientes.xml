@@ -32,7 +32,7 @@
                 android:text="selecionar"
                 android:layout_weight="1"
                 android:id="@+id/btn_select"
-                android:background="@color/primary"
+                android:background="#feb209"
                 android:textColor="@color/white"/>
 
         </LinearLayout>

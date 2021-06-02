@@ -295,7 +295,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection = new DBConnection();
         dbConnection.conectar();
-        String query = "select Nombre,idVendedor,Estado from Vendedores  WHERE idVendedor IN (7, 12)";
+        String query = "select Nombre,idVendedor,Estado from Vendedores  WHERE idVendedor IN (2, 12)";
         try {
             Statement stm = dbConnection.getConnection().createStatement();
             ResultSet rs = stm.executeQuery(query);
