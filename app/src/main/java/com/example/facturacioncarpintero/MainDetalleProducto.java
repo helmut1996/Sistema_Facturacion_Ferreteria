@@ -151,6 +151,43 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
             info4=extra.getString("info4");
             info5=extra.getString("info5");
 
+
+            if (info1 == null){
+                textinfo1.setText("");
+            }
+            else{
+                textinfo1.setText(info1);
+            }
+
+            if (info2 == null){
+                textinfo2.setText("");
+            }
+            else{
+                textinfo2.setText(info2);
+            }
+
+            if (info3 == null){
+                textinfo3.setText("");
+            }
+            else{
+                textinfo3.setText(info3);
+            }
+
+            if (info4 == null){
+                textinfo4.setText("");
+            }
+            else{
+                textinfo4.setText(info4);
+            }
+
+            if (info5 == null){
+                textinfo5.setText("");
+            }
+            else{
+                textinfo5.setText(info5);
+            }
+
+
             if (info1!=null || info2!=null || info3!=null || info4!=null || info5!=null){
                 textinfo1.setText(info1);
                 textinfo2.setText(info2);
