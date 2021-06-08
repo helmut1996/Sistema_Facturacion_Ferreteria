@@ -128,29 +128,30 @@ public class MainClientes extends AppCompatActivity{
 
                 try {
 
-                    Statement st = dbConnection.getConnection().createStatement();
+                    if (dbConnection!=null){
 
-                    ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente,LimiteCredito from Clientes where Estado = 'Activo' order by Nombre asc");
-                    while (rs.next()) {
-                        listCliiente.add(new itemList(rs.getString("Nombre"),
-                                rs.getString("Direccion"),
-                                rs.getInt("Codigo"),
-                                rs.getInt("idCliente"),
-                                rs.getDouble("LimiteCredito")));
+                        Statement st = dbConnection.getConnection().createStatement();
+
+                        ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente,LimiteCredito from Clientes where Estado = 'Activo' order by Nombre asc");
+                        while (rs.next()) {
+                            listCliiente.add(new itemList(rs.getString("Nombre"),
+                                    rs.getString("Direccion"),
+                                    rs.getInt("Codigo"),
+                                    rs.getInt("idCliente"),
+                                    rs.getDouble("LimiteCredito")));
+                        }
+                        st.close();
+                    }else{
+                        System.out.println("Consulta realizada!!!");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
-
-
-
         return listCliiente;
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu2,menu);
         return true;

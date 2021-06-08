@@ -158,29 +158,35 @@ public class MainListaProductos extends AppCompatActivity {
             DBConnection dbConnection = new DBConnection();
             dbConnection.conectar();
 
-            Statement st = dbConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = st.executeQuery("\n" +
-                    "select concat(i.Nombre, ' C$ ', i.Precio1,' ',um.Nombre) as Nombre,i.Nombre as Producto,um.Nombre as UM,i.idInventario, i.ImagenApk, i.Precio1,ad.info1,ad.info2,ad.info3,ad.info4,ad.info5,i.Stock from Inventario i inner join Unidad_Medida um on i.idUndMedida=um.idUnidadMedida inner join InventarioInfoAdic ad on i.idInventario= ad.idInventario where i.Estado = 'Activo' and i.Nombre like '%"+Buscar+"%' and Stock >0 ");
+            if (dbConnection!=null){
+                Statement st = dbConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = st.executeQuery("\n" +
+                        "select concat(i.Nombre, ' C$ ', i.Precio1,' ',um.Nombre) as Nombre,i.Nombre as Producto,um.Nombre as UM,i.idInventario, i.ImagenApk, i.Precio1,ad.info1,ad.info2,ad.info3,ad.info4,ad.info5,i.Stock from Inventario i inner join Unidad_Medida um on i.idUndMedida=um.idUnidadMedida inner join InventarioInfoAdic ad on i.idInventario= ad.idInventario where i.Estado = 'Activo' and i.Nombre like '%"+Buscar+"%' and Stock >0 ");
 
 
-            System.out.println("capturando texto Busqueda===>"+Buscar);
-            while (rs.next()){
+                System.out.println("capturando texto Busqueda===>"+Buscar);
+                while (rs.next()){
 
-                listaProducto.add(new ModelItemsProducto(rs.getString("Nombre"),
-                        rs.getString("UM"),
-                        rs.getDouble("Precio1"),
-                        rs.getString("Producto"),
-                        rs.getString("info1"),
-                        rs.getString("info2"),
-                        rs.getString("info3"),
-                        rs.getString("info4"),
-                        rs.getString("info5"),
-                        rs.getString("ImagenApk"),
-                        stock= rs.getInt("Stock"),
-                        rs.getInt("idInventario")));
+                    listaProducto.add(new ModelItemsProducto(rs.getString("Nombre"),
+                            rs.getString("UM"),
+                            rs.getDouble("Precio1"),
+                            rs.getString("Producto"),
+                            rs.getString("info1"),
+                            rs.getString("info2"),
+                            rs.getString("info3"),
+                            rs.getString("info4"),
+                            rs.getString("info5"),
+                            rs.getString("ImagenApk"),
+                            stock= rs.getInt("Stock"),
+                            rs.getInt("idInventario")));
 
 
+                }
+                st.close();
+            }else{
+                System.out.println("Consulta realizada");
             }
+
         } catch (SQLException e) {
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             e.printStackTrace();
