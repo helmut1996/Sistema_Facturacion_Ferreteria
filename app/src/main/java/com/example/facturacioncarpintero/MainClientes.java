@@ -128,17 +128,24 @@ public class MainClientes extends AppCompatActivity{
             dbConnection.conectar();
 
                 try {
+                    if (dbConnection!=null){
 
-                    Statement st = dbConnection.getConnection().createStatement();
+                        Statement st = dbConnection.getConnection().createStatement();
 
-                    ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente,LimiteCredito from Clientes where Estado = 'Activo' order by Nombre asc");
-                    while (rs.next()) {
-                        listCliiente.add(new itemList(rs.getString("Nombre"),
-                                rs.getString("Direccion"),
-                                rs.getInt("Codigo"),
-                                rs.getInt("idCliente"),
-                                rs.getDouble("LimiteCredito")));
+                        ResultSet rs = st.executeQuery("select CONCAT (Codigo, '-',Nombre) as Nombre,Direccion,Codigo,idCliente,LimiteCredito from Clientes where Estado = 'Activo' order by Nombre asc");
+                        while (rs.next()) {
+                            listCliiente.add(new itemList(rs.getString("Nombre"),
+                                    rs.getString("Direccion"),
+                                    rs.getInt("Codigo"),
+                                    rs.getInt("idCliente"),
+                                    rs.getDouble("LimiteCredito")));
+                        }
+                        st.close();
+                        Toast.makeText(getApplicationContext(), "Consulta exitosa", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Connection to server failed!", Toast.LENGTH_LONG).show();
                     }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

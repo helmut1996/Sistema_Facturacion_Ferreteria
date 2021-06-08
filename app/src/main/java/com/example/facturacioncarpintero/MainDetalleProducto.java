@@ -151,6 +151,43 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
             info4=extra.getString("info4");
             info5=extra.getString("info5");
 
+
+            if (info1 == null){
+                textinfo1.setText("");
+            }
+            else{
+                textinfo1.setText(info1);
+            }
+
+            if (info2 == null){
+                textinfo2.setText("");
+            }
+            else{
+                textinfo2.setText(info2);
+            }
+
+            if (info3 == null){
+                textinfo3.setText("");
+            }
+            else{
+                textinfo3.setText(info3);
+            }
+
+            if (info4 == null){
+                textinfo4.setText("");
+            }
+            else{
+                textinfo4.setText(info4);
+            }
+
+            if (info5 == null){
+                textinfo5.setText("");
+            }
+            else{
+                textinfo5.setText(info5);
+            }
+
+
             if (info1!=null || info2!=null || info3!=null || info4!=null || info5!=null){
                 textinfo1.setText(info1);
                 textinfo2.setText(info2);
@@ -356,22 +393,28 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection= new DBConnection();
         dbConnection.conectar();
-        String query = "select PrecioDolar1, PrecioDolar2,PrecioDolar3,PrecioDolar4,PrecioDolar5 from Inventario where Nombre='" + producto + "'";
+
         try {
-            Statement stm = dbConnection.getConnection().createStatement();
-            ResultSet rs = stm.executeQuery(query);
+            if (dbConnection!=null){
+                String query = "select PrecioDolar1, PrecioDolar2,PrecioDolar3,PrecioDolar4,PrecioDolar5 from Inventario where Nombre='" + producto + "'";
+                Statement stm = dbConnection.getConnection().createStatement();
+                ResultSet rs = stm.executeQuery(query);
 
-            ArrayList<String> data = new ArrayList<>();
-            while (rs.next()) {
-                data.add(rs.getString("PrecioDolar2"));
-                data.add(rs.getString("PrecioDolar3"));
-                data.add(rs.getString("PrecioDolar4"));
-                data.add(rs.getString("PrecioDolar5"));
+                ArrayList<String> data = new ArrayList<>();
+                while (rs.next()) {
+                    data.add(rs.getString("PrecioDolar2"));
+                    data.add(rs.getString("PrecioDolar3"));
+                    data.add(rs.getString("PrecioDolar4"));
+                    data.add(rs.getString("PrecioDolar5"));
 
+                }
+                System.out.println("Capturando nombre Producto====>"+producto);
+                NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
+                stm.close();
+            }else {
+                Toast.makeText(getApplicationContext(), "Connection to server failed!", Toast.LENGTH_LONG).show();
             }
-            System.out.println("Capturando nombre Producto====>"+producto);
-            NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
-            stm.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -385,23 +428,29 @@ import static com.example.facturacioncarpintero.MainFactura.tasaCambio;
         ArrayAdapter NoCoreAdapter=null;
         DBConnection dbConnection= new DBConnection();
         dbConnection.conectar();
-        String query = "select PrecioDolar1, PrecioDolar2,PrecioDolar3,PrecioDolar4,PrecioDolar5 from Inventario where Nombre='" + producto + "'";
         try {
-            Statement stm = dbConnection.getConnection().createStatement();
-            ResultSet rs = stm.executeQuery(query);
+            if (dbConnection!=null){
+                String query = "select PrecioDolar1, PrecioDolar2,PrecioDolar3,PrecioDolar4,PrecioDolar5 from Inventario where Nombre='" + producto + "'";
 
-            ArrayList<String> data = new ArrayList<>();
-            while (rs.next()) {
-                data.add(rs.getString("PrecioDolar1"));
-                data.add(rs.getString("PrecioDolar2"));
-                data.add(rs.getString("PrecioDolar3"));
-                data.add(rs.getString("PrecioDolar4"));
-                data.add(rs.getString("PrecioDolar5"));
+                Statement stm = dbConnection.getConnection().createStatement();
+                ResultSet rs = stm.executeQuery(query);
 
+                ArrayList<String> data = new ArrayList<>();
+                while (rs.next()) {
+                    data.add(rs.getString("PrecioDolar1"));
+                    data.add(rs.getString("PrecioDolar2"));
+                    data.add(rs.getString("PrecioDolar3"));
+                    data.add(rs.getString("PrecioDolar4"));
+                    data.add(rs.getString("PrecioDolar5"));
+
+                }
+                System.out.println("Capturando nombre Producto====>"+producto);
+                NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
+                stm.close();
+            }else{
+                Toast.makeText(getApplicationContext(), "Connection to server failed!", Toast.LENGTH_LONG).show();
             }
-            System.out.println("Capturando nombre Producto====>"+producto);
-            NoCoreAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, data);
-            stm.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
