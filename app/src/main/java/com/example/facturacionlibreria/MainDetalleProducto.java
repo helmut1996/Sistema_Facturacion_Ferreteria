@@ -61,6 +61,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
     double conversion;
     int unidadpaquete;
     double convercioncaja;
+    double Porc;
 
 
     private String producto;
@@ -283,6 +284,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
 
         CargarImagen();
         TasaDolar();
+        PorcentajeComision();
         UnidadPaquete();
         tvexiscaja.setText(String.valueOf(convercioncaja));
         if (textPin.getText().toString().equals("2233")){
@@ -516,6 +518,7 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
             }
             values.put(utilidades.CAMPO_IMAGEN,tvimagenBD.getText().toString());
             values.put(utilidades.CAMPO_TIPOPRECIO,tvtipoprecio.getText().toString());
+            values.put(utilidades.CAMPO_PORCENTAJE,Porc);
             idResultante= (int) db.insert(utilidades.TABLA_PRODUCTO,utilidades.CAMPO_ID,values);
             Toast.makeText(this,"CANTIDAD INGRESADA: " + idResultante,Toast.LENGTH_LONG).show();
         }
@@ -588,6 +591,28 @@ import static com.example.facturacionlibreria.MainFactura.tasaCambio;
 
                  convercioncaja= existencia/unidadpaquete;
                  System.out.println("Cajas Existentes:==>"+convercioncaja);
+             }
+
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     }
+
+     public void PorcentajeComision(){
+
+         int result= Integer.parseInt(tvIDproducto.getText().toString());
+         DBConnection dbConnection=new DBConnection();
+         dbConnection.conectar();
+         try {
+             Statement st2 = dbConnection.getConnection().createStatement();
+             ResultSet rs2 = st2.executeQuery("\n" +
+                     "select PorcComision from Inventario where idInventario= '"+result+"'");
+             while (rs2.next()) {
+                 Porc = rs2.getDouble("PorcComision");
+
+                 System.out.println("==============> Capturando Prueba:" + Porc);
+
+                 System.out.println("RESULTADO=====>"+result);
              }
 
          } catch (SQLException e) {

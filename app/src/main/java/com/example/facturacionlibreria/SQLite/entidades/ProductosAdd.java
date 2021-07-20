@@ -9,19 +9,21 @@ public class ProductosAdd {
     private int idcliente;
     private int idvendedor;
     private String tipoprecio;
+    private float porcentaje;
     public ProductosAdd() {
     }
 
 
-    public ProductosAdd(int idcliente, int idvendedor, String id_producto, String nombreproduc, int cantidad, double precios, String imagenProducto, String tipoprecio) {
+    public ProductosAdd(String id_producto, String nombreproduc, int cantidad, double precios, String imagenProducto, int idcliente, int idvendedor, String tipoprecio, float porcentaje) {
         this.id_producto = id_producto;
         this.nombreproduc = nombreproduc;
         this.cantidad = cantidad;
         this.precios = precios;
-        this.imagenProducto= imagenProducto;
+        this.imagenProducto = imagenProducto;
         this.idcliente = idcliente;
         this.idvendedor = idvendedor;
-        this.tipoprecio=tipoprecio;
+        this.tipoprecio = tipoprecio;
+        this.porcentaje = porcentaje;
     }
 
     public String getId_producto() {
@@ -80,8 +82,19 @@ public class ProductosAdd {
         this.idvendedor = idvendedor;
     }
 
+    public String getTipoprecio() {
+        return tipoprecio;
+    }
 
-    public String getTipoprecio() { return tipoprecio; }
+    public void setTipoprecio(String tipoprecio) {
+        this.tipoprecio = tipoprecio;
+    }
 
-    public void setTipoprecio(String tipoprecio) { this.tipoprecio = tipoprecio; }
+    public float getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(float porcentaje) {
+        this.porcentaje = porcentaje;
+    }
 }
