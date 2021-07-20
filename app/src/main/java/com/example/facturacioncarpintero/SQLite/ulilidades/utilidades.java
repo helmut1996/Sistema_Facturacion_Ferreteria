@@ -9,6 +9,7 @@ public class utilidades {
     public static final String CAMPO_PRECIO="precio";
     public static final String CAMPO_IMAGEN="imagen";
     public static final String CAMPO_TIPOPRECIO="tipoprecio";
+    public static final String CAMPO_PORCENTAJE="porcentaje";
 
-    public static final  String CREAR_TABLA_PRODUCTO= "CREATE TABLE "+TABLA_PRODUCTO+"("+CAMPO_ID+" INTEGER ,"+CAMPO_NOMBRE+" TEXT, "+CAMPO_CANTIDAD+" INTEGER, "+CAMPO_PRECIO+" REAL, "+CAMPO_IMAGEN+" TEXT, "+CAMPO_TIPOPRECIO+" INTEGER)";
+    public static final  String CREAR_TABLA_PRODUCTO= "CREATE TABLE "+TABLA_PRODUCTO+"("+CAMPO_ID+" INTEGER ,"+CAMPO_NOMBRE+" TEXT, "+CAMPO_CANTIDAD+" INTEGER, "+CAMPO_PRECIO+" REAL, "+CAMPO_IMAGEN+" TEXT, "+CAMPO_TIPOPRECIO+" INTEGER,"+CAMPO_PORCENTAJE+" REAL)";
 }

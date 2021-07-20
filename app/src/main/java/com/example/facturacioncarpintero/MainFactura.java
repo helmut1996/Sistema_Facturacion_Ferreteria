@@ -779,6 +779,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
             productosAdd.setCantidad(cursor.getInt(2));
             productosAdd.setPrecios(cursor.getDouble(3));
             productosAdd.setImagenProducto(cursor.getString(4));
+            productosAdd.setPorcentaje(cursor.getFloat(6));
             listaproducto.add(productosAdd);
         }
         obtenerLista();
@@ -873,7 +874,7 @@ private final static String NOMBRE_DIRECTORIO = "MiPdf";
                      pst2.setInt(2, Integer.parseInt(valor));
                 pst2.setFloat(3,listaproducto.get(i).getCantidad());// cantidad
                 pst2.setDouble(4, listaproducto.get(i).getPrecios());//precio cordobas
-                pst2.setDouble(5,5.00);//PorcComision
+                pst2.setDouble(5,listaproducto.get(i).getPorcentaje());//PorcComision
                 pst2.setDouble(6,0.0);//precio Dolar
                 pst2.executeUpdate();
             }
